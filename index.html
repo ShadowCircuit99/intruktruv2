@@ -1,494 +1,752 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Instruktur Pribadi 90 Hari v17</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Instruktur Pribadi 90 Hari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- ============================================================ LANDING -->
-<div id="screen-la" class="screen">
-  <div class="la-bg"></div>
-  <div class="la-grid"></div>
-  <div class="la-wrap">
-    <div class="la-logo">
-      <div class="la-logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11M6.5 17.5h11M12 2v20"/><circle cx="12" cy="12" r="3"/></svg>
-      </div>
-      <span class="la-logo-text">Instruktur Pribadi</span>
-    </div>
-    <h1 class="la-headline">90 Hari.<br>Buktiin Kamu<br><span>Bisa Konsisten.</span></h1>
-    <p class="la-sub">Latihan, makan, dan progress harian.<br>Semua sudah diatur—tinggal kamu jalanin.</p>
-    <div class="la-features">
-      <div class="la-feature">
-        <div class="la-feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M6.5 6.5a5 5 0 0 1 11 0v1a5 5 0 0 1-11 0v-1z"/><path d="M4 8h2M18 8h2M12 16v4M9 20h6"/><path d="M6.5 7.5c0 2.8 2.24 5 5.5 5s5.5-2.2 5.5-5"/></svg>
+  <!-- ============================================================ LANDING -->
+  <div id="screen-la" class="screen">
+    <div class="la-bg"></div>
+    <div class="la-grid"></div>
+    <div class="la-wrap">
+      <div class="la-logo">
+        <div class="la-logo-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M6.5 6.5h11M6.5 17.5h11M12 2v20" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
         </div>
-        <div class="la-feature-text">
-          <strong>Latihan yang Ngikutin Kondisimu</strong>
-          Capek? diturunin. Fit? dinaikin.
-        </div>
+        <span class="la-logo-text">Instruktur Pribadi</span>
       </div>
-      <div class="la-feature">
-        <div class="la-feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
-        </div>
-        <div class="la-feature-text">
-          <strong>Makan Simple, Bukan Ribet</strong>
-          Bahan gampang dicari, bukan makanan mahal.
-        </div>
-      </div>
-      <div class="la-feature">
-        <div class="la-feature-icon">
-          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-        <div class="la-feature-text">
-          <strong>Progress yang Kelihatan</strong>
-          Berat, pinggang, dan kebiasaan—semua ke-track.
-        </div>
-      </div>
-    </div>
-    <div class="la-cta">
-      <button class="btn btn-primary btn-full" onclick="showScreen('lf')" style="font-size:1.05rem;padding:16px;">
-        Mulai Hari Ini →
-      </button>
-      <p style="text-align:center;margin-top:12px;font-size:.8rem;color:var(--text3);letter-spacing:.03em;">Tanpa ribet. Tanpa alasan.</p>
-      <div class="la-stats">
-        <div class="la-stat"><div class="la-stat-num">90</div><div class="la-stat-label">Hari Program</div></div>
-        <div class="la-stat"><div class="la-stat-num">4</div><div class="la-stat-label">Fase Latihan</div></div>
-        <div class="la-stat"><div class="la-stat-num">270+</div><div class="la-stat-label">Menu Berbeda</div></div>
-      </div>
-    </div>
-    <div class="la-footer">
-      Crafted by <strong>Muhamad Rafi Apriyansyah</strong>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================ FORM -->
-<div id="screen-lf" class="screen">
-  <div class="lf-wrap">
-    <div class="lf-header">
-      <div class="lf-back" onclick="showScreen('la')">←</div>
-      <div>
-        <div class="lf-title">Data Awal</div>
-        <div class="lf-subtitle">Isi sekali, program langsung siap</div>
-      </div>
-    </div>
-    <div id="form-container">
-      <div class="form-group">
-        <label class="form-label">Nama Kamu</label>
-        <input type="text" class="form-input" id="f-name" placeholder="Contoh: Andi, Sari, Budi...">
-        <div class="form-error-msg" id="err-name">Masukkan namamu dulu, ya.</div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Berat Badan (kg)</label>
-          <input type="number" class="form-input" id="f-weight" placeholder="70" min="30" max="200" oninput="checkWeightSafety()">
-          <div class="form-error-msg" id="err-weight">Berat 30–200 kg.</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Target Berat (kg)</label>
-          <input type="number" class="form-input" id="f-target-weight" placeholder="65" min="30" max="200" oninput="checkWeightSafety()">
-          <div class="form-error-msg" id="err-target">Masukkan target berat.</div>
-        </div>
-      </div>
-      <div class="form-safety-warning" id="safety-warning">
-        ⚠️ Target tidak aman: selisih berat tidak boleh lebih dari 20 kg. Ini untuk menjaga kesehatanmu. Sesuaikan target yang lebih realistis.
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Tinggi Badan (cm)</label>
-          <input type="number" class="form-input" id="f-height" placeholder="170" min="100" max="250">
-          <div class="form-error-msg" id="err-height">Tinggi 100–250 cm.</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Usia (tahun)</label>
-          <input type="number" class="form-input" id="f-age" placeholder="25" min="15" max="80">
-          <div class="form-error-msg" id="err-age">Usia 15–80 tahun.</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Jenis Kelamin</label>
-        <select class="form-select" id="f-gender">
-          <option value="">-- Pilih --</option>
-          <option value="m">Laki-laki</option>
-          <option value="f">Perempuan</option>
-        </select>
-        <div class="form-error-msg" id="err-gender">Pilih jenis kelamin.</div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Tingkat Aktivitas Sehari-hari</label>
-        <select class="form-select" id="f-activity">
-          <option value="">-- Pilih --</option>
-          <option value="1.2">Tidak aktif (kerja kantoran, jarang gerak)</option>
-          <option value="1.375">Sedikit aktif (olahraga 1–3x/minggu)</option>
-          <option value="1.55">Cukup aktif (olahraga 3–5x/minggu)</option>
-          <option value="1.725">Sangat aktif (olahraga 6–7x/minggu)</option>
-        </select>
-        <div class="form-error-msg" id="err-activity">Pilih tingkat aktivitas.</div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Tujuan Utama</label>
-        <div class="form-goal-grid">
-          <div class="form-goal-btn" onclick="selectGoal(this,'lose')">
-            <span class="form-goal-icon">📉</span>
-            <div class="form-goal-name">Turunkan Berat</div>
-            <div class="form-goal-desc">Defisit kalori terkontrol</div>
+      <h1 class="la-headline">90 Hari.<br>Buktiin Kamu<br><span>Bisa Konsisten.</span></h1>
+      <p class="la-sub">Latihan, makan, dan progress harian.<br>Semua sudah diatur—tinggal kamu jalanin.</p>
+      <div class="la-features">
+        <div class="la-feature">
+          <div class="la-feature-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M6.5 6.5a5 5 0 0 1 11 0v1a5 5 0 0 1-11 0v-1z" />
+              <path d="M4 8h2M18 8h2M12 16v4M9 20h6" />
+              <path d="M6.5 7.5c0 2.8 2.24 5 5.5 5s5.5-2.2 5.5-5" />
+            </svg>
           </div>
-          <div class="form-goal-btn" onclick="selectGoal(this,'maintain')">
-            <span class="form-goal-icon">⚖️</span>
-            <div class="form-goal-name">Jaga Berat</div>
-            <div class="form-goal-desc">Kalori seimbang</div>
-          </div>
-          <div class="form-goal-btn" onclick="selectGoal(this,'gain')">
-            <span class="form-goal-icon">📈</span>
-            <div class="form-goal-name">Tambah Berat</div>
-            <div class="form-goal-desc">Surplus kalori</div>
+          <div class="la-feature-text">
+            <strong>Latihan yang Ngikutin Kondisimu</strong>
+            Capek? diturunin. Fit? dinaikin.
           </div>
         </div>
-        <div class="form-error-msg" id="err-goal">Pilih tujuanmu dulu.</div>
+        <div class="la-feature">
+          <div class="la-feature-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 11l19-9-9 19-2-8-8-2z" />
+            </svg>
+          </div>
+          <div class="la-feature-text">
+            <strong>Makan Simple, Bukan Ribet</strong>
+            Bahan gampang dicari, bukan makanan mahal.
+          </div>
+        </div>
+        <div class="la-feature">
+          <div class="la-feature-icon">
+            <svg viewBox="0 0 24 24">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+          </div>
+          <div class="la-feature-text">
+            <strong>Progress yang Kelihatan</strong>
+            Berat, pinggang, dan kebiasaan—semua ke-track.
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Makanan yang Ingin Dihindari <span style="font-weight:400;color:var(--text3)">(opsional)</span></label>
-        <div class="dislike-section-label">Protein</div>
-        <div class="dislike-grid">
-          <div class="dislike-chip" data-dislike="ayam" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🍗</span><span class="dislike-chip-label">Ayam</span><span class="dislike-chip-check"></span>
-          </div>
-          <div class="dislike-chip" data-dislike="telur" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🥚</span><span class="dislike-chip-label">Telur</span><span class="dislike-chip-check"></span>
-          </div>
-          <div class="dislike-chip" data-dislike="ikan" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🐟</span><span class="dislike-chip-label">Ikan</span><span class="dislike-chip-check"></span>
-          </div>
-          <div class="dislike-chip" data-dislike="tempe" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🫘</span><span class="dislike-chip-label">Tempe</span><span class="dislike-chip-check"></span>
-          </div>
-          <div class="dislike-chip" data-dislike="tahu" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🟡</span><span class="dislike-chip-label">Tahu</span><span class="dislike-chip-check"></span>
-          </div>
-        </div>
-        <div class="dislike-section-label" style="margin-top:10px;">Karbo</div>
-        <div class="dislike-grid">
-          <div class="dislike-chip" data-dislike="nasi" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🍚</span><span class="dislike-chip-label">Nasi</span><span class="dislike-chip-check"></span>
-          </div>
-          <div class="dislike-chip" data-dislike="mie instan" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🍜</span><span class="dislike-chip-label">Mie Instan</span><span class="dislike-chip-check"></span>
-          </div>
-        </div>
-        <div class="dislike-section-label" style="margin-top:10px;">Lainnya</div>
-        <div class="dislike-grid">
-          <div class="dislike-chip" data-dislike="gorengan" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🍟</span><span class="dislike-chip-label">Gorengan</span><span class="dislike-chip-check"></span>
-          </div>
-          <div class="dislike-chip" data-dislike="susu" onclick="toggleDislike(this)">
-            <span class="dislike-chip-icon">🥛</span><span class="dislike-chip-label">Susu</span><span class="dislike-chip-check"></span>
-          </div>
-        </div>
-        <div class="dislike-notice" id="dislike-notice" style="display:none;">
-          ⚠️ Bahan yang kamu pilih tidak akan muncul sama sekali selama 90 hari.
-        </div>
-        <div class="form-hint">Pilih bahan yang ingin kamu hindari — menu akan otomatis disesuaikan.</div>
-      </div>
-      <div class="lf-submit-wrap">
-        <button class="btn btn-primary btn-full" id="submit-btn" onclick="handleFormSubmit()">
-          Buat Program Saya 🚀
+      <div class="la-cta">
+        <button class="btn btn-primary btn-full" onclick="showScreen('lf')" style="font-size:1.05rem;padding:16px;">
+          Mulai Hari Ini &rarr;
         </button>
+        <p style="text-align:center;margin-top:12px;font-size:.8rem;color:var(--text3);letter-spacing:.03em;">Tanpa
+          ribet. Tanpa alasan.</p>
+        <div class="la-stats">
+          <div class="la-stat">
+            <div class="la-stat-num">90</div>
+            <div class="la-stat-label">Hari Program</div>
+          </div>
+          <div class="la-stat">
+            <div class="la-stat-num">4</div>
+            <div class="la-stat-label">Fase Latihan</div>
+          </div>
+          <div class="la-stat">
+            <div class="la-stat-num">270+</div>
+            <div class="la-stat-label">Menu Berbeda</div>
+          </div>
+        </div>
+      </div>
+      <div class="la-footer">
+        Crafted by <strong>Muhamad Rafi Apriyansyah</strong>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ============================================================ HOME -->
-<div id="screen-lh" class="screen">
-  <div class="lh-wrap">
-    <div class="lh-top">
-      <div class="lh-logo-sm">90 Hari</div>
-      <div class="lh-settings" onclick="showResetModal()" title="Reset Program">⚙️</div>
-    </div>
-    <div id="lh-greet" class="lh-greet">Halo,</div>
-    <div id="lh-name" class="lh-name">—</div>
-    <div id="lh-day" class="lh-day">Program dimulai hari ini</div>
-    <div class="lh-actions">
-      <div class="lh-cta">
-        <button class="btn btn-primary btn-full" onclick="showScreen('lp')" id="lh-main-btn" style="font-size:1rem;padding:16px;">
-          Mulai Hari Ini →
-        </button>
-      </div>
-      <div class="lh-reset-wrap">
-        <button class="lh-reset-btn" onclick="showResetModal()">Mulai ulang program</button>
-      </div>
-    </div>
-    <div class="lh-credit">by Muhamad Rafi Apriyansyah</div>
-  </div>
-</div>
-
-<!-- ============================================================ PROGRAM -->
-<div id="screen-lp" class="screen">
-  <div class="lp-inner">
-    <div class="lp-topbar">
-      <div class="lp-topbar-left">
-        <div class="lp-back-btn" onclick="showScreen('lh')">←</div>
+  <!-- ============================================================ FORM -->
+  <div id="screen-lf" class="screen">
+    <div class="lf-wrap">
+      <div class="lf-header">
+        <div class="lf-back" onclick="showScreen('la')">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+        </div>
         <div>
-          <div class="lp-topbar-title" id="lp-title">Program Saya</div>
-          <div class="lp-topbar-day" id="lp-day-label">Hari ke-1 dari 90</div>
+          <div class="lf-title">Data Awal</div>
+          <div class="lf-subtitle">Isi sekali, program langsung siap</div>
         </div>
       </div>
-      <div class="lp-topbar-streak" id="lp-streak">🔥 0</div>
+      <div id="form-container">
+        <div class="form-group">
+          <label class="form-label">Nama Kamu</label>
+          <input type="text" class="form-input" id="f-name" placeholder="Contoh: Andi, Sari, Budi...">
+          <div class="form-error-msg" id="err-name">Masukkan namamu dulu, ya.</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Berat Badan (kg)</label>
+            <input type="number" class="form-input" id="f-weight" placeholder="70" min="30" max="200"
+              oninput="checkWeightSafety()">
+            <div class="form-error-msg" id="err-weight">Berat 30–200 kg.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Berat (kg)</label>
+            <input type="number" class="form-input" id="f-target-weight" placeholder="65" min="30" max="200"
+              oninput="checkWeightSafety()">
+            <div class="form-error-msg" id="err-target">Masukkan target berat.</div>
+          </div>
+        </div>
+        <div class="form-safety-warning" id="safety-warning">
+          <span class="warn-icon">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </span>
+          Target tidak aman: selisih berat tidak boleh lebih dari 20 kg. Ini untuk menjaga kesehatanmu. Sesuaikan target
+          yang lebih realistis.
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Tinggi Badan (cm)</label>
+            <input type="number" class="form-input" id="f-height" placeholder="170" min="100" max="250">
+            <div class="form-error-msg" id="err-height">Tinggi 100–250 cm.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Usia (tahun)</label>
+            <input type="number" class="form-input" id="f-age" placeholder="25" min="15" max="80">
+            <div class="form-error-msg" id="err-age">Usia 15–80 tahun.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Jenis Kelamin</label>
+          <select class="form-select" id="f-gender">
+            <option value="">-- Pilih --</option>
+            <option value="m">Laki-laki</option>
+            <option value="f">Perempuan</option>
+          </select>
+          <div class="form-error-msg" id="err-gender">Pilih jenis kelamin.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tingkat Aktivitas Sehari-hari</label>
+          <select class="form-select" id="f-activity">
+            <option value="">-- Pilih --</option>
+            <option value="1.2">Tidak aktif (kerja kantoran, jarang gerak)</option>
+            <option value="1.375">Sedikit aktif (olahraga 1–3x/minggu)</option>
+            <option value="1.55">Cukup aktif (olahraga 3–5x/minggu)</option>
+            <option value="1.725">Sangat aktif (olahraga 6–7x/minggu)</option>
+          </select>
+          <div class="form-error-msg" id="err-activity">Pilih tingkat aktivitas.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tujuan Utama</label>
+          <div class="form-goal-grid">
+            <div class="form-goal-btn" onclick="selectGoal(this,'lose')">
+              <span class="form-goal-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                  <polyline points="17 6 23 6 23 12" />
+                </svg>
+              </span>
+              <div class="form-goal-name">Turunkan Berat</div>
+              <div class="form-goal-desc">Defisit kalori terkontrol</div>
+            </div>
+            <div class="form-goal-btn" onclick="selectGoal(this,'maintain')">
+              <span class="form-goal-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </span>
+              <div class="form-goal-name">Jaga Berat</div>
+              <div class="form-goal-desc">Kalori seimbang</div>
+            </div>
+            <div class="form-goal-btn" onclick="selectGoal(this,'gain')">
+              <span class="form-goal-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+                  <polyline points="17 18 23 18 23 12" />
+                </svg>
+              </span>
+              <div class="form-goal-name">Tambah Berat</div>
+              <div class="form-goal-desc">Surplus kalori</div>
+            </div>
+          </div>
+          <div class="form-error-msg" id="err-goal">Pilih tujuanmu dulu.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Makanan yang Ingin Dihindari <span
+              style="font-weight:400;color:var(--text3)">(opsional)</span></label>
+          <div class="dislike-section-label">Protein</div>
+          <div class="dislike-grid">
+            <div class="dislike-chip" data-dislike="ayam" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              </span><span class="dislike-chip-label">Ayam</span><span class="dislike-chip-check"></span>
+            </div>
+            <div class="dislike-chip" data-dislike="telur" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <ellipse cx="12" cy="13" rx="7" ry="9" />
+                </svg>
+              </span><span class="dislike-chip-label">Telur</span><span class="dislike-chip-check"></span>
+            </div>
+            <div class="dislike-chip" data-dislike="ikan" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6.5 12c0-5 3.5-9 9-9 1.5 2 2.5 5 2.5 9s-1 7-2.5 9c-5.5 0-9-4-9-9z" />
+                  <line x1="2" y1="12" x2="6.5" y2="12" />
+                </svg>
+              </span><span class="dislike-chip-label">Ikan</span><span class="dislike-chip-check"></span>
+            </div>
+            <div class="dislike-chip" data-dislike="tempe" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="8" width="18" height="8" rx="2" />
+                  <line x1="7" y1="8" x2="7" y2="16" />
+                  <line x1="12" y1="8" x2="12" y2="16" />
+                  <line x1="17" y1="8" x2="17" y2="16" />
+                </svg>
+              </span><span class="dislike-chip-label">Tempe</span><span class="dislike-chip-check"></span>
+            </div>
+            <div class="dislike-chip" data-dislike="tahu" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="3" />
+                </svg>
+              </span><span class="dislike-chip-label">Tahu</span><span class="dislike-chip-check"></span>
+            </div>
+          </div>
+          <div class="dislike-section-label" style="margin-top:10px;">Karbo</div>
+          <div class="dislike-grid">
+            <div class="dislike-chip" data-dislike="nasi" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 11c0-4 3.5-7 9-7s9 3 9 7H3z" />
+                  <path d="M3 11v2a9 9 0 0 0 18 0v-2" />
+                </svg>
+              </span><span class="dislike-chip-label">Nasi</span><span class="dislike-chip-check"></span>
+            </div>
+            <div class="dislike-chip" data-dislike="mie instan" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 11c0-4 3.5-7 9-7s9 3 9 7H3z" />
+                  <path d="M3 11v2a9 9 0 0 0 18 0v-2" />
+                  <path d="M8 11c1-2 2.5-3 4-3s3 1 4 3" />
+                </svg>
+              </span><span class="dislike-chip-label">Mie Instan</span><span class="dislike-chip-check"></span>
+            </div>
+          </div>
+          <div class="dislike-section-label" style="margin-top:10px;">Lainnya</div>
+          <div class="dislike-grid">
+            <div class="dislike-chip" data-dislike="gorengan" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 20h20M4 20V10a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10" />
+                  <path d="M8 14a4 4 0 0 1 8 0" />
+                </svg>
+              </span><span class="dislike-chip-label">Gorengan</span><span class="dislike-chip-check"></span>
+            </div>
+            <div class="dislike-chip" data-dislike="susu" onclick="toggleDislike(this)">
+              <span class="dislike-chip-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 2h8l1 6H7L8 2z" />
+                  <rect x="5" y="8" width="14" height="13" rx="2" />
+                  <line x1="12" y1="12" x2="12" y2="17" />
+                </svg>
+              </span><span class="dislike-chip-label">Susu</span><span class="dislike-chip-check"></span>
+            </div>
+          </div>
+          <div class="dislike-notice" id="dislike-notice" style="display:none;">
+            <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" fill="none" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+            Bahan yang kamu pilih tidak akan muncul sama sekali selama 90 hari.
+          </div>
+          <div class="form-hint">Pilih bahan yang ingin kamu hindari — menu akan otomatis disesuaikan.</div>
+        </div>
+        <div class="lf-submit-wrap">
+          <button class="btn btn-primary btn-full" id="submit-btn" onclick="handleFormSubmit()">
+            Buat Program Saya
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="lp-content" id="lp-content">
-      <!-- Dashboard Tab -->
-      <div class="tab-pane active" id="tab-dashboard">
-        <div class="dash-pad">
-          <div class="dash-day-hero">
-            <div class="dash-day-num" id="dash-day-num">HARI KE-1 DARI 90</div>
-            <div class="dash-day-title" id="dash-day-title">Hari Pertama</div>
-            <div class="dash-day-phase" id="dash-day-phase">Fase: Fondasi · Minggu 1</div>
+  <!-- ============================================================ HOME -->
+  <div id="screen-lh" class="screen">
+    <div class="lh-wrap">
+      <div class="lh-top">
+        <div class="lh-logo-sm">90 Hari</div>
+        <div class="lh-settings" onclick="showResetModal()" title="Reset Program">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </div>
+      </div>
+      <div id="lh-greet" class="lh-greet">Halo,</div>
+      <div id="lh-name" class="lh-name">—</div>
+      <div id="lh-day" class="lh-day">Program dimulai hari ini</div>
+      <div class="lh-actions">
+        <div class="lh-cta">
+          <button class="btn btn-primary btn-full" onclick="showScreen('lp')" id="lh-main-btn"
+            style="font-size:1rem;padding:16px;">
+            Mulai Hari Ini &rarr;
+          </button>
+        </div>
+        <div class="lh-reset-wrap">
+          <button class="lh-reset-btn" onclick="showResetModal()">Mulai ulang program</button>
+        </div>
+      </div>
+      <div class="lh-credit">by rapyourbi and jejo</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ PROGRAM -->
+  <div id="screen-lp" class="screen">
+    <div class="lp-inner">
+      <div class="lp-topbar">
+        <div class="lp-topbar-left">
+          <div class="lp-back-btn" onclick="showScreen('lh')">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
           </div>
-          <div id="ux-daily-focus-wrap"></div>
-          <div id="dash-warnings-wrap"></div>
-          <div id="dash-intensity-card" class="dash-intensity-card hidden">
-            <div class="dash-intensity-left">
-              <div class="dash-intensity-icon">⚡</div>
-              <div class="dash-intensity-info">
-                <div class="dash-intensity-label">Intensitas Hari Ini</div>
-                <div class="dash-intensity-val" id="dash-intensity-val">Energi & tidur normal</div>
-              </div>
-            </div>
-            <div class="dash-intensity-badge" id="dash-intensity-badge">100%</div>
+          <div>
+            <div class="lp-topbar-title" id="lp-title">Program Saya</div>
+            <div class="lp-topbar-day" id="lp-day-label">Hari ke-1 dari 90</div>
           </div>
-          <div class="dash-water-card">
-            <div class="dash-water-icon">💧</div>
-            <div class="dash-water-info">
-              <div class="dash-water-title">Target Air Harian</div>
-              <div class="dash-water-val" id="dash-water-val">— ml</div>
-              <div class="dash-water-hint">30–35 ml × berat badanmu</div>
+        </div>
+        <div class="lp-topbar-streak" id="lp-streak">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
+            <path
+              d="M13.5 0.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z" />
+          </svg>
+          <span id="streak-count">0</span>
+        </div>
+      </div>
+
+      <div class="lp-content" id="lp-content">
+        <!-- Dashboard Tab -->
+        <div class="tab-pane active" id="tab-dashboard">
+          <div class="dash-pad">
+            <div class="dash-day-hero">
+              <div class="dash-day-num" id="dash-day-num">HARI KE-1 DARI 90</div>
+              <div class="dash-day-title" id="dash-day-title">Hari Pertama</div>
+              <div class="dash-day-phase" id="dash-day-phase">Fase: Fondasi · Minggu 1</div>
             </div>
-          </div>
-          <div id="dash-adapt-notice" class="dash-adapt-notice hidden">
-            <div class="dash-adapt-title">🌱 Minggu Adaptasi (Hari 1–7)</div>
-            <div class="dash-adapt-list">
-              <div class="dash-adapt-item">Kurangi porsi makan secara bertahap — tidak perlu langsung ketat</div>
-              <div class="dash-adapt-item">Kurangi gula — hindari minuman manis dan makanan bergula tinggi</div>
-              <div class="dash-adapt-item">Hindari makanan yang digoreng deep-fry</div>
-            </div>
-          </div>
-          <div class="dash-cal-row">
-            <div class="dash-cal-item">
-              <div class="dash-cal-val txt-accent" id="dash-cal-total">—</div>
-              <div class="dash-cal-label">Target Kalori</div>
-            </div>
-            <div class="dash-cal-item">
-              <div class="dash-cal-val txt-blue" id="dash-cal-protein">—</div>
-              <div class="dash-cal-label">Protein (g)</div>
-            </div>
-            <div class="dash-cal-item">
-              <div class="dash-cal-val" id="dash-cal-carb">—</div>
-              <div class="dash-cal-label">Karbo (g)</div>
-            </div>
-          </div>
-          <div class="dash-progress-section">
-            <div class="dash-prog-header">
-              <div class="dash-prog-title">Progres Hari Ini</div>
-              <div class="dash-prog-pct" id="dash-day-pct">0%</div>
-            </div>
-            <div class="dash-prog-items">
-              <div class="dash-prog-item">
-                <div class="dash-prog-icon">🏋️</div>
-                <div class="dash-prog-info">
-                  <div class="dash-prog-name">Latihan</div>
-                  <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-workout-bar" style="width:0%;background:var(--blue)"></div></div>
+            <div id="ux-daily-focus-wrap"></div>
+            <div id="dash-warnings-wrap"></div>
+            <div id="dash-intensity-card" class="dash-intensity-card hidden">
+              <div class="dash-intensity-left">
+                <div class="dash-intensity-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                </div>
+                <div class="dash-intensity-info">
+                  <div class="dash-intensity-label">Intensitas Hari Ini</div>
+                  <div class="dash-intensity-val" id="dash-intensity-val">Energi &amp; tidur normal</div>
                 </div>
               </div>
-              <div class="dash-prog-item">
-                <div class="dash-prog-icon">🍱</div>
-                <div class="dash-prog-info">
-                  <div class="dash-prog-name">Makan (<span id="prog-meal-count">0</span>/3)</div>
-                  <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-meal-bar" style="width:0%"></div></div>
+              <div class="dash-intensity-badge" id="dash-intensity-badge">100%</div>
+            </div>
+            <div class="dash-water-card">
+              <div class="dash-water-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                </svg>
+              </div>
+              <div class="dash-water-info">
+                <div class="dash-water-title">Target Air Harian</div>
+                <div class="dash-water-val" id="dash-water-val">— ml</div>
+                <div class="dash-water-hint">30–35 ml × berat badanmu</div>
+              </div>
+            </div>
+            <div id="dash-adapt-notice" class="dash-adapt-notice hidden">
+              <div class="dash-adapt-title">Minggu Adaptasi (Hari 1–7)</div>
+              <div class="dash-adapt-list">
+                <div class="dash-adapt-item">Kurangi porsi makan secara bertahap — tidak perlu langsung ketat</div>
+                <div class="dash-adapt-item">Kurangi gula — hindari minuman manis dan makanan bergula tinggi</div>
+                <div class="dash-adapt-item">Hindari makanan yang digoreng deep-fry</div>
+              </div>
+            </div>
+            <div class="dash-cal-row">
+              <div class="dash-cal-item">
+                <div class="dash-cal-val txt-accent" id="dash-cal-total">—</div>
+                <div class="dash-cal-label">Target Kalori</div>
+              </div>
+              <div class="dash-cal-item">
+                <div class="dash-cal-val txt-blue" id="dash-cal-protein">—</div>
+                <div class="dash-cal-label">Protein (g)</div>
+              </div>
+              <div class="dash-cal-item">
+                <div class="dash-cal-val" id="dash-cal-carb">—</div>
+                <div class="dash-cal-label">Karbo (g)</div>
+              </div>
+            </div>
+            <div class="dash-progress-section">
+              <div class="dash-prog-header">
+                <div class="dash-prog-title">Progres Hari Ini</div>
+                <div class="dash-prog-pct" id="dash-day-pct">0%</div>
+              </div>
+              <div class="dash-prog-items">
+                <div class="dash-prog-item">
+                  <div class="dash-prog-icon">
+                    <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6.5 6.5a5 5 0 0 1 11 0v1a5 5 0 0 1-11 0v-1z" />
+                      <path d="M12 16v4M9 20h6" />
+                    </svg>
+                  </div>
+                  <div class="dash-prog-info">
+                    <div class="dash-prog-name">Latihan</div>
+                    <div class="dash-prog-bar">
+                      <div class="dash-prog-bar-fill" id="prog-workout-bar" style="width:0%;background:var(--blue)">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dash-prog-item">
+                  <div class="dash-prog-icon">
+                    <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 11c0-4 3.5-7 9-7s9 3 9 7H3z" />
+                      <path d="M3 11v2a9 9 0 0 0 18 0v-2" />
+                    </svg>
+                  </div>
+                  <div class="dash-prog-info">
+                    <div class="dash-prog-name">Makan (<span id="prog-meal-count">0</span>/3)</div>
+                    <div class="dash-prog-bar">
+                      <div class="dash-prog-bar-fill" id="prog-meal-bar" style="width:0%"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="dash-guide" id="dash-guide">
-            <div class="dash-guide-label" id="dash-guide-label">Panduan</div>
-            <div class="dash-guide-msg" id="dash-guide-msg">Memuat panduan...</div>
-          </div>
-          <div class="dash-90-section">
-            <div class="section-label">90 Hari Perjalananmu</div>
-            <div class="dash-90-dots" id="dash-90-dots"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Latihan Tab -->
-      <div class="tab-pane" id="tab-latihan">
-        <div class="workout-pad">
-          <!-- PATCH v6.5: Lock overlay inside workout-pad, shown when energy not checked -->
-          <div id="workout-lock-overlay" class="workout-lock-overlay hidden">
-            <div class="lock-icon">⚡</div>
-            <div class="lock-title">Cek Kondisi Dulu</div>
-            <div class="lock-sub">Ceritakan energi & tidurmu hari ini agar latihan disesuaikan dengan kondisi tubuhmu.</div>
-            <button class="btn btn-primary btn-full" onclick="showEnergyModal()">Mulai Latihan 💪</button>
-          </div>
-          <div class="workout-header">
-            <div class="workout-type-badge" id="workout-type-badge"></div>
-            <div class="workout-title" id="workout-title">Memuat Latihan...</div>
-            <div class="workout-meta" id="workout-meta"></div>
-            <div class="workout-time-rec" id="workout-time-rec"></div>
-          </div>
-          <div id="workout-warmup-section"></div>
-          <div class="exercise-list" id="exercise-list"></div>
-          <div id="rest-timer-wrap" style="display:none!important;"></div>
-          <div id="workout-cooldown-section"></div>
-          <div class="workout-done-wrap" id="workout-done-wrap"></div>
-          <div class="workout-notes-section hidden" id="workout-notes-section">
-            <div class="workout-notes-title">📝 Catatan Kondisi Tubuh</div>
-            <textarea class="workout-notes-textarea" id="workout-notes-input" placeholder="Catat rasa nyeri, kelelahan, atau pengalaman latihan hari ini..." disabled></textarea>
-            <button class="workout-notes-save" id="workout-notes-save-btn" onclick="saveWorkoutNotes()" style="opacity:.5;cursor:not-allowed;" disabled>Simpan Catatan</button>
-            <div class="workout-notes-saved" id="notes-saved-msg">✓ Catatan tersimpan</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Menu Tab -->
-      <div class="tab-pane" id="tab-menu">
-        <div class="menu-pad">
-          <div class="menu-cal-header">
-            <div class="menu-cal-total" id="menu-cal-total">— kkal</div>
-            <div class="menu-cal-label">Target kalori hari ini</div>
-            <div class="menu-macro-pills" id="menu-macro-pills"></div>
-          </div>
-          <div id="ux-meal-guidance-wrap"></div>
-          <div id="menu-goal-notice" class="menu-goal-notice-box hidden"></div>
-          <div id="menu-adapt-notice" class="menu-adapt-notice hidden">
-            🌱 <strong>Fase Adaptasi (Hari 1–7):</strong> Porsi bisa disesuaikan dengan kebiasaan makan sehari-hari. <strong>Kurangi gula dan gorengan secara bertahap</strong> — tidak perlu langsung drastis.
-          </div>
-          <div class="meal-cards" id="meal-cards"></div>
-        </div>
-      </div>
-
-      <!-- Progress Tab -->
-      <div class="tab-pane" id="tab-progress">
-        <div class="prog-pad">
-          <div class="prog-overview" id="prog-overview"></div>
-
-          <div class="prog-tracking-card">
-            <div class="prog-tracking-title">📏 Input Data Tubuh Hari Ini</div>
-            <div class="prog-tracking-row">
-              <div class="prog-tracking-input-wrap">
-                <label class="prog-tracking-label">Berat Badan (kg)</label>
-                <input type="number" class="prog-tracking-input" id="track-weight" placeholder="70.5" step="0.1">
-              </div>
-              <div class="prog-tracking-input-wrap">
-                <label class="prog-tracking-label">Lingkar Pinggang (cm)</label>
-                <input type="number" class="prog-tracking-input" id="track-waist" placeholder="80" step="0.1">
-              </div>
+            <div class="dash-guide" id="dash-guide">
+              <div class="dash-guide-label" id="dash-guide-label">Panduan</div>
+              <div class="dash-guide-msg" id="dash-guide-msg">Memuat panduan...</div>
             </div>
-            <button class="prog-tracking-save" onclick="saveBodyTracking()">Simpan Data</button>
-            <div class="prog-tracking-saved" id="tracking-saved-msg">✓ Data tersimpan</div>
-            <div class="prog-validation-warn" id="weight-drop-warn">⚠️ Berat badanmu turun lebih dari 1.5 kg dalam seminggu. Pertimbangkan untuk menyesuaikan pola makan agar tetap sehat.</div>
-          </div>
-
-          <div class="prog-chart-card">
-            <div class="prog-chart-title">📊 Grafik Berat Badan</div>
-            <div class="prog-chart-wrap" id="prog-chart-wrap">
-              <div class="prog-chart-empty" id="prog-chart-empty">Belum ada data berat badan. Isi data di atas untuk mulai tracking.</div>
-              <canvas id="weight-chart" style="display:none;"></canvas>
+            <div class="dash-90-section">
+              <div class="section-label">90 Hari Perjalananmu</div>
+              <div class="dash-90-dots" id="dash-90-dots"></div>
             </div>
           </div>
+        </div>
 
-          <!-- Health Journal -->
-          <div class="prog-journal-card">
-            <div class="prog-journal-title">📓 Catatan Kondisi Tubuh</div>
-            <div class="prog-journal-sub" style="font-size:.8rem;color:var(--text2);margin-bottom:12px;">Catat nyeri, kelelahan, atau cedera untuk membantu menyesuaikan intensitas latihan besok.</div>
-            <div class="prog-journal-row">
-              <div class="prog-journal-field">
-                <textarea class="prog-journal-textarea" id="journal-notes" placeholder="Contoh: Lutut sedikit nyeri, capek berat setelah latihan, sakit punggung..."></textarea>
+        <!-- Latihan Tab -->
+        <div class="tab-pane" id="tab-latihan">
+          <div class="workout-pad">
+            <!-- PATCH v6.5: Lock overlay inside workout-pad, shown when energy not checked -->
+            <div id="workout-lock-overlay" class="workout-lock-overlay hidden">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" fill="none" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <div class="lock-title">Cek Kondisi Dulu</div>
+              <div class="lock-sub">Ceritakan energi &amp; tidurmu hari ini agar latihan disesuaikan dengan kondisi
+                tubuhmu.</div>
+              <button class="btn btn-primary btn-full" onclick="showEnergyModal()">Mulai Latihan</button>
+            </div>
+            <div class="workout-header">
+              <div class="workout-type-badge" id="workout-type-badge"></div>
+              <div class="workout-title" id="workout-title">Memuat Latihan...</div>
+              <div class="workout-meta" id="workout-meta"></div>
+              <div class="workout-time-rec" id="workout-time-rec"></div>
+            </div>
+            <div id="workout-warmup-section"></div>
+            <div class="exercise-list" id="exercise-list"></div>
+            <div id="rest-timer-wrap" style="display:none!important;"></div>
+            <div id="workout-cooldown-section"></div>
+            <div class="workout-done-wrap" id="workout-done-wrap"></div>
+            <div class="workout-notes-section hidden" id="workout-notes-section">
+              <div class="workout-notes-title">Catatan Kondisi Tubuh</div>
+              <textarea class="workout-notes-textarea" id="workout-notes-input"
+                placeholder="Catat rasa nyeri, kelelahan, atau pengalaman latihan hari ini..." disabled></textarea>
+              <button class="workout-notes-save" id="workout-notes-save-btn" onclick="saveWorkoutNotes()"
+                style="opacity:.5;cursor:not-allowed;" disabled>Simpan Catatan</button>
+              <div class="workout-notes-saved" id="notes-saved-msg">Catatan tersimpan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu Tab -->
+        <div class="tab-pane" id="tab-menu">
+          <div class="menu-pad">
+            <div class="menu-cal-header">
+              <div class="menu-cal-total" id="menu-cal-total">— kkal</div>
+              <div class="menu-cal-label">Target kalori hari ini</div>
+              <div class="menu-macro-pills" id="menu-macro-pills"></div>
+            </div>
+            <div id="ux-meal-guidance-wrap"></div>
+            <div id="menu-goal-notice" class="menu-goal-notice-box hidden"></div>
+            <div id="menu-adapt-notice" class="menu-adapt-notice hidden">
+              <strong>Fase Adaptasi (Hari 1–7):</strong> Porsi bisa disesuaikan dengan kebiasaan makan sehari-hari.
+              <strong>Kurangi gula dan gorengan secara bertahap</strong> — tidak perlu langsung drastis.
+            </div>
+            <div class="meal-cards" id="meal-cards"></div>
+          </div>
+        </div>
+
+        <!-- Progress Tab -->
+        <div class="tab-pane" id="tab-progress">
+          <div class="prog-pad">
+            <div class="prog-overview" id="prog-overview"></div>
+
+            <div class="prog-tracking-card">
+              <div class="prog-tracking-title">Input Data Tubuh Hari Ini</div>
+              <div class="prog-tracking-row">
+                <div class="prog-tracking-input-wrap">
+                  <label class="prog-tracking-label">Berat Badan (kg)</label>
+                  <input type="number" class="prog-tracking-input" id="track-weight" placeholder="70.5" step="0.1">
+                </div>
+                <div class="prog-tracking-input-wrap">
+                  <label class="prog-tracking-label">Lingkar Pinggang (cm)</label>
+                  <input type="number" class="prog-tracking-input" id="track-waist" placeholder="80" step="0.1">
+                </div>
+              </div>
+              <button class="prog-tracking-save" onclick="saveBodyTracking()">Simpan Data</button>
+              <div class="prog-tracking-saved" id="tracking-saved-msg">Data tersimpan</div>
+              <div class="prog-validation-warn" id="weight-drop-warn">Berat badanmu turun lebih dari 1.5 kg dalam
+                seminggu. Pertimbangkan untuk menyesuaikan pola makan agar tetap sehat.</div>
+            </div>
+
+            <div class="prog-chart-card">
+              <div class="prog-chart-title">Grafik Berat Badan</div>
+              <div class="prog-chart-wrap" id="prog-chart-wrap">
+                <div class="prog-chart-empty" id="prog-chart-empty">Belum ada data berat badan. Isi data di atas untuk
+                  mulai tracking.</div>
+                <canvas id="weight-chart" style="display:none;"></canvas>
               </div>
             </div>
-            <button class="prog-journal-save" onclick="saveHealthJournal()">Simpan Catatan Kondisi</button>
-            <div class="prog-journal-saved" id="journal-saved-msg">✓ Catatan tersimpan</div>
-          </div>
 
-          <div class="prog-phase-card" id="prog-phase-card"></div>
-          <div class="prog-weekly-section" id="prog-weekly-section"></div>
-          <div class="prog-goal-section" id="prog-goal-section"></div>
-          <div style="text-align:center;padding:16px 0;font-size:.7rem;color:var(--text3);">
-            Instruktur Pribadi 90 Hari · by Muhamad Rafi Apriyansyah
+            <!-- Health Journal -->
+            <div class="prog-journal-card">
+              <div class="prog-journal-title">Catatan Kondisi Tubuh</div>
+              <div class="prog-journal-sub" style="font-size:.8rem;color:var(--text2);margin-bottom:12px;">Catat nyeri,
+                kelelahan, atau cedera untuk membantu menyesuaikan intensitas latihan besok.</div>
+              <div class="prog-journal-row">
+                <div class="prog-journal-field">
+                  <textarea class="prog-journal-textarea" id="journal-notes"
+                    placeholder="Contoh: Lutut sedikit nyeri, capek berat setelah latihan, sakit punggung..."></textarea>
+                </div>
+              </div>
+              <button class="prog-journal-save" onclick="saveHealthJournal()">Simpan Catatan Kondisi</button>
+              <div class="prog-journal-saved" id="journal-saved-msg">Catatan tersimpan</div>
+            </div>
+
+            <div class="prog-phase-card" id="prog-phase-card"></div>
+            <div class="prog-weekly-section" id="prog-weekly-section"></div>
+            <div class="prog-goal-section" id="prog-goal-section"></div>
+            <div style="text-align:center;padding:16px 0;font-size:.7rem;color:var(--text3);">
+              Instruktur Pribadi 90 Hari &middot; by Muhamad Rafi Apriyansyah
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="lp-tabs">
-      <button class="lp-tab active" onclick="switchTab(this,'dashboard')">
-        <span class="lp-tab-icon">🏠</span>
-        <span class="lp-tab-label">Dashboard</span>
-      </button>
-      <button class="lp-tab" onclick="switchTab(this,'latihan')">
-        <span class="lp-tab-icon">🏋️</span>
-        <span class="lp-tab-label">Latihan</span>
-      </button>
-      <button class="lp-tab" onclick="switchTab(this,'menu')">
-        <span class="lp-tab-icon">🍱</span>
-        <span class="lp-tab-label">Menu</span>
-      </button>
-      <button class="lp-tab" onclick="switchTab(this,'progress')">
-        <span class="lp-tab-icon">📊</span>
-        <span class="lp-tab-label">Progress</span>
-      </button>
+      <div class="lp-tabs">
+        <button class="lp-tab active" onclick="switchTab(this,'dashboard')">
+          <span class="lp-tab-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg>
+          </span>
+          <span class="lp-tab-label">Dashboard</span>
+        </button>
+        <button class="lp-tab" onclick="switchTab(this,'latihan')">
+          <span class="lp-tab-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6.5 6.5a5 5 0 0 1 11 0v1a5 5 0 0 1-11 0v-1z" />
+              <path d="M4 8h2M18 8h2M12 16v4M9 20h6" />
+            </svg>
+          </span>
+          <span class="lp-tab-label">Latihan</span>
+        </button>
+        <button class="lp-tab" onclick="switchTab(this,'menu')">
+          <span class="lp-tab-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 11c0-4 3.5-7 9-7s9 3 9 7H3z" />
+              <path d="M3 11v2a9 9 0 0 0 18 0v-2" />
+            </svg>
+          </span>
+          <span class="lp-tab-label">Menu</span>
+        </button>
+        <button class="lp-tab" onclick="switchTab(this,'progress')">
+          <span class="lp-tab-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+          </span>
+          <span class="lp-tab-label">Progress</span>
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Reset Modal -->
-<div class="modal-overlay" id="reset-modal">
-  <div class="modal-box">
-    <div class="modal-title">Mulai Ulang Program?</div>
-    <div class="modal-body">Semua data program, progress, streak, dan riwayat akan dihapus permanen. Kamu akan kembali ke halaman awal.<br><br>Yakin ingin melanjutkan?</div>
-    <div class="modal-actions">
-      <button class="btn btn-outline btn-full" onclick="closeResetModal()">Batal</button>
-      <button class="btn btn-danger btn-full" onclick="resetAll()">Ya, Hapus Semua</button>
+  <!-- Reset Modal -->
+  <div class="modal-overlay" id="reset-modal">
+    <div class="modal-box">
+      <div class="modal-title">Mulai Ulang Program?</div>
+      <div class="modal-body">Semua data program, progress, streak, dan riwayat akan dihapus permanen. Kamu akan kembali
+        ke halaman awal.<br><br>Yakin ingin melanjutkan?</div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-full" onclick="closeResetModal()">Batal</button>
+        <button class="btn btn-danger btn-full" onclick="resetAll()">Ya, Hapus Semua</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Energy Check Modal -->
-<div class="energy-modal-overlay" id="energy-modal" style="pointer-events:all;">
-  <div class="energy-modal-box" onclick="event.stopPropagation()">
-    <div class="energy-modal-title">⚡ Cek Kondisimu Hari Ini</div>
-    <div class="energy-modal-sub">Jawab sebentar biar latihan disesuaikan dengan kondisi tubuhmu.</div>
-    <div class="energy-label">Level Energimu Sekarang</div>
-    <div class="energy-stars" id="energy-stars">
-      <div class="energy-star" onclick="selectEnergy(1)">😴</div>
-      <div class="energy-star" onclick="selectEnergy(2)">😐</div>
-      <div class="energy-star" onclick="selectEnergy(3)">🙂</div>
-      <div class="energy-star" onclick="selectEnergy(4)">😊</div>
-      <div class="energy-star" onclick="selectEnergy(5)">🔥</div>
+  <!-- Energy Check Modal -->
+  <div class="energy-modal-overlay" id="energy-modal" style="pointer-events:all;">
+    <div class="energy-modal-box" onclick="event.stopPropagation()">
+      <div class="energy-modal-title">Cek Kondisimu Hari Ini</div>
+      <div class="energy-modal-sub">Jawab sebentar biar latihan disesuaikan dengan kondisi tubuhmu.</div>
+      <div class="energy-label">Level Energimu Sekarang</div>
+      <div class="energy-stars" id="energy-stars">
+        <div class="energy-star" onclick="selectEnergy(1)" title="Sangat lelah">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 15s1.5-2 4-2 4 2 4 2" />
+            <line x1="9" y1="9" x2="9.01" y2="9" />
+            <line x1="15" y1="9" x2="15.01" y2="9" />
+          </svg>
+          <span class="energy-star-label">Lemah</span>
+        </div>
+        <div class="energy-star" onclick="selectEnergy(2)" title="Kurang energi">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="8" y1="15" x2="16" y2="15" />
+            <line x1="9" y1="9" x2="9.01" y2="9" />
+            <line x1="15" y1="9" x2="15.01" y2="9" />
+          </svg>
+          <span class="energy-star-label">Kurang</span>
+        </div>
+        <div class="energy-star" onclick="selectEnergy(3)" title="Normal">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+            <line x1="9" y1="9" x2="9.01" y2="9" />
+            <line x1="15" y1="9" x2="15.01" y2="9" />
+          </svg>
+          <span class="energy-star-label">Normal</span>
+        </div>
+        <div class="energy-star" onclick="selectEnergy(4)" title="Energi baik">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 13s1.5 3 4 3 4-3 4-3" />
+            <line x1="9" y1="9" x2="9.01" y2="9" />
+            <line x1="15" y1="9" x2="15.01" y2="9" />
+          </svg>
+          <span class="energy-star-label">Baik</span>
+        </div>
+        <div class="energy-star" onclick="selectEnergy(5)" title="Siap maksimal">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 13s1.5 4 4 4 4-4 4-4" />
+            <line x1="9" y1="9" x2="9.01" y2="9" />
+            <line x1="15" y1="9" x2="15.01" y2="9" />
+            <path d="M12 6v1" />
+          </svg>
+          <span class="energy-star-label">Siap</span>
+        </div>
+      </div>
+      <div id="energy-star-err" style="font-size:.78rem;color:var(--orange);margin-bottom:8px;display:none;">Pilih level
+        energimu dulu.</div>
+      <div class="energy-label">Berapa jam kamu tidur tadi malam?</div>
+      <div class="sleep-input-wrap">
+        <input type="number" class="sleep-input" id="energy-sleep" placeholder="7" min="1" max="12" step="0.5"
+          oninput="updateEnergyConfirmBtn();updateIntensityPreview();">
+        <span class="sleep-input-unit">jam</span>
+      </div>
+      <div id="energy-sleep-err" style="font-size:.78rem;color:var(--orange);margin-bottom:8px;display:none;">Masukkan
+        jam tidur (1–12 jam).</div>
+      <div class="intensity-preview" id="intensity-preview">
+        Pilih energi dan tidur untuk melihat intensitas latihan hari ini.
+      </div>
+      <div class="ux-energy-hint hidden" id="ux-energy-hint"></div>
+      <button class="btn btn-primary btn-full" id="energy-confirm-btn" onclick="confirmEnergyCheck()" disabled
+        style="opacity:.5;cursor:not-allowed;">Mulai Latihan</button>
     </div>
-    <div id="energy-star-err" style="font-size:.78rem;color:var(--orange);margin-bottom:8px;display:none;">⚠ Pilih level energimu dulu.</div>
-    <div class="energy-label">Berapa jam kamu tidur tadi malam?</div>
-    <div class="sleep-input-wrap">
-      <input type="number" class="sleep-input" id="energy-sleep" placeholder="7" min="1" max="12" step="0.5" oninput="updateEnergyConfirmBtn();updateIntensityPreview();">
-      <span class="sleep-input-unit">jam</span>
-    </div>
-    <div id="energy-sleep-err" style="font-size:.78rem;color:var(--orange);margin-bottom:8px;display:none;">⚠ Masukkan jam tidur (1–12 jam).</div>
-    <div class="intensity-preview" id="intensity-preview">
-      Pilih energi dan tidur untuk melihat intensitas latihan hari ini.
-    </div>
-    <div class="ux-energy-hint hidden" id="ux-energy-hint"></div>
-    <button class="btn btn-primary btn-full" id="energy-confirm-btn" onclick="confirmEnergyCheck()" disabled style="opacity:.5;cursor:not-allowed;">Mulai Latihan 💪</button>
   </div>
-</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
