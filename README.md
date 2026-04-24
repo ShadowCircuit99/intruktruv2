@@ -2,7 +2,6 @@
 
 Aplikasi **Instruktur Olahraga Pribadi** berbasis web sederhana menggunakan **HTML, CSS, dan JavaScript** untuk membantu pengguna menjalankan program latihan secara mandiri seperti memiliki personal trainer.
 
----
 
 ## 🚀 Fitur Utama
 - 🏋️ Daftar program latihan (Workout Plan)
@@ -11,7 +10,6 @@ Aplikasi **Instruktur Olahraga Pribadi** berbasis web sederhana menggunakan **HT
 - 📅 Jadwal latihan
 - 💡 Tips olahraga
 
----
 
 ## 🛠️ Teknologi yang Digunakan
 - HTML5
@@ -19,7 +17,6 @@ Aplikasi **Instruktur Olahraga Pribadi** berbasis web sederhana menggunakan **HT
 - JavaScript (Vanilla JS)
 - LocalStorage (untuk menyimpan data sementara)
 
----
 
 ## 📦 Cara Menjalankan Project
 
