@@ -1,4 +1,4 @@
-    /* ============================================================
+/* ============================================================
     CONFIG
     ============================================================ */
     const DEV_MODE = false;
@@ -366,10 +366,10 @@
     {nama:'Nasi Putih & Ayam Rebus Rempah dengan Sup Wortel',base_cal:540,protein_tag:'ayam',makro:{protein:46,karbo:58,lemak:10},resep:{bahan:[{item:'Nasi putih matang',gram:150,unit:'g'},{item:'Dada ayam',gram:150,unit:'g'},{item:'Wortel',gram:100,unit:'g'},{item:'Serai',gram:1,unit:'batang'},{item:'Jahe',gram:3,unit:'cm'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Daun salam',gram:2,unit:'lembar'}],langkah:['Didihkan air, masukkan serai geprek, jahe iris, bawang putih geprek, dan daun salam. Biarkan 2 menit biar keluar aromanya.','Masukkan dada ayam utuh, kecilkan api ke sedang. Rebus 25 sampai 30 menit sampai matang. Angkat, suwir.','Saring kaldu ke panci bersih. Masukkan wortel potong, rebus 10 menit. Bumbui garam dan lada.','Sajikan nasi putih dengan suwiran ayam rempah dan sup wortel hangat.']}},
     {nama:'Nasi Merah & Ayam Kecap Bawang dengan Tumis Sawi',base_cal:545,protein_tag:'ayam',makro:{protein:44,karbo:56,lemak:13},resep:{bahan:[{item:'Nasi merah matang',gram:150,unit:'g'},{item:'Dada ayam',gram:150,unit:'g'},{item:'Sawi hijau',gram:100,unit:'g',alt:'kangkung'},{item:'Kecap manis',gram:15,unit:'ml'},{item:'Kecap asin',gram:8,unit:'ml'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Potong ayam tipis-tipis melintang serat. Tumis bawang merah dan bawang putih iris sampai layu dan harum.','Masukkan ayam, aduk, masak 4 sampai 5 menit sampai warnanya berubah dan matang.','Tuang kecap manis dan kecap asin, aduk rata. Masak lagi 2 sampai 3 menit sampai bumbu meresap.','Tumis sawi hijau dengan bawang putih di wajan lain, 2 menit. Sajikan bersama nasi merah.']}},
     {nama:'Nasi Putih & Tempe Goreng Rempah dengan Sayur Asem',base_cal:510,protein_tag:'tempe',makro:{protein:28,karbo:68,lemak:13},resep:{bahan:[{item:'Nasi putih matang',gram:150,unit:'g'},{item:'Tempe',gram:150,unit:'g'},{item:'Kacang panjang',gram:80,unit:'g',alt:'buncis'},{item:'Jagung manis',gram:1,unit:'buah'},{item:'Asam jawa',gram:5,unit:'g',alt:'jeruk nipis'},{item:'Ketumbar bubuk',gram:2,unit:'g'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Iris tempe agak tebal. Lumuri rata dengan ketumbar bubuk, kunyit, garam, dan lada. Goreng di teflon 3 menit tiap sisi — biarkan dulu sebelum dibalik.','Didihkan 600ml air di panci. Masukkan asam jawa yang sudah dilarutkan sedikit air, garam, dan sedikit gula.','Masukkan jagung potong dan kacang panjang ke kuah asem. Masak 8 menit sampai sayur empuk.','Sajikan nasi dengan tempe goreng rempah dan sayur asem hangat.']}},
-    {nama:'Nasi Merah & Tahu Tumis Tomat dengan Tumis Wortel',base_cal:480,protein_tag:'tahu',makro:{protein:26,karbo:64,lemak:11},resep:{bahan:[{item:'Nasi merah matang',gram:150,unit:'g'},{item:'Tahu putih',gram:180,unit:'g',alt:'tahu kuning'},{item:'Tomat',gram:2,unit:'buah'},{item:'Wortel',gram:100,unit:'g',alt:'kol'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Kecap manis',gram:8,unit:'ml'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Potong tahu jadi dadu sedang. Panggang di teflon tanpa minyak sampai semua sisi kecokelatan — balik pelan-pelan agar tidak hancur.','Tumis bawang merah iris sampai layu. Masukkan tomat cincang kasar, kecap manis, dan 2 sendok makan air. Masak sampai tomat lunak.','Masukkan tahu ke saus tomat, aduk pelan. Masak 3 menit sampai bumbu meresap.','Tumis wortel iris tipis dengan bawang putih, 3 menit. Sajikan bersama nasi merah.']}},
+    {nama:'Nasi Merah & Tahu Panggang Saus Tomat dengan Tumis Wortel',base_cal:480,protein_tag:'tahu',makro:{protein:26,karbo:64,lemak:11},resep:{bahan:[{item:'Nasi merah matang',gram:150,unit:'g'},{item:'Tahu putih',gram:180,unit:'g',alt:'tahu kuning'},{item:'Tomat',gram:2,unit:'buah'},{item:'Wortel',gram:100,unit:'g',alt:'kol'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Kecap manis',gram:8,unit:'ml'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Potong tahu jadi dadu sedang. Panggang di teflon tanpa minyak sampai semua sisi kecokelatan — balik pelan-pelan agar tidak hancur. Sisihkan.','Tumis bawang merah iris sampai layu. Masukkan tomat cincang kasar, kecap manis, dan 2 sendok makan air. Masak sampai tomat lunak dan sausnya agak mengental.','Masukkan tahu panggang ke saus tomat, aduk pelan. Masak 3 menit sampai bumbu meresap.','Tumis wortel iris tipis dengan bawang putih, 3 menit. Sajikan bersama nasi merah.']}},
     {nama:'Nasi Putih & Telur Dadar Kecap dengan Tumis Kangkung',base_cal:490,protein_tag:'telur',makro:{protein:26,karbo:60,lemak:12},resep:{bahan:[{item:'Nasi putih matang',gram:150,unit:'g'},{item:'Telur ayam',gram:3,unit:'butir'},{item:'Kangkung',gram:100,unit:'g',alt:'bayam atau sawi'},{item:'Kecap manis',gram:12,unit:'ml'},{item:'Bawang merah',gram:2,unit:'siung'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Kocok 3 telur dengan sedikit garam dan lada sampai rata.','Tuang ke teflon panas dengan sedikit minyak. Masak api sedang sampai bawah set — balik sekali, masak 1 menit. Jangan sampai terlalu kering.','Siram kecap manis di atas dadar yang sudah diangkat. Potong-potong.','Tumis kangkung dengan bawang merah dan bawang putih 2 menit sampai layu. Sajikan bersama nasi putih.']}},
     {nama:'Nasi Putih & Ayam Tumis Buncis Bawang',base_cal:535,protein_tag:'ayam',makro:{protein:42,karbo:58,lemak:11},resep:{bahan:[{item:'Nasi putih matang',gram:150,unit:'g',alt:'nasi merah'},{item:'Dada ayam',gram:150,unit:'g'},{item:'Buncis',gram:120,unit:'g',alt:'kacang panjang'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Kecap asin',gram:10,unit:'ml'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Potong ayam jadi dadu kecil. Tumis bawang merah dan bawang putih iris sampai harum dan layu.','Masukkan ayam, aduk rata. Masak 5 sampai 6 menit api sedang sampai ayam matang dan sedikit kecokelatan.','Masukkan buncis potong 3cm dan kecap asin. Tumis 4 menit sampai buncis empuk tapi masih hijau.','Sajikan langsung di atas nasi hangat.']}},
-    {nama:'Nasi Merah & Tempe Tahu Bumbu Kuning',base_cal:480,protein_tag:'tempe',makro:{protein:30,karbo:56,lemak:13},resep:{bahan:[{item:'Nasi merah matang',gram:150,unit:'g'},{item:'Tempe',gram:100,unit:'g'},{item:'Tahu putih',gram:100,unit:'g'},{item:'Kol putih',gram:80,unit:'g',alt:'sawi hijau'},{item:'Kunyit bubuk',gram:2,unit:'g'},{item:'Ketumbar bubuk',gram:1,unit:'g'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Potong tempe dan tahu jadi dadu sedang. Lumuri semua dengan kunyit bubuk, ketumbar, dan garam. Aduk rata.','Panaskan sedikit minyak di teflon. Goreng tempe dulu 3 menit tiap sisi sampai kecokelatan. Angkat.','Goreng tahu di teflon yang sama dengan hati-hati — balik pelan supaya tidak hancur, 2 menit tiap sisi.','Tumis kol iris dengan bawang putih geprek, 3 menit. Sajikan bersama nasi merah.']}},
+    {nama:'Nasi Merah & Tempe Tahu Goreng Kunyit dengan Tumis Kol',base_cal:480,protein_tag:'tempe',makro:{protein:30,karbo:56,lemak:13},resep:{bahan:[{item:'Nasi merah matang',gram:150,unit:'g'},{item:'Tempe',gram:100,unit:'g'},{item:'Tahu putih',gram:100,unit:'g'},{item:'Kol putih',gram:80,unit:'g',alt:'sawi hijau'},{item:'Kunyit bubuk',gram:2,unit:'g'},{item:'Ketumbar bubuk',gram:1,unit:'g'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Potong tempe dan tahu jadi dadu sedang. Lumuri semua dengan kunyit bubuk, ketumbar, dan garam. Aduk rata, diamkan 5 menit.','Panaskan sedikit minyak di teflon. Goreng tempe dulu 3 menit tiap sisi sampai kecokelatan dan harum. Angkat.','Goreng tahu di teflon yang sama dengan hati-hati — balik pelan supaya tidak hancur, 2 menit tiap sisi hingga kuning kecokelatan.','Tumis kol iris tipis dengan bawang putih geprek, 3 menit sampai agak layu. Sajikan tempe dan tahu goreng kunyit bersama tumis kol dan nasi merah.']}},
     {nama:'Nasi Putih & Tahu Goreng Kecap dengan Tumis Bayam',base_cal:470,protein_tag:'tahu',makro:{protein:26,karbo:62,lemak:10},resep:{bahan:[{item:'Nasi putih matang',gram:150,unit:'g'},{item:'Tahu keras',gram:200,unit:'g'},{item:'Bayam segar',gram:120,unit:'g',alt:'kangkung'},{item:'Kecap manis',gram:15,unit:'ml'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Minyak goreng',gram:5,unit:'ml'}],langkah:['Potong tahu jadi potongan tebal sekitar 2cm. Goreng di teflon tanpa minyak tambahan sampai semua sisi kuning kecokelatan.','Tumis bawang putih geprek sampai harum. Masukkan tahu goreng dan kecap manis, aduk pelan. Masak 3 menit.','Tumis bayam segar dengan bawang putih geprek di wajan lain, 2 menit sampai layu.','Sajikan nasi putih dengan tahu goreng kecap dan tumis bayam.']}},
     {nama:'Nasi Putih & Telur Rebus Sambal Hijau dengan Tumis Buncis',base_cal:500,protein_tag:'telur',makro:{protein:26,karbo:62,lemak:12},resep:{bahan:[{item:'Nasi putih matang',gram:150,unit:'g'},{item:'Telur ayam',gram:3,unit:'butir'},{item:'Buncis',gram:100,unit:'g',alt:'kacang panjang'},{item:'Cabai hijau',gram:3,unit:'buah',alt:'lada bubuk'},{item:'Tomat hijau',gram:1,unit:'buah',alt:'tomat merah'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Rebus telur di air mendidih 10 menit. Angkat dan kupas.','Haluskan kasar cabai hijau, tomat hijau, dan bawang merah. Tumis di sedikit minyak sampai matang dan harum.','Masukkan telur rebus ke sambal, aduk pelan agar telur tidak hancur. Masak 2 menit.','Tumis buncis potong dengan bawang putih 4 menit. Sajikan semua bersama nasi.']}},
     {nama:'Nasi Merah & Ayam Suwir Kunyit dengan Sayur Bening',base_cal:520,protein_tag:'ayam',makro:{protein:42,karbo:56,lemak:10},resep:{bahan:[{item:'Nasi merah matang',gram:150,unit:'g'},{item:'Dada ayam',gram:150,unit:'g'},{item:'Bayam segar',gram:100,unit:'g',alt:'kangkung'},{item:'Jagung manis',gram:80,unit:'g'},{item:'Kunyit bubuk',gram:1,unit:'g'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Bawang merah',gram:3,unit:'siung'}],langkah:['Rebus ayam di air mendidih bersama kunyit bubuk dan bawang putih geprek, 20 menit. Angkat, suwir kasar.','Didihkan 500ml air di panci. Masukkan bawang merah iris, jagung potong, dan garam.','Masukkan bayam, masak 3 sampai 4 menit. Cicipi dan sesuaikan garam.','Sajikan nasi merah dengan ayam suwir kunyit dan sayur bening di mangkuk terpisah.']}},
@@ -381,12 +381,12 @@
     const MALAM_MEALS = [
     {nama:'Kentang Kukus & Ayam Tumis Bawang dengan Tumis Bayam',base_cal:420,protein_tag:'ayam',makro:{protein:36,karbo:42,lemak:11},resep:{bahan:[{item:'Kentang',gram:200,unit:'g'},{item:'Dada ayam',gram:120,unit:'g',alt:'ayam suwir rebus'},{item:'Bayam segar',gram:100,unit:'g',alt:'kangkung'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Kecap asin',gram:8,unit:'ml'},{item:'Minyak goreng',gram:5,unit:'ml'}],langkah:['Potong kentang jadi dadu sedang. Kukus 15 menit sampai empuk saat ditusuk.','Potong ayam jadi strip tipis. Lumuri kecap asin dan lada. Tumis bawang merah dan bawang putih, masukkan ayam, masak 8 sampai 10 menit sampai matang.','Tumis bayam dengan bawang putih geprek, 2 menit sampai layu.','Sajikan kentang kukus hangat bersama ayam tumis bawang dan tumis bayam.']}},
     {nama:'Nasi Porsi Kecil & Telur Rebus Kecap dengan Sup Wortel Jahe',base_cal:390,protein_tag:'telur',makro:{protein:22,karbo:50,lemak:10},resep:{bahan:[{item:'Nasi putih matang',gram:100,unit:'g',alt:'nasi merah'},{item:'Telur ayam',gram:2,unit:'butir'},{item:'Wortel',gram:120,unit:'g'},{item:'Jahe',gram:3,unit:'cm'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Kecap asin',gram:8,unit:'ml'},{item:'Minyak goreng',gram:3,unit:'ml'}],langkah:['Rebus telur 10 menit, kupas. Panaskan sedikit minyak, masukkan telur dan kecap asin. Masak 3 menit sambil sesekali diputar agar warna merata.','Rebus wortel potong dengan jahe iris dan bawang putih geprek di 400ml air, 10 menit sampai wortel empuk.','Bumbui sup dengan garam dan lada. Cicipi.','Sajikan nasi porsi kecil dengan telur kecap dan sup wortel jahe hangat.']}},
-    {nama:'Tahu Kukus & Tempe Goreng Tipis dengan Tumis Sayuran',base_cal:380,protein_tag:'tahu',makro:{protein:28,karbo:38,lemak:14},resep:{bahan:[{item:'Tahu putih',gram:200,unit:'g'},{item:'Tempe',gram:100,unit:'g'},{item:'Wortel',gram:80,unit:'g'},{item:'Kol putih',gram:80,unit:'g',alt:'sawi putih'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Kecap asin',gram:8,unit:'ml'},{item:'Minyak goreng',gram:5,unit:'ml'}],langkah:['Potong tahu tebal, kukus 10 menit. Setelah matang, siram kecap asin di atasnya.','Iris tempe sangat tipis. Goreng di teflon tanpa minyak sampai crispy dan kecokelatan — biarkan tiap sisi matang sebelum dibalik.','Tumis bawang putih sampai harum, masukkan wortel dan kol iris. Tumis 4 menit sambil sesekali diaduk.','Sajikan tahu kukus, tempe crispy, dan tumis sayuran bersama.']}},
+    {nama:'Tempe Goreng Tipis & Tahu Kukus dengan Tumis Sayuran',base_cal:380,protein_tag:'tempe',makro:{protein:28,karbo:38,lemak:14},resep:{bahan:[{item:'Tempe',gram:120,unit:'g'},{item:'Tahu putih',gram:150,unit:'g'},{item:'Wortel',gram:80,unit:'g'},{item:'Kol putih',gram:80,unit:'g',alt:'sawi putih'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Kecap asin',gram:8,unit:'ml'},{item:'Minyak goreng',gram:5,unit:'ml'}],langkah:['Iris tempe sangat tipis sekitar 3mm. Goreng di teflon tanpa minyak tambahan, api sedang — biarkan tiap sisi matang dan crispy kecokelatan sebelum dibalik. Sisihkan.','Potong tahu tebal, kukus 10 menit sampai matang. Setelah matang, siram kecap asin di atasnya.','Tumis bawang putih geprek sampai harum, masukkan wortel dan kol iris. Tumis 4 menit sambil sesekali diaduk sampai sayur agak lunak.','Sajikan tahu kukus, tempe goreng tipis crispy, dan tumis sayuran bersama.']}},
     {nama:'Nasi Merah Porsi Kecil & Ayam Kuah Jahe dengan Buncis Rebus',base_cal:400,protein_tag:'ayam',makro:{protein:34,karbo:42,lemak:9},resep:{bahan:[{item:'Nasi merah matang',gram:100,unit:'g'},{item:'Dada ayam',gram:130,unit:'g'},{item:'Buncis',gram:100,unit:'g',alt:'kacang panjang'},{item:'Jahe',gram:4,unit:'cm'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Daun bawang',gram:20,unit:'g'},{item:'Garam & lada',gram:0,unit:'secukupnya'}],langkah:['Rebus ayam bersama jahe iris tebal dan bawang putih geprek di 400ml air, api sedang, 20 menit. Suwir. Masukkan kembali ke kaldu.','Tambahkan daun bawang iris ke kaldu. Bumbui garam dan lada. Biarkan mendidih sebentar.','Rebus buncis di air bergarum selama 5 menit hingga empuk tapi masih hijau. Tiriskan.','Sajikan nasi merah porsi kecil dengan kuah ayam jahe dan buncis rebus di samping.']}},
-    {nama:'Nasi Putih & Tempe Tahu Bumbu Kuning dengan Tumis Kol',base_cal:380,protein_tag:'tempe',makro:{protein:26,karbo:42,lemak:12},resep:{bahan:[{item:'Nasi putih matang',gram:100,unit:'g'},{item:'Tempe',gram:80,unit:'g'},{item:'Tahu putih',gram:100,unit:'g'},{item:'Kol putih',gram:100,unit:'g',alt:'sawi hijau'},{item:'Kunyit bubuk',gram:2,unit:'g'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Bawang merah',gram:2,unit:'siung'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Potong tempe dan tahu dadu. Lumuri semua dengan kunyit bubuk, sedikit garam, dan lada. Diamkan 5 menit.','Goreng tempe dulu di teflon dengan sedikit minyak sampai kecokelatan, 3 menit tiap sisi. Angkat, lanjut goreng tahu dengan hati-hati.','Tumis kol iris tipis dengan bawang putih dan bawang merah, 3 menit.','Sajikan bersama nasi putih porsi kecil.']}},
+    {nama:'Nasi Putih & Tempe Tahu Goreng Kunyit dengan Tumis Kol',base_cal:380,protein_tag:'tempe',makro:{protein:26,karbo:42,lemak:12},resep:{bahan:[{item:'Nasi putih matang',gram:100,unit:'g'},{item:'Tempe',gram:80,unit:'g'},{item:'Tahu putih',gram:100,unit:'g'},{item:'Kol putih',gram:100,unit:'g',alt:'sawi hijau'},{item:'Kunyit bubuk',gram:2,unit:'g'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Bawang merah',gram:2,unit:'siung'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Potong tempe dan tahu jadi dadu kecil. Lumuri rata dengan kunyit bubuk, sedikit garam, dan lada. Diamkan 5 menit biar bumbu meresap.','Goreng tempe dulu di teflon dengan sedikit minyak, api sedang, sampai kecokelatan — 3 menit tiap sisi. Angkat. Lanjut goreng tahu dengan hati-hati agar tidak hancur, 2 menit tiap sisi.','Tumis kol iris tipis dengan bawang putih dan bawang merah geprek, 3 menit sampai agak layu dan harum.','Sajikan nasi putih porsi kecil dengan tempe tahu goreng kunyit dan tumis kol.']}},
     {nama:'Kentang Rebus & Tahu Goreng Kecap dengan Tumis Brokoli',base_cal:410,protein_tag:'tahu',makro:{protein:22,karbo:52,lemak:12},resep:{bahan:[{item:'Kentang',gram:220,unit:'g'},{item:'Tahu keras',gram:180,unit:'g'},{item:'Brokoli atau kol',gram:100,unit:'g'},{item:'Kecap manis',gram:12,unit:'ml'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Minyak goreng',gram:5,unit:'ml'}],langkah:['Rebus kentang utuh di air bergarum, 20 menit hingga empuk. Kupas, belah dua.','Potong tahu jadi dadu, goreng di teflon tanpa minyak hingga semua sisi cokelat. Siram kecap manis, biarkan 1 menit.','Tumis brokoli potong kecil dengan bawang putih geprek, 4 menit sampai empuk. Bumbui garam.','Sajikan kentang rebus hangat bersama tahu goreng kecap dan tumis brokoli.']}},
     {nama:'Sup Ayam Jahe Hangat dengan Nasi Merah',base_cal:380,protein_tag:'ayam',makro:{protein:32,karbo:40,lemak:9},resep:{bahan:[{item:'Nasi merah matang',gram:100,unit:'g'},{item:'Dada ayam',gram:120,unit:'g'},{item:'Wortel',gram:80,unit:'g'},{item:'Kentang kecil',gram:80,unit:'g'},{item:'Jahe',gram:4,unit:'cm'},{item:'Bawang putih',gram:3,unit:'siung'},{item:'Seledri atau daun bawang',gram:15,unit:'g'}],langkah:['Didihkan 600ml air, masukkan jahe geprek dan bawang putih geprek. Biarkan 2 menit biar keluar aromanya.','Masukkan ayam utuh, kecilkan api ke sedang. Rebus 20 menit sampai matang. Angkat, suwir, masukkan kembali ke kaldu.','Masukkan wortel dan kentang potong ke kaldu, rebus 10 menit sampai empuk.','Tabur seledri atau daun bawang iris. Cicipi garam dan lada. Sajikan sup hangat bersama nasi merah.']}},
-    {nama:'Tempe Kukus & Telur Rebus dengan Sayur Bening Bayam',base_cal:370,protein_tag:'tempe',makro:{protein:26,karbo:38,lemak:13},resep:{bahan:[{item:'Tempe',gram:150,unit:'g'},{item:'Telur ayam',gram:2,unit:'butir'},{item:'Bayam segar',gram:150,unit:'g',alt:'kangkung'},{item:'Jagung manis',gram:80,unit:'g'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Garam',gram:0,unit:'secukupnya'}],langkah:['Kukus tempe utuh atau potong besar selama 15 menit. Setelah matang, bumbui dengan sedikit kecap asin.','Rebus telur 10 menit di air mendidih. Angkat dan kupas.','Didihkan 400ml air, masukkan bawang merah iris dan jagung potong. Masak 5 menit. Masukkan bayam, masak 2 menit lagi. Bumbui garam.','Sajikan tempe kukus dan telur rebus bersama sayur bening dalam mangkuk.']}},
+    {nama:'Tempe Kukus & Telur Rebus dengan Sayur Bening Bayam',base_cal:370,protein_tag:'tempe',makro:{protein:26,karbo:38,lemak:13},resep:{bahan:[{item:'Tempe',gram:150,unit:'g'},{item:'Telur ayam',gram:2,unit:'butir'},{item:'Bayam segar',gram:150,unit:'g',alt:'kangkung'},{item:'Jagung manis',gram:80,unit:'g'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Kecap asin',gram:5,unit:'ml'},{item:'Garam',gram:0,unit:'secukupnya'}],langkah:['Kukus tempe utuh atau potong besar selama 15 menit sampai matang dan teksturnya sedikit lebih padat. Setelah matang, siram kecap asin di atasnya agar ada rasa gurih.','Rebus telur di air mendidih 10 menit untuk kuning matang penuh. Angkat, rendam air dingin sebentar, lalu kupas dan potong dua.','Didihkan 400ml air di panci. Masukkan bawang merah iris tipis dan jagung potong. Masak 5 menit. Masukkan bayam, masak 2 menit lagi sampai layu. Bumbui garam, cicipi.','Sajikan tempe kukus dan telur rebus bersama sayur bening bayam dalam mangkuk. Menu ini ringan dan cocok untuk makan malam.']}},
     {nama:'Nasi Porsi Kecil & Ayam Tumis Kecap dengan Tumis Wortel',base_cal:395,protein_tag:'ayam',makro:{protein:36,karbo:38,lemak:10},resep:{bahan:[{item:'Nasi putih matang',gram:100,unit:'g'},{item:'Dada ayam',gram:140,unit:'g'},{item:'Wortel',gram:100,unit:'g',alt:'kol'},{item:'Kecap manis',gram:12,unit:'ml'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Bawang merah',gram:2,unit:'siung'},{item:'Minyak goreng',gram:5,unit:'ml'}],langkah:['Potong ayam tipis melintang serat. Tumis bawang merah dan bawang putih sampai harum.','Masukkan ayam, aduk, masak 5 menit sampai warnanya berubah dan matang.','Tuang kecap manis, aduk rata. Masak lagi 2 menit sampai bumbu menempel.','Tumis wortel iris tipis dengan bawang putih di wajan lain, 3 menit. Sajikan nasi porsi kecil dengan ayam kecap dan tumis wortel.']}},
     {nama:'Nasi Putih & Tahu Goreng Sambal dengan Tumis Sawi',base_cal:400,protein_tag:'tahu',makro:{protein:22,karbo:50,lemak:11},resep:{bahan:[{item:'Nasi putih matang',gram:100,unit:'g'},{item:'Tahu keras',gram:200,unit:'g'},{item:'Sawi hijau',gram:100,unit:'g',alt:'kangkung'},{item:'Sambal',gram:10,unit:'g',alt:'cabai rawit + tomat'},{item:'Kecap manis',gram:8,unit:'ml'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Minyak goreng',gram:5,unit:'ml'}],langkah:['Potong tahu jadi dadu sedang. Goreng di teflon tanpa minyak sampai semua sisi cokelat dan agak kering.','Masukkan kecap manis dan sambal ke tahu. Aduk pelan agar tahu tidak hancur. Masak 2 sampai 3 menit sampai bumbu meresap.','Tumis sawi hijau dengan bawang putih geprek, 2 menit sampai layu.','Sajikan nasi porsi kecil dengan tahu goreng sambal dan tumis sawi.']}},
     {nama:'Nasi Merah & Tempe Goreng dengan Tumis Kangkung Bawang',base_cal:410,protein_tag:'tempe',makro:{protein:26,karbo:48,lemak:13},resep:{bahan:[{item:'Nasi merah matang',gram:100,unit:'g'},{item:'Tempe',gram:140,unit:'g'},{item:'Kangkung',gram:120,unit:'g',alt:'bayam atau sawi'},{item:'Bawang merah',gram:3,unit:'siung'},{item:'Bawang putih',gram:2,unit:'siung'},{item:'Kecap asin',gram:8,unit:'ml'},{item:'Minyak goreng',gram:8,unit:'ml'}],langkah:['Iris tempe tipis-tipis. Goreng di teflon dengan sedikit minyak, api sedang. Biarkan tiap sisi matang dan crispy sebelum dibalik.','Tumis bawang merah dan bawang putih iris sampai harum dan layu.','Masukkan kangkung dan kecap asin, aduk sebentar. Tumis 2 menit sampai kangkung layu.','Sajikan nasi merah dengan tempe goreng crispy dan tumis kangkung bawang.']}},
@@ -1199,7 +1199,7 @@
     }
     }
 
-/* ── INTERNAL: rest phase — when done, increment currentRep → next active ── */
+    /* ── INTERNAL: rest phase — when done, increment currentRep → next active ── */
     function _exRunRest(idx, totalEx) {
     const wrap = _exWrap(idx);
     if(!wrap) return;
@@ -1244,6 +1244,7 @@
     const state = wrap._exState;
     if(!state) return;
 
+    // Mutate currentRep directly on ex.exState — the single source of truth
     state.currentRep++;
     const cur       = state.currentRep;
     const totalReps = state.reps;
@@ -1288,15 +1289,17 @@
     }
     }
 
-    /* ── PUBLIC: Start / resume ── */
+    /* ── PUBLIC: Start / resume — hard binds to wrap._exState ── */
     function exTimerStart(idx, totalEx) {
     if(!loadToday().energyChecked) { showEnergyModal(); return; }
 
+    // Stop all other running timers — one at a time only
     _exStopOthers(idx);
 
     const wrap = _exWrap(idx);
     if(!wrap || !wrap._exState) return;
 
+    // On fresh start or restart, reset currentRep on the exState object itself
     if(wrap._timerState === 'idle' || wrap._timerState === 'done') {
         wrap._exState.currentRep = 1;
         wrap._transitioning      = false;
@@ -1444,7 +1447,7 @@
     selectedGoal=goal;
     }
 
-    /* ── Dislike chip toggle ── */
+    /* ── Dislike chip toggle — multi-select, saves array directly ── */
     function toggleDislike(el){
     el.classList.toggle('selected');
     const checkEl=el.querySelector('.dislike-chip-check');
@@ -1516,7 +1519,7 @@
     }
 
     /* ============================================================
-    CALORIE CALCULATOR
+    CALORIE CALCULATOR (3 modes)
     ============================================================ */
     function calculateCalories(user){
     let bmr;
@@ -1525,6 +1528,7 @@
     let tdee=Math.round(bmr*user.activity);
     if(user.goal==='lose') tdee=Math.max(tdee-500,user.gender==='m'?1500:1200);
     if(user.goal==='gain') tdee=tdee+400;
+    // maintain: no change
     return tdee;
     }
 
@@ -1557,6 +1561,7 @@
 
     function getWorkoutForDay(day, energyOverride){
     let type=WORKOUT_DAY_MAP[day%7];
+    // ── Patch 3: ROTATION HARD LOCK — apply focus-based type override for strength days ──
     if(type!=='rest'&&type!=='cardio'){
         const focus=getWorkoutFocus(day);
         const focusType=getWorkoutTypeByFocus(focus, type);
@@ -1570,7 +1575,9 @@
     const weight=userData?userData.weight:0;
     const goal=userData?userData.goal:'maintain';
     const exKeys=getWorkoutExercises(type,day,energy,weight);
+    // Apply progressive overload on top of base phase values
     const po=getProgressiveOverload(day, p.sets, p.repsRaw, p.rest);
+    // Training phase label for UI
     const trainingPhaseLabel=getTrainingPhaseLabel(day);
     return {
         type,phase,label:template.label,typeLabel:template.type,icon:template.icon,timeRec:template.timeRec,
@@ -1581,18 +1588,29 @@
     }
 
     /* ============================================================
-    MEAL SYSTEM v6.6
+    MEAL SYSTEM v6.6 — DISLIKE / VARIATION / GOAL-ADAPTIVE
     ============================================================ */
+
+    /* ── isMealAllowed: STRICT partial-match dislike filter ──
+    Checks: meal nama, every ingredient item name, every ingredient alt text, protein_tag.
+    Uses includes() — partial match guaranteed.
+    Returns false (blocked) if ANY disliked keyword found ANYWHERE. */
     function isMealAllowed(meal, dislikeList){
     if(!dislikeList||dislikeList.length===0) return true;
     const dl=dislikeList.map(d=>String(d).toLowerCase().trim()).filter(Boolean);
     if(dl.length===0) return true;
+
+    // 1. Check meal name (partial match)
     const namaL=meal.nama.toLowerCase();
     if(dl.some(d=>namaL.includes(d))) return false;
+
+    // 2. Check protein_tag (partial match)
     if(meal.protein_tag){
         const tagL=meal.protein_tag.toLowerCase();
         if(dl.some(d=>tagL.includes(d))) return false;
     }
+
+    // 3. Check every ingredient — item name AND alt text (partial match)
     if(meal.resep&&meal.resep.bahan){
         for(const b of meal.resep.bahan){
         const itemL=(b.item||'').toLowerCase();
@@ -1600,6 +1618,9 @@
         if(dl.some(d=>itemL.includes(d)||altL.includes(d))) return false;
         }
     }
+
+    // 4. Special: "gorengan" dislike → block any meal whose name or ingredient contains "goreng"
+    //    (catches "tempe goreng", "tahu goreng", "ayam goreng", etc.)
     if(dl.includes('gorengan')){
         if(namaL.includes('goreng')) return false;
         if(meal.resep&&meal.resep.bahan){
@@ -1608,19 +1629,30 @@
         }
         }
     }
+
     return true;
     }
 
+    /* ── ABSOLUTE dislike filter: applies isMealAllowed to entire pool ──
+    NO fallback. NO bypass. Every meal must pass ALL checks. */
     function _mealsFilterByDislike(arr, dislike){
     if(!dislike||dislike.length===0) return arr;
     return arr.filter(meal=>isMealAllowed(meal, dislike));
     }
 
+    /* ============================================================
+    MEAL DECISION ENGINE v12 — SCORING SYSTEM
+    Priority: 1) system runs  2) variation  3) protein  4) preference
+    Dislikes = SOFT PENALTY, never hard block
+    ============================================================ */
+
+    /* ── Normalizer ── */
     function _norm(v){
     return String(v||'').toLowerCase().trim()
         .replace(/telor/g,'telur').replace(/\bmi\b/g,'mie').replace(/\s+/g,' ');
     }
 
+    /* ── _mealHasDislike: returns true if ANY dislike keyword found in meal fields ── */
     function _mealHasDislike(meal, dislikes){
     if(!meal || !dislikes || dislikes.length === 0) return false;
     const fields = [];
@@ -1638,11 +1670,13 @@
     return false;
     }
 
+    /* ── getDislikes: single source of truth ── */
     function getDislikes(){
     const user = loadState(KEYS.user) || {};
     return (user.dislike || []).map(x => _norm(x));
     }
 
+    /* ── normalizeText / matchLoose: kept for legacy callers ── */
     function normalizeText(str){ return (str||'').toLowerCase().trim(); }
     function matchLoose(a,b){ return normalizeText(a).includes(normalizeText(b)); }
     function containsDislike(meal,dislikes){ return _mealHasDislike(meal,dislikes); }
@@ -1651,8 +1685,19 @@
     return pool.filter(m=>!_mealHasDislike(m,dislikes));
     }
 
+    /* ============================================================
+    MEAL ENGINE v13 — HARDENED FALLBACK + ANTI-DUPLICATE + VALIDATION
+    ============================================================ */
+
+    /* ============================================================
+    MEAL ENGINE v14 — SOFT FILTER + SCORING + ANTI FALLBACK SPAM
+    v13: _getProtein, _FALLBACK_POOL, safeFallbackMeal, validateMeals — KEPT
+    v14 adds: countDislikeHit, filterMealsSoft, pickBestMeal, updated getMealsForDay
+    ============================================================ */
+
     function _getProtein(m){ return (m && m.protein_tag) ? m.protein_tag : 'unknown'; }
 
+    /* ── _FALLBACK_POOL ── */
     const _FALLBACK_POOL = [
     { protein_tag:'tempe', nama:'Tempe Rebus Sederhana', base_cal:380, makro:{protein:18,karbo:45,lemak:9},
         resep:{bahan:[{item:'tempe',gram:100,unit:'gram'},{item:'bayam',gram:100,unit:'gram'},{item:'nasi',gram:100,unit:'gram'}],
@@ -1674,6 +1719,7 @@
             langkah:['Rebus sayuran hingga matang.','Tambahkan sedikit garam.','Sajikan hangat dengan nasi.']} }
     ];
 
+    /* safeFallbackMeal v17.5 — real protein + bumbu + sayur, no generic */
     function safeFallbackMeal(a, b){
     let usedProteins, slot, dislikes;
     if(Array.isArray(a)){
@@ -1686,13 +1732,19 @@
         dislikes     = getDislikes();
     }
     const d = dislikes.map(_norm);
+
+    // Pick allowed protein — prefer unused
     const ALL_PROTEINS = ['tempe','tahu','ayam','telur','ikan'];
     let candidates = ALL_PROTEINS.filter(p => !d.includes(_norm(p)) && !usedProteins.has(p));
     if(!candidates.length) candidates = ALL_PROTEINS.filter(p => !d.includes(_norm(p)));
     if(!candidates.length) candidates = ALL_PROTEINS.filter(p => !usedProteins.has(p));
     if(!candidates.length) candidates = ALL_PROTEINS.slice();
+
+    // Deterministic pick keyed to current day + slot
     const dayHash = (Math.floor(Date.now() / 86400000) + slot * 7) % 90;
     const protein = candidates[(dayHash + slot * 3) % candidates.length];
+
+    // Base cal per protein
     const BASE_CALS = { tempe:400, tahu:380, ayam:450, telur:380, ikan:400 };
     const baseMeal = {
         protein_tag: protein,
@@ -1700,16 +1752,22 @@
         base_cal: BASE_CALS[protein] || 400,
         makro: { protein: 22, karbo: 48, lemak: 10 }
     };
+
+    // Generate bumbu + sayur + langkah via main engine
     const generated = generateRecipe(baseMeal, dayHash, slot);
     generated._isFallback = true;
+
+    // Handle nasi dislike
     if(d.includes('nasi') && generated.resep && generated.resep.bahan){
         generated.resep.bahan = generated.resep.bahan.filter(b => !_norm(b.item||'').includes('nasi'));
         generated.base_cal = Math.round(generated.base_cal * 0.85);
     }
+
     console.log(`[MEAL] FALLBACK slot=${slot} -> "${generated.nama}" protein="${generated.protein_tag}"`);
     return generated;
     }
 
+    /* validateMeals v13 — kept unchanged */
     function validateMeals(meals){
     if(!Array.isArray(meals)) return meals;
     const seenNames    = new Set();
@@ -1729,6 +1787,7 @@
     return meals;
     }
 
+    /* ── v14: countDislikeHit — count how many bahan match a dislike ── */
     function countDislikeHit(meal, dislikes){
     if(!meal || !meal.resep || !Array.isArray(meal.resep.bahan)) return 0;
     if(!dislikes || !dislikes.length) return 0;
@@ -1737,39 +1796,60 @@
         const itemText = _norm(b.item || '') + ' ' + _norm(b.alt || '');
         if(dislikes.some(d => itemText.includes(_norm(d)))) hit++;
     });
+    // Also check protein_tag directly
     if(dislikes.some(d => _norm(meal.protein_tag||'') === _norm(d))) hit++;
     return hit;
     }
 
+    /* ── v14: filterMealsSoft — relax progressively, never empty ── */
     function filterMealsSoft(pool, dislikes){
     if(!dislikes || !dislikes.length) return pool.slice();
+
+    // STRICT: zero dislike hits
     const strict = pool.filter(m => countDislikeHit(m, dislikes) === 0);
     if(strict.length > 0) return strict;
+
     console.warn('[v14] RELAX MODE 1 ACTIVE (allow 1 hit)');
     const relax1 = pool.filter(m => countDislikeHit(m, dislikes) <= 1);
     if(relax1.length > 0) return relax1;
+
     console.warn('[v14] RELAX MODE 2 ACTIVE (allow 2 hits)');
     const relax2 = pool.filter(m => countDislikeHit(m, dislikes) <= 2);
     if(relax2.length > 0) return relax2;
+
     console.error('[v14] ALL FILTER FAILED — using full pool');
     return pool.slice();
     }
 
+    /* ── v14: pickBestMeal — score by protein diversity + position spread ── */
     function pickBestMeal(pool, usedProteins, usedNames, prevDayNames, day, slot){
     if(!pool || !pool.length) return null;
     const PRIMES = [17, 31, 47];
+
     const scored = pool.map((m, i) => {
         let score = 0;
+
+        // Protein diversity: reward new protein
         if(m.protein_tag && !usedProteins.has(m.protein_tag)) score += 30;
         else score -= 10;
+
+        // Name variation within day
         if(!usedNames.has(m.nama)) score += 20;
         else score -= 30;
+
+        // Anti-repeat from previous day
         if(prevDayNames && prevDayNames.has(m.nama)) score -= 40;
+
+        // Slot bias: lighter meals preferred for pagi/malam
         if(slot === 0 && m.base_cal > 500) score -= 10;
         if(slot === 2 && m.base_cal > 500) score -= 10;
+
+        // Deterministic position spread (anti same-index every day)
         score += ((day * PRIMES[slot] + i) % 5);
+
         return { meal: m, score };
     });
+
     scored.sort((a, b) => b.score - a.score);
     return Object.assign({}, scored[0].meal, {
         resep: scored[0].meal.resep ? {
@@ -1779,6 +1859,7 @@
     });
     }
 
+    /* ── _getPrevDayNames ── */
     function _getPrevDayNames(day){
     const names = new Set();
     if(day <= 0) return names;
@@ -1790,39 +1871,53 @@
     return names;
     }
 
+    /* ── getMealsForDay v14 ── */
     function getMealsForDay(day, tdee, dislikes){
     dislikes = (dislikes || []).map(_norm);
     const userData = loadState(KEYS.user);
     const goal = (userData && userData.goal) || 'maintain';
+
     const dist     = getMealDistribution(goal);
     const calPagi  = Math.round(tdee * dist[0]);
     const calSiang = Math.round(tdee * dist[1]);
     const calMalam = Math.round(tdee * dist[2]);
+
     const prevDayNames = _getPrevDayNames(day);
     const usedProteins = new Set();
     const usedNames    = new Set();
+
     function pickSlot(rawPool, slot){
+        // Soft filter: relax progressively
         const filtered = filterMealsSoft(rawPool, dislikes);
+
         let meal = null;
         if(filtered.length){
         meal = pickBestMeal(filtered, usedProteins, usedNames, prevDayNames, day, slot);
         }
+
         if(!meal){
         console.warn('[v14] FALLBACK USED SLOT', slot);
         meal = safeFallbackMeal(usedProteins, slot);
         }
+
+        // Mandatory debug log per spec
         console.log('[MEAL]', 'day:', day, 'slot:', slot,
         'name:', meal.nama, 'protein:', meal.protein_tag,
         'fallback:', !!meal._isFallback,
         'dislikeHit:', countDislikeHit(meal, dislikes));
+
         usedProteins.add(meal.protein_tag);
         usedNames.add(meal.nama);
         return meal;
     }
+
     let pagiMeal  = pickSlot(PAGI_MEALS.slice(),  0);
     let siangMeal = pickSlot(SIANG_MEALS.slice(), 1);
     let malamMeal = pickSlot(MALAM_MEALS.slice(), 2);
+
     console.log(`[MEAL] DAY${day} -> pagi:"${pagiMeal.nama}" siang:"${siangMeal.nama}" malam:"${malamMeal.nama}"`);
+
+    // FORCE UNIQUE: last defense
     const uniqueNames  = new Set();
     const allMealsArr  = [pagiMeal, siangMeal, malamMeal];
     const forcedMeals  = allMealsArr.map((m, i) => {
@@ -1837,47 +1932,69 @@
         uniqueNames.add(m.nama);
         return m;
     });
+
     pagiMeal  = forcedMeals[0];
     siangMeal = forcedMeals[1];
     malamMeal = forcedMeals[2];
+
+    // v17.5: Anti repetisi harian — bumbu & sayur tidak boleh sama dalam 1 hari
     const usedBumbus = new Set();
     const usedSayurs = new Set();
+
     pagiMeal  = generateRecipe(pagiMeal,  day, 0, usedBumbus, usedSayurs);
     if(pagiMeal._bumbu) usedBumbus.add(pagiMeal._bumbu);
     if(pagiMeal._sayur) usedSayurs.add(pagiMeal._sayur);
+
     siangMeal = generateRecipe(siangMeal, day, 1, usedBumbus, usedSayurs);
     if(siangMeal._bumbu) usedBumbus.add(siangMeal._bumbu);
     if(siangMeal._sayur) usedSayurs.add(siangMeal._sayur);
+
     malamMeal = generateRecipe(malamMeal, day, 2, usedBumbus, usedSayurs);
+
+    // Stamp type + scale
     pagiMeal  = scaleMeal(Object.assign({}, pagiMeal,  {type:'pagi'}),  calPagi,  'Sarapan',     '🌅','06:00–08:00');
     siangMeal = scaleMeal(Object.assign({}, siangMeal, {type:'siang'}), calSiang, 'Makan Siang', '☀️','12:00–13:00');
     malamMeal = scaleMeal(Object.assign({}, malamMeal, {type:'malam'}), calMalam, 'Makan Malam', '🌙','18:00–19:00');
+
     if(pagiMeal.kalori  < 200) pagiMeal  = {...pagiMeal,  kalori:200};
     if(siangMeal.kalori < 300) siangMeal = {...siangMeal, kalori:300};
     if(malamMeal.kalori < 200) malamMeal = {...malamMeal, kalori:200};
+
     let meals = [pagiMeal, siangMeal, malamMeal];
     meals = validateMeals(meals);
     return deepFreezeMeals(meals);
     }
 
+
     function getMealDistribution(goal){
-    if(goal === 'lose') return [0.30, 0.40, 0.30];
-    if(goal === 'gain') return [0.35, 0.40, 0.25];
-    return [0.30, 0.35, 0.35];
+    if(goal === 'lose'){
+        return [0.30, 0.40, 0.30]; // pagi ringan, siang berat
+    }
+    if(goal === 'gain'){
+        return [0.35, 0.40, 0.25]; // pagi lebih besar
+    }
+    return [0.30, 0.35, 0.35];   // maintain
     }
 
     function scaleMeal(meal, targetCal, timeLabel, icon, timeRange){
     if(!meal) return meal;
+
     const ratio = targetCal / (meal.base_cal || 400);
+
     return {
-        ...meal,
+        ...meal, // KEEP ALL FIELDS (CRITICAL)
+
+        // preserve label/icon/timeRange passed in
         timeLabel, icon, timeRange,
+
         kalori: Math.round(targetCal),
+
         makro: {
         protein: Math.round((meal.makro?.protein || 20) * ratio),
         karbo:   Math.round((meal.makro?.karbo   || 50) * ratio),
         lemak:   Math.round((meal.makro?.lemak   || 10) * ratio)
         },
+
         resep: {
         ...meal.resep,
         bahan: (meal.resep?.bahan || []).map(b => ({
@@ -1909,7 +2026,7 @@
     function getStreak(){const prog=loadState(KEYS.program);return prog?(prog.streak||0):0;}
 
     /* ============================================================
-    BODY TRACKING
+    BODY TRACKING & VALIDATION
     ============================================================ */
     function saveBodyTracking(){
     const w=document.getElementById('track-weight').value;
@@ -1939,6 +2056,7 @@
     if(!weights || weights.length < 2) return;
     const sorted=[...weights].sort((a,b)=>a.day-b.day);
     const latest=sorted[sorted.length-1];
+    // Find entry ~7 days ago
     const sevenDaysAgo=sorted.filter(e=>e.day<=latest.day-7);
     if(sevenDaysAgo.length===0) return;
     const prev=sevenDaysAgo[sevenDaysAgo.length-1];
@@ -1991,28 +2109,33 @@
     const day=getCurrentDay();
     const data={date:new Date().toISOString().split('T')[0],day:day+1,notes};
     saveState(journalKey(),data);
+    // Recovery logic from notes
     applyRecoveryFromNotes(notes);
     const saved=document.getElementById('journal-saved-msg');
     if(saved){saved.classList.add('show');setTimeout(()=>saved.classList.remove('show'),2000);}
     checkLowEnergyProtection();
     }
 
+    /* ============================================================
+    WORKOUT NOTES
+    ============================================================ */
     function applyRecoveryFromNotes(notes){
     const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);
     const tk='ip90_recovery_next_'+tomorrow.toISOString().split('T')[0];
     if(!notes){try{localStorage.removeItem(tk);localStorage.removeItem('ip90_recovery_flag');}catch(e){}return;}
     const lower=notes.toLowerCase();
+    // Spec-exact severity tiers — most severe wins
     const isBerat=['capek berat'].some(k=>lower.includes(k));
     const isSedang=['nyeri','sakit'].some(k=>lower.includes(k));
     const isRingan=['sedikit capek'].some(k=>lower.includes(k));
     let flag=null;
-    if(isBerat) flag='0.6';
-    else if(isSedang) flag='0.8';
-    else if(isRingan) flag='0.9';
+    if(isBerat) flag='0.6';         // capek berat → 0.6
+    else if(isSedang) flag='0.8';   // nyeri / sakit → 0.8
+    else if(isRingan) flag='0.9';   // sedikit capek → 0.9
     try{
         if(flag){
         localStorage.setItem(tk,flag);
-        localStorage.setItem('ip90_recovery_flag',flag);
+        localStorage.setItem('ip90_recovery_flag',flag); // save for dashboard warning
         } else {
         localStorage.removeItem(tk);
         localStorage.removeItem('ip90_recovery_flag');
@@ -2022,7 +2145,7 @@
 
     function saveWorkoutNotes(){
     const todayData=loadToday();
-    if(!todayData.workoutDone) return;
+    if(!todayData.workoutDone) return; // ANTI-CHEAT
     const day=getCurrentDay();
     const notesEl=document.getElementById('workout-notes-input');
     const notes=notesEl?notesEl.value.trim():'';
@@ -2052,7 +2175,7 @@
     }
 
     /* ============================================================
-    RENDER: PROGRAM
+    RENDER: PROGRAM (entry)
     ============================================================ */
     function renderProgram(){
     const userData=loadState(KEYS.user);const programData=loadState(KEYS.program);
@@ -2062,14 +2185,19 @@
     const dislikeKey = getDislikes().join('_');
     const cacheKey = KEYS.daydata + day + '_d_' + dislikeKey + '_v14';
     let dayData=loadState(cacheKey);
-    if(!dayData){ dayData = {}; }
-    if(dayData.meals){ console.warn('USING LOCKED MEALS', day); }
+    if(!dayData){
+        dayData = {};
+    }
+    if(dayData.meals){
+        console.warn('USING LOCKED MEALS', day);
+    }
     if(!dayData.meals || !Array.isArray(dayData.meals) || dayData.meals.length === 0){
         const _meals = getMealsForDay(day, tdee, getDislikes());
         dayData.meals = deepFreezeMeals(_meals);
         dayData.workout = dayData.workout || getWorkoutForDay(day);
         saveState(cacheKey, dayData);
     }
+    /* meals locked — no re-process on render */
     const lpTitleEl=document.getElementById('lp-title');if(lpTitleEl) lpTitleEl.textContent=userData.name;
     const lpDayEl=document.getElementById('lp-day-label');if(lpDayEl) lpDayEl.textContent=`Hari ke-${day+1} dari 90`;
     const lpStreakEl=document.getElementById('lp-streak');if(lpStreakEl) lpStreakEl.textContent=`🔥 ${streak}`;
@@ -2078,6 +2206,7 @@
     renderWorkoutTab(day,dayData.workout);
     renderMenuTab(dayData.meals,tdee,day,userData.goal);
     renderProgressTab(day,programData,userData);
+    // Restore saved tab
     try{
         const savedTab=localStorage.getItem('ip90_active_tab');
         if(savedTab&&savedTab!=='dashboard'){
@@ -2097,6 +2226,7 @@
     const dnEl=document.getElementById('dash-day-num');if(dnEl) dnEl.textContent=`HARI KE-${day+1} DARI 90`;
     const dtEl=document.getElementById('dash-day-title');if(dtEl) dtEl.textContent=getDayTitle(day);
     const dpEl=document.getElementById('dash-day-phase');if(dpEl) dpEl.textContent=`Fase: ${ph.label} · Minggu ${Math.floor(day/7)+1}`;
+    // Water: use latest tracked weight if available, else user initial weight
     let waterWeight=userData.weight;
     try{const tr=loadState(KEYS.tracking);if(tr&&tr.weights&&tr.weights.length>0){const sorted=[...tr.weights].sort((a,b)=>b.day-a.day);if(sorted[0]&&sorted[0].value) waterWeight=sorted[0].value;}}catch(e){}
     const water=calculateWater(waterWeight);
@@ -2117,8 +2247,11 @@
     const mBar=document.getElementById('prog-meal-bar');if(mBar) mBar.style.width=mealPct+'%';
     const mcEl=document.getElementById('prog-meal-count');if(mcEl) mcEl.textContent=mealsCount;
     renderGuidance(todayData);
+    // UX v6.7: daily focus guidance
     _renderDailyFocus(userData.goal, day);
+    // Intensity card
     updateDashIntensityCard();
+    // Warnings
     const warnWrap=document.getElementById('dash-warnings-wrap');
     if(warnWrap) warnWrap.innerHTML='';
     checkLowEnergyProtection();
@@ -2130,6 +2263,7 @@
         if(w) w.innerHTML+=`<div class="dash-warning"><div class="dash-warning-title">🩹 Mode Pemulihan Aktif (${pct}%)</div>Catatan kemarin mendeteksi kondisi tubuh memerlukan pemulihan. Intensitas latihan disesuaikan ke ${pct}%.</div>`;
         }
     }catch(e){}
+    // 90 dots
     const dots=document.getElementById('dash-90-dots');
     if(dots){
         dots.innerHTML='';
@@ -2168,43 +2302,64 @@
     }
 
     /* ============================================================
-    RENDER: WORKOUT TAB
+    RENDER: WORKOUT TAB (with adaptive intensity + warmup/cooldown)
     ============================================================ */
     function renderWorkoutTab(day,workout){
     const todayData=loadToday();
     loadEnergyForToday();
     const isLocked=!todayData.energyChecked;
     const mult=getEnergyMultiplier(selectedEnergy,todaySleep);
+
+    /* ── v6.9 SINGLE SOURCE OF TRUTH ──
+        exState[i] = { reps, timer, rest } is set ONCE here.
+        UI reads exState[i].reps for display.
+        Timer engine reads exState[i].reps for loop count.
+        Duration limiter ONLY reduces timer/rest — NEVER reps.
+        NO adjustedReps / safeReps / displayReps anywhere. */
     const _rawAdj = applyIntensity(workout.sets, workout.repsRaw, workout.rest, mult);
     const exCount = (workout && workout.exercises) ? workout.exercises.length : 5;
     const WARMUP_COOLDOWN_SECS = 600;
     const MAX_TOTAL_SECS = 35 * 60;
+
+    // Parse base reps — single integer, no range display
     let _baseReps;
     if(workout.repsRaw && workout.repsRaw.includes('–')) {
         const rp = workout.repsRaw.split('–').map(Number);
         _baseReps = Math.round((rp[0] + rp[1]) / 2);
     } else { _baseReps = parseInt(workout.repsRaw) || 8; }
+
+    // finalReps = base × energy multiplier, min 1
+    // This value is SACRED — duration limiter must NOT touch it
     const _finalReps = Math.max(1, Math.round(_baseReps * mult));
     const _finalSets = parseInt(_rawAdj.sets) || 3;
+
+    // Duration limiter: reduce timer and rest ONLY — reps is never reduced
     let _timer = _rawAdj.timerSecs || 30;
     let _rest  = _rawAdj.restSecs  || 90;
     const _calcT = (t, r) => WARMUP_COOLDOWN_SECS + exCount * _finalSets * _finalReps * (t + r);
     let _totalSecs = _calcT(_timer, _rest);
     while(_totalSecs > MAX_TOTAL_SECS && _timer > 10) { _timer--; _totalSecs = _calcT(_timer, _rest); }
     while(_totalSecs > MAX_TOTAL_SECS && _rest  > 30) { _rest -= 5; _totalSecs = _calcT(_timer, _rest); }
+
+    // THE exState template — { reps, timer, rest } — populated into exState[i] per exercise
+    // reps is EXACTLY what the timer loop will execute AND what the UI shows
     const _exStateTemplate = {
-        reps:  _finalReps,
-        timer: _timer,
-        rest:  _rest,
+        reps:  _finalReps,   // timer loop runs exactly this many active phases
+        timer: _timer,       // seconds per active phase
+        rest:  _rest,        // seconds per rest phase
     };
+
     console.log('FINAL EX STATE TEMPLATE:', _exStateTemplate,
         '| sets (display):', _finalSets, '| totalMins:', Math.round(_totalSecs/60));
+
+    // Display helpers — UI only, not used by timer engine
     const finalAdj = {
         sets:        _finalSets,
-        repsDisplay: String(_finalReps),
+        repsDisplay: String(_finalReps),   // same integer as exState.reps — 100% in sync
         restDisplay: _rest + ' dtk',
         totalMins:   Math.min(35, Math.round(_totalSecs / 60)),
     };
+
     const wtbEl=document.getElementById('workout-type-badge');
     if(wtbEl){
         const userType=getUserType();
@@ -2229,6 +2384,8 @@
     }
     const wtrEl=document.getElementById('workout-time-rec');
     if(wtrEl) wtrEl.textContent='🕐 '+workout.timeRec;
+
+    // Warmup section
     const warmupSec=document.getElementById('workout-warmup-section');
     if(workout.type!=='rest'){
         warmupSec.innerHTML=`
@@ -2253,8 +2410,11 @@
     } else {
         warmupSec.innerHTML='';
     }
+
+    // Main exercises
     const list=document.getElementById('exercise-list');
     if(list) list.innerHTML='';
+    // Overweight absolute final scan
     const _finalUserType=getUserType();
     if(_finalUserType==='overweight'){
         workout.exercises=workout.exercises.map(ex=>{
@@ -2269,18 +2429,23 @@
         const secLabel=document.createElement('div');secLabel.className='section-label';secLabel.textContent='Latihan Utama';list.appendChild(secLabel);
     }
     const totalEx=workout.exercises.length;
+
+    // Init timers — kill all running timers, then bind ex.exState per exercise
     if(workout.type !== 'rest') {
-        initExTimers(totalEx);
+        initExTimers(totalEx);  // kills all intervals, no index arrays
         workout.exercises.forEach((ex, i) => {
+        // HARD BIND: each exercise owns its full state object
+        // Timer engine reads ONLY from wrap._exState — no [i] indexing
         ex.exState = {
             reps:       _exStateTemplate.reps,
             timer:      _exStateTemplate.timer,
             rest:       _exStateTemplate.rest,
             currentRep: 1,
         };
-        console.log('EX STATE:', ex.exState);
+        console.log('EX STATE:', ex.exState);  // mandatory debug check
         });
     }
+
     workout.exercises.forEach((ex,i)=>{
         const card=document.createElement('div');
         card.className='exercise-card';
@@ -2309,6 +2474,7 @@
             ${workout.type!=='rest'?`<div class="ex-timer-wrap" id="ex-timer-${i}"></div>`:''}
         </div>`;
         if(list) list.appendChild(card);
+        // Hard-bind ex.exState to the wrap element right after DOM insertion
         if(workout.type !== 'rest') {
         const timerWrap = document.getElementById('ex-timer-' + i);
         if(timerWrap && ex.exState) {
@@ -2319,9 +2485,13 @@
         }
         }
     });
+
+    // Render initial timer state for all exercises
     if(workout.type!=='rest'){
         workout.exercises.forEach((_,i)=>renderExTimer(i,totalEx));
     }
+
+    // Cooldown
     const cooldownSec=document.getElementById('workout-cooldown-section');
     if(workout.type!=='rest'){
         cooldownSec.innerHTML=`
@@ -2346,8 +2516,12 @@
     } else {
         cooldownSec.innerHTML='';
     }
+
+    // Set default rest timer
     restTimerSeconds=workout.rest||90;
     updateRestTimerDisplay();
+
+    // Done wrap
     const doneWrap=document.getElementById('workout-done-wrap');
     if(doneWrap){
         if(todayData.workoutDone){
@@ -2377,6 +2551,7 @@
     }
     const wni=document.getElementById('workout-notes-input');
     if(wni) wni.value=loadWorkoutNotes(day);
+    // Apply or remove workout hard lock + lock overlay
     const pad=document.querySelector('#tab-latihan .workout-pad');
     const lockOverlay=document.getElementById('workout-lock-overlay');
     if(pad){
@@ -2414,7 +2589,9 @@
 
     function markWorkoutDone(){
     const todayData=loadToday();
+    // HARD BLOCK: energy gate
     if(!todayData.energyChecked){showEnergyModal();return;}
+    // HARD BLOCK: all exercises must be done
     if(!_checkAllExercisesDone()){
         let t=document.getElementById('_exdone_toast');
         if(!t){
@@ -2432,6 +2609,7 @@
     todayData.workoutDone=true;saveToday(todayData);
     updateStreak();
     _unlockWorkoutNotes();
+    // UX v6.7: Dynamic completion message based on energy
     const energy=todayData.energy||selectedEnergy||3;
     let completionMsg='Kamu sudah selesai latihan hari ini 💪';
     let completionSub='Istirahat yang cukup biar otot pulih maksimal.';
@@ -2469,15 +2647,19 @@
     RENDER: MEAL CARD
     ============================================================ */
     function renderMealCard(meal, idx, type){
+    /* meal already enforced + styled upstream — dislike hard-block only */
     if(!meal || !meal.nama || !meal.resep) meal = safeFallbackMeal(getDislikes());
     if(_mealHasDislike(meal, getDislikes())){
         console.error('RENDER BLOCKED LEAK', meal);
         meal = safeFallbackMeal(getDislikes());
     }
+    // Final safety guard — ensure resep is valid after any fallback
     if(!meal.resep) meal = safeFallbackMeal(getDislikes());
+
     const bahan = (meal.resep && Array.isArray(meal.resep.bahan)) ? meal.resep.bahan : [];
     const langkah = (meal.resep && Array.isArray(meal.resep.langkah)) ? meal.resep.langkah : [];
     const makro = meal.makro || {protein:0, karbo:0, lemak:0};
+
     const todayData=loadToday();
     const done=todayData.mealsCompleted[idx];
     const card=document.createElement('div');card.className=`meal-card ${done?'completed':''}`;card.id=`meal-card-${idx}`;
@@ -2498,8 +2680,8 @@
             ${gantiBtn}
             </div>
         </div>
-        ${alts.length?`<div class="subs-panel" id="${panelId}">${subsOpts}</div>`:''}`
-        +'</div>';
+        ${alts.length?`<div class="subs-panel" id="${panelId}">${subsOpts}</div>`:''}
+        </div>`;
     }).join('');
     card.innerHTML=`
         <div class="meal-card-header" onclick="toggleMeal(${idx})">
@@ -2538,11 +2720,13 @@
     }
 
     /* ============================================================
-    RENDER: MENU TAB
+    RENDER: MENU TAB (with goal-based notice & substitutions)
     ============================================================ */
     function renderMenuTab(meals,tdee,day,goal){
     const adapt=isAdaptationPhase(day);
     _renderMealGuidance(goal);
+    /* meals are pre-processed (styled + enforced) — no pipeline calls here */
+
     const totalProt=meals.reduce((s,m)=>{ const mk=m.makro||{protein:0,karbo:0,lemak:0}; return s+mk.protein; },0);
     const totalKarbo=meals.reduce((s,m)=>{ const mk=m.makro||{protein:0,karbo:0,lemak:0}; return s+mk.karbo; },0);
     const totalLemak=meals.reduce((s,m)=>{ const mk=m.makro||{protein:0,karbo:0,lemak:0}; return s+mk.lemak; },0);
@@ -2553,6 +2737,7 @@
         <span class="macro-pill">🥩 ${totalProt}g Protein</span>
         <span class="macro-pill">🍚 ${totalKarbo}g Karbo</span>
         <span class="macro-pill">🫒 ${totalLemak}g Lemak</span>`;
+    // Goal notice
     const goalNotice=document.getElementById('menu-goal-notice');
     if(goalNotice&&goal){
         const g=getGoalGuidance(goal);
@@ -2562,6 +2747,7 @@
     }
     const adaptNotice=document.getElementById('menu-adapt-notice');
     if(adaptNotice){if(adapt) adaptNotice.classList.remove('hidden');else adaptNotice.classList.add('hidden');}
+
     const container=document.getElementById('meal-cards');container.innerHTML='';
     meals.forEach((meal,idx)=>{
         if(!meal || !meal.nama || !meal.resep) meal = safeFallbackMeal(getDislikes());
@@ -2587,7 +2773,10 @@
         <div class="prog-stat-card"><div class="prog-stat-icon">🔥</div><div class="prog-stat-val txt-orange">${streak}</div><div class="prog-stat-label">Streak Aktif</div></div>
         <div class="prog-stat-card"><div class="prog-stat-icon">📊</div><div class="prog-stat-val">${Math.round((day/90)*100)}%</div><div class="prog-stat-label">Program Selesai</div></div>
         <div class="prog-stat-card"><div class="prog-stat-icon">⚡</div><div class="prog-stat-val txt-blue">${week+1}</div><div class="prog-stat-label">Minggu Ke-</div></div>`;
+
     renderWeightChart();
+
+    // Pre-fill tracking
     const tracking=loadState(KEYS.tracking);
     if(tracking){
         const today=new Date().toISOString().split('T')[0];
@@ -2597,11 +2786,15 @@
         if(twa) document.getElementById('track-waist').value=twa.value;
         if(tw) validateWeightDrop(tracking.weights);
     }
+
+    // Pre-fill journal (notes only)
     const journal=loadState(journalKey());
     if(journal&&journal.notes){
         const jnEl=document.getElementById('journal-notes');
         if(jnEl) jnEl.value=journal.notes;
     }
+
+    // Phase card
     const phaseCard=document.getElementById('prog-phase-card');
     const phaseOrder=['foundation','build','intensity','peak'];
     const curPhaseIdx=phaseOrder.indexOf(phase);
@@ -2626,31 +2819,49 @@
             </div>`;
         }).join('')}
         </div>`;
+
+    // Weekly bars
+    // Ambil data waktu asli dari perangkat
     const now = new Date();
-    let currentDayIndex = now.getDay();
+    // getDay() menghasilkan: 0 (Minggu), 1 (Senin), ... 6 (Sabtu)
+    let currentDayIndex = now.getDay(); 
+
+    // Karena array kamu dimulai dari 'Sen', kita sesuaikan index-nya
+    // Jika Minggu (0), kita ubah jadi 6 agar sesuai urutan array ['Sen'...'Min']
+    // Jika Senin (1), kita ubah jadi 0, dst.
     const adjustedToday = (currentDayIndex === 0) ? 6 : currentDayIndex - 1;
+
     const weeklySection = document.getElementById('prog-weekly-section');
     const days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+
+    // Kita asumsikan 'week' adalah variabel yang kamu definisikan di tempat lain 
+    // Jika ini untuk minggu berjalan, bisa set default: const week = 0;
+
     weeklySection.innerHTML = `
         <div class="section-label">Minggu Ini (Minggu ${week + 1})</div>
         <div class="prog-weekly-bars">
         ${days.map((d, i) => {
+            // Logika isToday dan isPast berdasarkan urutan array
             const isToday = i === adjustedToday;
             const isPast = i < adjustedToday;
+
             const heightPct = isPast ? 100 : isToday ? 60 : 10;
             const bg = isPast ? 'var(--accent)' : isToday ? 'var(--blue)' : 'var(--border)';
+
             return `
             <div class="prog-weekly-bar-wrap">
-            <div class="prog-weekly-bar ${isPast ? 'filled' : isToday ? 'current' : ''}"
+            <div class="prog-weekly-bar ${isPast ? 'filled' : isToday ? 'current' : ''}" 
                 style="height:${heightPct}%; background:${bg}">
             </div>
-            <div class="prog-weekly-day"
+            <div class="prog-weekly-day" 
                 style="color:${isToday ? 'var(--text)' : 'var(--text3)'}">
                 ${d}
             </div>
             </div>`;
         }).join('')}
         </div>`;
+
+    // Goal section
     const goalLabel=userData.goal==='lose'?'Turunkan Berat Badan':userData.goal==='gain'?'Tambah Massa Otot':'Jaga Berat Badan Ideal';
     const goalDesc=userData.goal==='lose'?`Dari ${userData.weight}kg → Target ${userData.targetWeight}kg (defisit kalori)`:userData.goal==='gain'?`Dari ${userData.weight}kg → Target ${userData.targetWeight}kg (surplus kalori)`:`Jaga di sekitar ${userData.weight}kg (kalori seimbang)`;
     const progGoal=document.getElementById('prog-goal-section');
@@ -2692,14 +2903,16 @@
     }
 
     /* ============================================================
-    TAB SWITCHING
+    TAB SWITCHING — v6.4 HARD ENERGY GATE + TAB LOCK
     ============================================================ */
     function switchTab(btn,tabName){
+    // ── PATCH v6.4: TAB LOCK — before energy input only latihan tab allowed ──
     const _tdLock=loadToday();
     if(!_tdLock.energyChecked&&tabName!=='latihan'){
         showEnergyModal();
-        return;
+        return; // Do NOT switch tab — user must fill energy first
     }
+
     document.querySelectorAll('.lp-tab').forEach(t=>t.classList.remove('active'));
     document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
@@ -2710,9 +2923,11 @@
     try{localStorage.setItem('ip90_active_tab',tabName);}catch(e){}
     if(tabName==='progress') setTimeout(renderWeightChart,100);
     _applyTabLockState();
+    // ── HARD ENERGY GATE ──
     if(tabName==='latihan'){
         const _td=loadToday();
         if(!_td.energyChecked){
+        // v7.1: kill DOM-bound timers
         clearInterval(window._exTimerInterval);
         clearTimeout(window._exTimerTimeout);
         const pad=document.querySelector('#tab-latihan .workout-pad');
@@ -2742,14 +2957,19 @@
     const _dislikeKey = getDislikes().join('_');
     const cacheKey = KEYS.daydata + day + '_d_' + _dislikeKey + '_v14';
     let dayData = loadState(cacheKey);
-    if(!dayData){ dayData = {}; }
-    if(dayData.meals){ console.warn('USING LOCKED MEALS', day); }
+    if(!dayData){
+        dayData = {};
+    }
+    if(dayData.meals){
+        console.warn('USING LOCKED MEALS', day);
+    }
     if(!dayData.meals || !Array.isArray(dayData.meals) || dayData.meals.length === 0){
         const _meals = getMealsForDay(day, tdee, getDislikes());
         dayData.meals = deepFreezeMeals(_meals);
         dayData.workout = dayData.workout || getWorkoutForDay(day);
         saveState(cacheKey, dayData);
     }
+    /* meals locked — no re-process on refresh */
     const todayData=loadToday();
     renderGuidance(todayData);
     _renderDailyFocus(userData.goal, day);
@@ -2767,6 +2987,7 @@
     if(mCount) mCount.textContent=mealsCount;
     const doneWrap=document.getElementById('workout-done-wrap');
     if(doneWrap&&todayData.workoutDone){
+        // UX v6.7: Only re-render done wrap if not already showing ux-workout-complete
         if(!doneWrap.querySelector('.ux-workout-complete')){
         const energy=todayData.energy||selectedEnergy||3;
         let completionMsg='Kamu sudah selesai latihan hari ini 💪';
@@ -2780,6 +3001,7 @@
         _unlockWorkoutNotes();
     }
     if(dayData.meals){
+        // update meal done-state UI only — meals are already locked, no re-processing
         dayData.meals.forEach((meal,idx)=>{
         const card=document.getElementById('meal-card-'+idx);if(!card) return;
         const done=todayData.mealsCompleted[idx];
@@ -2803,6 +3025,7 @@
     else focusText='Fokus hari ini: jaga keseimbangan';
     let adaptHtml='';
     if(day<7) adaptHtml=`<div class="ux-adapt-week-banner">🌱 Minggu adaptasi: tidak perlu langsung ketat, kurangi secara bertahap.</div>`;
+    // Check recovery flag
     let recoveryHtml='';
     try{
         const rflag=localStorage.getItem('ip90_recovery_flag');
@@ -2826,37 +3049,64 @@
     }
 
     /* ============================================================
-    MEAL SWAP
+    MEAL SWAP — Per-slot, per-day
+    - User taps Ganti Menu di tiap meal -> 2 alternatif muncul
+    - Alternatif: protein berbeda, kalori & makro tetap on-target
+    - Swap disimpan di cache hari itu -> besok otomatis normal lagi
+    - Dislike filter tetap aktif
     ============================================================ */
+
     function getSwapAlternatives(currentMeal, slot, day, tdee){
     const dislikes = getDislikes();
     const pools = [PAGI_MEALS, SIANG_MEALS, MALAM_MEALS];
     const pool  = (pools[slot] || PAGI_MEALS).slice();
+
     const candPool = pool.filter(m => m.nama !== currentMeal.nama);
     const filtered = filterMealsSoft(candPool, dislikes);
+
     const usedP1 = new Set([currentMeal.protein_tag]);
     const usedN1 = new Set([currentMeal.nama]);
     const alt1Raw = pickBestMeal(filtered, usedP1, usedN1, new Set(), day + 101, slot);
+
     const usedP2 = new Set([currentMeal.protein_tag, alt1Raw ? alt1Raw.protein_tag : '']);
     const usedN2 = new Set([currentMeal.nama, alt1Raw ? alt1Raw.nama : '']);
     const remaining = filtered.filter(m => !usedN2.has(m.nama));
-    const alt2Raw = pickBestMeal(remaining.length ? remaining : filtered, usedP2, usedN2, new Set(), day + 202, slot);
+    const alt2Raw = pickBestMeal(
+        remaining.length ? remaining : filtered,
+        usedP2, usedN2, new Set(), day + 202, slot
+    );
+
     const userData = loadState(KEYS.user);
     const goal = (userData && userData.goal) || 'maintain';
     const dist = getMealDistribution(goal);
     const targetCal = Math.round(tdee * dist[slot]);
+
     const TIME_LABELS = ['Sarapan','Makan Siang','Makan Malam'];
     const ICONS       = ['🌅','☀️','🌙'];
     const TIME_RANGES = ['06:00–08:00','12:00–13:00','18:00–19:00'];
     const TYPES       = ['pagi','siang','malam'];
+
     const altUsedBumbus = new Set();
     const altUsedSayurs = new Set();
+
     return [alt1Raw, alt2Raw].filter(Boolean).map((m, i) => {
         const clone = Object.assign({}, m);
-        const withRecipe = generateRecipe(clone, day + 50 + i * 30, slot + 3 + i * 2, altUsedBumbus, altUsedSayurs);
+        const withRecipe = generateRecipe(
+        clone,
+        day + 50 + i * 30,
+        slot + 3 + i * 2,
+        altUsedBumbus,
+        altUsedSayurs
+        );
         if(withRecipe._bumbu) altUsedBumbus.add(withRecipe._bumbu);
         if(withRecipe._sayur) altUsedSayurs.add(withRecipe._sayur);
-        return scaleMeal(Object.assign({}, withRecipe, { type: TYPES[slot] }), targetCal, TIME_LABELS[slot], ICONS[slot], TIME_RANGES[slot]);
+        return scaleMeal(
+        Object.assign({}, withRecipe, { type: TYPES[slot] }),
+        targetCal,
+        TIME_LABELS[slot],
+        ICONS[slot],
+        TIME_RANGES[slot]
+        );
     });
     }
 
@@ -2871,6 +3121,7 @@
     if(!dayData || !Array.isArray(dayData.meals)) return;
     const currentMeal = dayData.meals[slotIdx];
     if(!currentMeal) return;
+
     let modal = document.getElementById('meal-swap-modal');
     if(!modal){
         modal = document.createElement('div');
@@ -2879,19 +3130,24 @@
         modal.addEventListener('click', function(e){ if(e.target===modal) closeMealSwapModal(); });
         document.body.appendChild(modal);
     }
+
     const alternatives = getSwapAlternatives(currentMeal, slotIdx, day, tdee);
+
     if(!alternatives.length){
         modal.innerHTML = '<div style="background:var(--bg);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:30px 20px 40px;text-align:center;"><div style="font-size:2rem;margin-bottom:12px;">😔</div><div style="font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:8px;">Tidak ada alternatif</div><div style="font-size:.8rem;color:var(--text3);margin-bottom:22px;">Semua pilihan lain mengandung bahan yang kamu hindari.</div><button onclick="closeMealSwapModal()" style="background:var(--card);border:1.5px solid var(--border2);color:var(--text2);padding:10px 28px;border-radius:99px;font-size:.85rem;font-weight:600;cursor:pointer;">Tutup</button></div>';
         modal.style.display = 'flex';
         return;
     }
+
     modal._alternatives = alternatives;
     modal._slotIdx      = slotIdx;
+
     const SLOT_NAMES = ['Sarapan','Makan Siang','Makan Malam'];
+
     const altCardsHTML = alternatives.map((alt, i) => {
         const mk = alt.makro || {protein:0,karbo:0,lemak:0};
         const bahanList = alt.resep && Array.isArray(alt.resep.bahan)
-        ? alt.resep.bahan.slice(0,3).map(b => b.gram+(b.unit==='g'?'g':' '+b.unit)+' '+b.item.toLowerCase()).join(', ')
+        ? alt.resep.bahan.slice(0,3).map(b => b.gram + (b.unit==='g'?'g':' '+b.unit)+' '+b.item.toLowerCase()).join(', ')
         : '';
         return '<div onclick="applyMealSwap('+slotIdx+','+i+')" style="background:var(--card2);border:1.5px solid var(--border2);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;">'
         +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:7px;">'
@@ -2907,6 +3163,7 @@
         +'<div style="background:var(--accent);color:#000;text-align:center;padding:8px 0;border-radius:99px;font-size:.82rem;font-weight:700;letter-spacing:.02em;">✓ Pilih Menu Ini</div>'
         +'</div>';
     }).join('');
+
     modal.innerHTML = '<div style="background:var(--bg);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:22px 18px 40px;max-height:90vh;overflow-y:auto;">'
         +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
         +'<div style="font-size:1rem;font-weight:700;color:var(--text);">🔄 Ganti Menu</div>'
@@ -2921,6 +3178,7 @@
         +altCardsHTML
         +'<button onclick="closeMealSwapModal()" style="width:100%;background:transparent;border:1.5px solid var(--border2);color:var(--text3);padding:10px 0;border-radius:99px;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:4px;">Batal</button>'
         +'</div>';
+
     modal.style.display = 'flex';
     }
 
@@ -2934,14 +3192,17 @@
     if(!modal || !Array.isArray(modal._alternatives)) return;
     const newMeal = modal._alternatives[altIdx];
     if(!newMeal) return;
+
     const day  = getCurrentDay();
     const dk   = getDislikes().join('_');
     const cKey = KEYS.daydata + day + '_d_' + dk + '_v14';
     let dayData = loadState(cKey) || {meals:[],workout:null};
     if(!Array.isArray(dayData.meals)) dayData.meals = [];
+
     const frozenMeal = deepFreezeMeals([newMeal])[0];
     dayData.meals[slotIdx] = frozenMeal;
     saveState(cKey, dayData);
+
     const container = document.getElementById('meal-cards');
     const oldCard   = document.getElementById('meal-card-' + slotIdx);
     if(container && oldCard){
@@ -2949,8 +3210,10 @@
         newCard.classList.add('open');
         container.replaceChild(newCard, oldCard);
     }
+
     _refreshMenuMacros(dayData.meals);
     closeMealSwapModal();
+
     let toast = document.getElementById('_swap_ok_toast');
     if(!toast){
         toast = document.createElement('div');
@@ -3009,6 +3272,7 @@
     document.querySelectorAll('.form-error-msg').forEach(e=>e.classList.remove('show'));
     const swEl=document.getElementById('safety-warning');if(swEl) swEl.classList.remove('show');
     clearInterval(restTimerInterval);restTimerRunning=false;restTimerSeconds=90;
+    // Clear all ex timers — v7.1 DOM-bound state
     clearInterval(window._exTimerInterval);
     clearTimeout(window._exTimerTimeout);
     window._exTimerInterval = undefined;
