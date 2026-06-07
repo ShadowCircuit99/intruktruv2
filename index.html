@@ -485,6 +485,12 @@
   </div>
 </div>
 
+  <script>
+window.addEventListener('error', function(e) {
+  document.body.style.cssText = 'background:red;color:white;padding:20px;font-size:14px;';
+  document.body.innerHTML = 'JS ERROR: ' + e.message + ' (line ' + e.lineno + ')';
+});
+  </script>
 <script src="script.js"></script>
 </body>
 </html>
