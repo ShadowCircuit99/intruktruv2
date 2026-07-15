@@ -1,24 +1,24 @@
-# 🏋️ Instruktur Olahraga Pribadi
+# Instruktur Olahraga Pribadi
 
 Aplikasi **Instruktur Olahraga Pribadi** berbasis web sederhana menggunakan **HTML, CSS, dan JavaScript** untuk membantu pengguna menjalankan program latihan secara mandiri seperti memiliki personal trainer.
 
 
-## 🚀 Fitur Utama
-- 🏋️ Daftar program latihan (Workout Plan)
-- ⏱️ Timer latihan sederhana
-- 📊 Tracking progress (sementara menggunakan localStorage)
-- 📅 Jadwal latihan
-- 💡 Tips olahraga
+## Fitur Utama
+- Daftar program latihan (Workout Plan)
+- Timer latihan sederhana
+- Tracking progress (sementara menggunakan localStorage)
+- Jadwal latihan
+- Tips olahraga
 
 
-## 🛠️ Teknologi yang Digunakan
+## Teknologi yang Digunakan
 - HTML5
 - CSS3
 - JavaScript (Vanilla JS)
 - LocalStorage (untuk menyimpan data sementara)
 
 
-## 📦 Cara Menjalankan Project
+## Cara Menjalankan Project
 
 ### 1. Clone Repository
 ```bash
@@ -31,7 +31,7 @@ cd instruktur-olahraga
 Cukup buka file index.html di browser:
 start index.html
 
-### 3. 📁 Struktur Folder
+### 3. Struktur Folder
 instruktur-olahraga/
 ```
 │── index.html
