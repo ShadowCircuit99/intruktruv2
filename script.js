@@ -2191,7 +2191,7 @@ function renderHome() {
     const h = new Date().getHours();
     const greet = h < 11 ? 'Selamat pagi,' : h < 15 ? 'Selamat siang,' : h < 18 ? 'Selamat sore,' : 'Selamat malam,';
     const greetEl = document.getElementById('lh-greet'); if (greetEl) greetEl.textContent = greet;
-    const nameEl = document.getElementById('lh-name'); if (nameEl) nameEl.textContent = userData.name + '👋';
+    const nameEl = document.getElementById('lh-name'); if (nameEl) nameEl.textContent = userData.name;
     const dayEl = document.getElementById('lh-day'); if (dayEl) dayEl.innerHTML = `<span>Hari ke-${day + 1}</span>dari 90 hari program`;
     const todayData = loadToday();
     const dayDone = todayData.workoutDone && todayData.mealsCompleted.every(Boolean);
@@ -2391,7 +2391,7 @@ function renderWorkoutTab(day, workout) {
         const lowImpact = isLowImpactMode(day);
         let badges = `<span class="badge badge-blue"> ${workout.typeLabel}</span>`;
         if (lowImpact) badges += ` <span class="badge badge-orange">Low Impact</span>`;
-        if (userType === 'overweight') badges += ` <span class="badge badge-orange">🔒 Aman Sendi</span>`;
+        if (userType === 'overweight') badges += ` <span class="badge badge-orange">Aman Sendi</span>`;
         wtbEl.innerHTML = badges;
     }
     const wtEl = document.getElementById('workout-title');
@@ -2407,6 +2407,8 @@ function renderWorkoutTab(day, workout) {
     <span>🕐 ~${finalAdj.totalMins} menit</span>
     `;
     }
+    // Perbaiki kode span emoji di atas line 2403 - 2407
+
     const wtrEl = document.getElementById('workout-time-rec');
     if (wtrEl) wtrEl.textContent = '🕐' + workout.timeRec;
 
@@ -2888,14 +2890,12 @@ function renderProgressTab(day, programData, userData) {
     progGoal.innerHTML = `
     <div class="section-label">Targetmu</div>
     <div class="prog-goal-items">
-    <div class="prog-goal-item"><div class="prog-goal-check">🎯</div><div class="prog-goal-info"><div class="prog-goal-label">${goalLabel}</div><div class="prog-goal-sub">${goalDesc}</div></div></div>
-    <div class="prog-goal-item"><div class="prog-goal-check">🔥</div><div class="prog-goal-info"><div class="prog-goal-label">${programData.tdee} kkal/hari</div><div class="prog-goal-sub">${userData.goal === 'lose' ? 'Defisit kalori untuk menurunkan berat' : userData.goal === 'gain' ? 'Surplus kalori untuk menambah massa otot' : 'Kalori seimbang untuk menjaga berat'}</div></div></div>
+    <div class="prog-goal-item"><div class="prog-goal-info"><div class="prog-goal-label">${goalLabel}</div><div class="prog-goal-sub">${goalDesc}</div></div></div>
+    <div class="prog-goal-item"><div class="prog-goal-info"><div class="prog-goal-label">${programData.tdee} kkal/hari</div><div class="prog-goal-sub">${userData.goal === 'lose' ? 'Defisit kalori untuk menurunkan berat' : userData.goal === 'gain' ? 'Surplus kalori untuk menambah massa otot' : 'Kalori seimbang untuk menjaga berat'}</div></div></div>
     <div class="prog-goal-item">
-      <div class="prog-goal-check" style="${day >= 7 ? 'background:var(--accent-dim);border-color:var(--accent);' : ''}">${day >= 7 ? '' : '⬜'}</div>
       <div class="prog-goal-info"><div class="prog-goal-label">Selesai Minggu Pertama</div><div class="prog-goal-sub">${day >= 7 ? 'Tercapai! Kamu sudah melewati fase paling sulit.' : `${7 - day} hari lagi.`}</div></div>
     </div>
     <div class="prog-goal-item">
-      <div class="prog-goal-check" style="${day >= 30 ? 'background:var(--accent-dim);border-color:var(--accent);' : ''}">${day >= 30 ? '' : '⬜'}</div>
       <div class="prog-goal-info"><div class="prog-goal-label">30 Hari Pertama</div><div class="prog-goal-sub">${day >= 30 ? 'Luar biasa! Sebulan penuh program selesai.' : `${30 - day} hari lagi.`}</div></div>
     </div>
     <div class="prog-goal-item">
