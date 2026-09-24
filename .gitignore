@@ -1,0 +1,18 @@
+# Backup & sementara
+*.bak
+*.tmp
+*~
+
+# File probe/debug lokal
+__probe.html
+error.png
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp

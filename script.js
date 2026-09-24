@@ -4,6 +4,37 @@
     const DEV_MODE = false;
 
     /* ============================================================
+    ICON SET — inline SVG, no emoji-as-icon
+    ============================================================ */
+    const ICONS = {
+    bolt:       '<svg class="icon" viewBox="0 0 24 24"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg>',
+    clock:      '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    timer:      '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>',
+    bars:       '<svg class="icon" viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>',
+    calendar:   '<svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+    dumbbell:   '<svg class="icon" viewBox="0 0 24 24"><path d="M6.5 6.5a5 5 0 0 1 11 0v1a5 5 0 0 1-11 0z"/><path d="M4 8h2M18 8h2M12 16v4M9 20h6"/></svg>',
+    play:       '<svg class="icon" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>',
+    check:      '<svg class="icon" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></svg>',
+    rotate:     '<svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>',
+    skip:       '<svg class="icon" viewBox="0 0 24 24"><path d="M5 4l10 8-10 8zM19 4v16"/></svg>',
+    shield:     '<svg class="icon" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3 7.5-7 9-4-1.5-7-4-7-9V6z"/></svg>',
+    flame:      '<svg class="icon" viewBox="0 0 24 24"><path d="M12 3s5 4 5 9a5 5 0 0 1-10 0c0-2 1-3 1-3s0 2 1.5 2S12 8 12 3z"/></svg>',
+    target:     '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></svg>',
+    sunrise:    '<svg class="icon" viewBox="0 0 24 24"><path d="M12 3v4M2 11H0M24 11h-2M6 7 5 6M18 7l1-1"/><path d="M6 16a6 6 0 0 1 12 0M2 20h20"/></svg>',
+    moon:       '<svg class="icon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>',
+    bowl:       '<svg class="icon" viewBox="0 0 24 24"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M7 11c0-3 2-5 5-5s5 2 5 5"/></svg>',
+    swap:       '<svg class="icon" viewBox="0 0 24 24"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>',
+    alert:      '<svg class="icon" viewBox="0 0 24 24"><path d="M12 4 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg>',
+    close:      '<svg class="icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+    lock:       '<svg class="icon" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>',
+    leaf:       '<svg class="icon" viewBox="0 0 24 24"><path d="M4 20c8 0 16-4 16-16-8 0-16 4-16 16z"/><path d="M4 20c4-4 8-6 12-8"/></svg>',
+    bandage:    '<svg class="icon" viewBox="0 0 24 24"><path d="M8.5 3.5 3.5 8.5a5 5 0 0 0 7 7l5-5a5 5 0 0 0-7-7z"/><path d="M8 9l7 7"/></svg>',
+    minus:      '<svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14"/></svg>',
+    search:     '<svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+    chevron:    '<svg class="icon" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>',
+    };
+
+    /* ============================================================
     STATE KEYS
     ============================================================ */
     const KEYS = {
@@ -408,11 +439,11 @@
     peak:      {label:'Puncak',days:'85–90',sets:'4',repsRaw:'15–20',rest:45,restLabel:'45 dtk',desc:'Capai performa terbaik sebelum program selesai.',color:'var(--purple)'},
     };
     const WORKOUT_TEMPLATES = {
-    push:{label:'Latihan Mendorong (Dada & Bahu)',type:'Push Day',icon:'🏋️',timeRec:'Pagi hari lebih optimal untuk push day.',exercises:['pushup','wide_pushup','pike_pushup','tricep_dips','plank']},
-    pull:{label:'Latihan Menarik (Punggung & Bisep)',type:'Pull Day',icon:'💪',timeRec:'Pagi atau sore hari, pilih sesuai energimu.',exercises:['superman','reverse_lunge','bicycle_crunch','mountain_climber','plank']},
-    lower:{label:'Latihan Bawah Tubuh (Kaki & Bokong)',type:'Lower Day',icon:'🦵',timeRec:'Sore hari cocok untuk lower body workout.',exercises:['squat','glute_bridge','reverse_lunge','wall_sit','plank']},
-    cardio:{label:'Kardio & Core Aktif',type:'Cardio Day',icon:'🔥',timeRec:'Pagi hari (6–9) atau sore (16–18) paling ideal.',exercises:['high_knees','burpee','mountain_climber','bicycle_crunch','plank']},
-    rest:{label:'Pemulihan Aktif',type:'Rest Day',icon:'🧘',timeRec:'Bisa kapan saja. Nikmati hari istirahat ini.',exercises:['stretching','breathing','light_walk']},
+    push:{label:'Latihan Mendorong (Dada & Bahu)',type:'Push Day',icon:ICONS.dumbbell,timeRec:'Pagi hari lebih optimal untuk push day.',exercises:['pushup','wide_pushup','pike_pushup','tricep_dips','plank']},
+    pull:{label:'Latihan Menarik (Punggung & Bisep)',type:'Pull Day',icon:ICONS.dumbbell,timeRec:'Pagi atau sore hari, pilih sesuai energimu.',exercises:['superman','reverse_lunge','bicycle_crunch','mountain_climber','plank']},
+    lower:{label:'Latihan Bawah Tubuh (Kaki & Bokong)',type:'Lower Day',icon:ICONS.dumbbell,timeRec:'Sore hari cocok untuk lower body workout.',exercises:['squat','glute_bridge','reverse_lunge','wall_sit','plank']},
+    cardio:{label:'Kardio & Core Aktif',type:'Cardio Day',icon:ICONS.flame,timeRec:'Pagi hari (6–9) atau sore (16–18) paling ideal.',exercises:['high_knees','burpee','mountain_climber','bicycle_crunch','plank']},
+    rest:{label:'Pemulihan Aktif',type:'Rest Day',icon:ICONS.leaf,timeRec:'Bisa kapan saja. Nikmati hari istirahat ini.',exercises:['stretching','breathing','light_walk']},
     };
 
     const WARMUP_EXERCISES = [
@@ -828,9 +859,9 @@
     const prev = document.getElementById('intensity-preview');
     if(!prev) return;
     let extraNote = '';
-    if(sleep < 5) extraNote = ' ⚠️ Tidur kurang dari 5 jam — intensitas diturunkan untuk keselamatanmu.';
+    if(sleep < 5) extraNote = ' Tidur kurang dari 5 jam, intensitas diturunkan.';
     const userType=getUserType();
-    if(userType==='overweight') extraNote += ' 🛡️ Mode Low Impact aktif — latihan benturan tinggi dinonaktifkan.';
+    if(userType==='overweight') extraNote += ' Mode low impact aktif, latihan benturan tinggi dinonaktifkan.';
     prev.innerHTML = `Intensitas latihan: <strong style="color:${lbl.color}">${lbl.label}</strong>${extraNote}`;
     // UX v6.7: show energy hint after energy selected
     const hintEl=document.getElementById('ux-energy-hint');
@@ -967,8 +998,8 @@
         const warned = document.getElementById('dash-warnings-wrap');
         if(warned) warned.innerHTML += `
         <div class="dash-warning">
-            <div class="dash-warning-title">⚠️ Energi Rendah 3 Hari Berturut-turut</div>
-            Energimu sudah rendah selama 3 hari. Intensitas latihan hari ini dipaksa ke 80% untuk mencegah overtraining. Perbanyak istirahat, protein, dan tidur malam ini.
+            <div class="dash-warning-title">Energi rendah 3 hari berturut-turut</div>
+            Energimu rendah selama 3 hari terakhir. Intensitas latihan hari ini diturunkan ke 80% untuk mencegah overtraining. Tambah waktu istirahat dan tidur malam ini.
         </div>`;
     }
     }
@@ -1067,33 +1098,33 @@
         case 'idle':
         repHtml    = `<div class="ex-rep-label">Rep 1 / ${totalReps}</div>`;
         phaseLabel = 'Siap untuk dimulai';
-        display    = '▶';
+        display    = ICONS.play;
         cls        = '';
-        btns       = `<button class="ex-timer-btn start" onclick="exTimerStart(${idx},${totalEx})">▶ Mulai Rep 1</button>`;
+        btns       = `<button class="ex-timer-btn start" onclick="exTimerStart(${idx},${totalEx})">${ICONS.play} Mulai Rep 1</button>`;
         break;
 
         case 'active':
         repHtml    = `<div class="ex-rep-label" id="ex-rep-lbl-${idx}">Rep ${cur} / ${totalReps}</div>`;
-        phaseLabel = '🏃 Mulai';
+        phaseLabel = 'Sedang berjalan';
         display    = exTimerFmt(secs);
         cls        = '';
-        btns       = `<button class="ex-timer-btn rest" onclick="exTimerManualFinishRep(${idx},${totalEx})">✓ Rep Selesai</button>`;
+        btns       = `<button class="ex-timer-btn rest" onclick="exTimerManualFinishRep(${idx},${totalEx})">${ICONS.check} Rep Selesai</button>`;
         break;
 
         case 'rest':
-        repHtml    = `<div class="ex-rep-label rest-rep" id="ex-rep-lbl-${idx}">Rep ${cur} / ${totalReps} — Istirahat</div>`;
-        phaseLabel = `😮‍💨 Istirahat — Rep ${cur + 1} / ${totalReps} berikutnya`;
+        repHtml    = `<div class="ex-rep-label rest-rep" id="ex-rep-lbl-${idx}">Rep ${cur} / ${totalReps} · Istirahat</div>`;
+        phaseLabel = `Istirahat · Rep ${cur + 1} / ${totalReps} berikutnya`;
         display    = exTimerFmt(secs);
         cls        = 'rest-mode';
-        btns       = `<button class="ex-timer-btn start" onclick="exTimerSkipRest(${idx},${totalEx})">⏭ Skip Istirahat</button>`;
+        btns       = `<button class="ex-timer-btn start" onclick="exTimerSkipRest(${idx},${totalEx})">${ICONS.skip} Lewati Istirahat</button>`;
         break;
 
         case 'done':
-        repHtml    = `<div class="ex-rep-label done-rep">✅ ${totalReps} Rep Selesai</div>`;
-        phaseLabel = '🎉 Selesai!';
-        display    = '✅';
+        repHtml    = `<div class="ex-rep-label done-rep">${ICONS.check} ${totalReps} Rep Selesai</div>`;
+        phaseLabel = 'Selesai';
+        display    = ICONS.check;
         cls        = 'done-mode';
-        btns       = `<button class="ex-timer-btn" onclick="exTimerReset(${idx},${totalEx})" style="font-size:.7rem;color:var(--text3);">↺ Ulangi</button>`;
+        btns       = `<button class="ex-timer-btn" onclick="exTimerReset(${idx},${totalEx})">${ICONS.rotate} Ulangi</button>`;
         break;
     }
 
@@ -1282,7 +1313,7 @@
         if(curWrap) {
             const hint = document.createElement('div');
             hint.className = 'ux-next-exercise-hint';
-            hint.textContent = '👇 Lanjut ke gerakan berikutnya';
+            hint.textContent = 'Lanjut ke gerakan berikutnya';
             curWrap.appendChild(hint);
         }
         }
@@ -1370,15 +1401,15 @@
     if(allDone){
         doneWrap.innerHTML=`
         <p style="font-size:.82rem;color:var(--accent);text-align:center;margin-bottom:14px;">
-            🎉 Semua ${totalEx} latihan selesai! Tandai latihan selesai.
+            Semua ${totalEx} latihan selesai. Tandai sesi ini.
         </p>
-        <button class="btn btn-primary btn-full" onclick="markWorkoutDone()">✅ Tandai Latihan Selesai</button>`;
+        <button class="btn btn-primary btn-full" onclick="markWorkoutDone()">${ICONS.check} Tandai Latihan Selesai</button>`;
     } else {
         doneWrap.innerHTML=`
         <p style="font-size:.82rem;color:var(--text2);text-align:center;margin-bottom:14px;">
             Selesaikan semua ${totalEx} latihan di atas (${doneCnt}/${totalEx} selesai), lalu tandai selesai.
         </p>
-        <button class="btn btn-primary btn-full" onclick="markWorkoutDone()" style="opacity:.4;cursor:not-allowed;">✅ Tandai Latihan Selesai</button>`;
+        <button class="btn btn-primary btn-full" onclick="markWorkoutDone()" disabled>${ICONS.check} Tandai Latihan Selesai</button>`;
     }
     }
 
@@ -1405,7 +1436,7 @@
         restTimerRunning=false;
         restTimerSeconds=0;
         const rtd=document.getElementById('rest-timer-display');
-        if(rtd) rtd.textContent='✅ Selesai!';
+        if(rtd) rtd.textContent='Selesai';
         }
     },1000);
     }
@@ -1421,9 +1452,64 @@
     ============================================================ */
     function initApp(){
     if(DEV_MODE){clearAllStorage();}
-    const appState=loadState(KEYS.app);
-    if(appState&&appState.programStarted){renderHome();showScreen('lh');}
-    else{showScreen('la');}
+    try{
+        initTheme();
+    }catch(e){
+        document.documentElement.setAttribute('data-theme','light');
+    }
+    try{
+        const appState=loadState(KEYS.app);
+        if(appState&&appState.programStarted){renderHome();showScreen('lh');}
+        else{showScreen('la');}
+    }catch(e){
+        // Jaring pengaman: jangan pernah biarkan layar kosong.
+        document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+        const la=document.getElementById('screen-la');
+        if(la) la.classList.add('active');
+    }
+    }
+
+    /* ============================================================
+    TEMA — terang / gelap
+    ============================================================ */
+    const THEME_KEY='ip90_theme';
+    const THEME_ICON={
+    light:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>',
+    dark:'<svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>',
+    };
+
+    function getTheme(){
+    const t=document.documentElement.getAttribute('data-theme');
+    return t==='dark'?'dark':'light';
+    }
+
+    function applyTheme(theme){
+    const next=theme==='dark'?'dark':'light';
+    document.documentElement.setAttribute('data-theme',next);
+    document.querySelectorAll('.theme-toggle-icon').forEach(el=>{
+        el.innerHTML=THEME_ICON[next];
+    });
+    document.querySelectorAll('.theme-toggle').forEach(btn=>{
+        btn.setAttribute('aria-pressed',next==='dark'?'true':'false');
+        btn.title=next==='dark'?'Ganti ke mode terang':'Ganti ke mode gelap';
+    });
+    document.querySelectorAll('.theme-toggle-icon').forEach(el=>{
+        el.parentElement.setAttribute('aria-label',next==='dark'?'Ganti ke mode terang':'Ganti ke mode gelap');
+    });
+    if(window._weightChart) renderWeightChart();
+    }
+
+    function toggleTheme(btn){
+    const next=getTheme()==='dark'?'light':'dark';
+    applyTheme(next);
+    try{localStorage.setItem(THEME_KEY,next);}catch(e){}
+    }
+
+    function initTheme(){
+    let theme=null;
+    try{theme=localStorage.getItem(THEME_KEY);}catch(e){}
+    if(theme!=='light'&&theme!=='dark') theme=getTheme();
+    applyTheme(theme);
     }
 
     /* ============================================================
@@ -1433,8 +1519,13 @@
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     const el=document.getElementById('screen-'+id);
     if(el){el.classList.add('active');window.scrollTo(0,0);}
-    if(id==='lh') renderHome();
-    if(id==='lp') renderProgram();
+    try{
+        if(id==='lh') renderHome();
+        if(id==='lp') renderProgram();
+    }catch(e){
+        // Jangan biarkan error render menyembunyikan layar yang sudah aktif.
+        console.error('render error:',e);
+    }
     }
 
     /* ============================================================
@@ -1515,7 +1606,7 @@
     const water=calculateWater(userData.weight);
     const programData={startDate:new Date().toISOString().split('T')[0],tdee,water,streak:0,lastActiveDate:''};
     saveState(KEYS.user,userData);saveState(KEYS.program,programData);saveState(KEYS.app,{programStarted:true});
-    setTimeout(()=>{btn.innerHTML='Buat Program Saya 🚀';btn.disabled=false;renderHome();showScreen('lh');},800);
+    setTimeout(()=>{btn.textContent='Buat Program Saya';btn.disabled=false;renderHome();showScreen('lh');},800);
     }
 
     /* ============================================================
@@ -1533,9 +1624,9 @@
     }
 
     function getGoalGuidance(goal){
-    if(goal==='lose') return {label:'🎯 Mode Defisit Kalori', desc:'Target kalori sudah dikurangi ~500 kkal/hari dari kebutuhan normalmu. Kombinasikan dengan latihan untuk hasil optimal.', color:'var(--orange)', bg:'var(--orange-dim)'};
-    if(goal==='gain') return {label:'📈 Mode Surplus Kalori', desc:'Target kalori ditambah ~400 kkal/hari untuk mendukung pertumbuhan massa otot. Pastikan latihan beban rutin.', color:'var(--blue)', bg:'var(--blue-dim)'};
-    return {label:'⚖️ Mode Kalori Seimbang', desc:'Target kalori sesuai kebutuhan energi harianmu. Fokus pada kualitas makanan dan konsistensi latihan.', color:'var(--accent)', bg:'var(--accent-dim)'};
+    if(goal==='lose') return {label:'Mode Defisit Kalori', desc:'Target kalori dikurangi sekitar 500 kkal dari kebutuhan harianmu. Defisit ringan ini aman dijalani bersama latihan rutin.', color:'var(--orange)', bg:'var(--orange-dim)'};
+    if(goal==='gain') return {label:'Mode Surplus Kalori', desc:'Target kalori ditambah sekitar 400 kkal untuk mendukung pertumbuhan massa otot. Latihan beban tetap jadi prioritas.', color:'var(--blue)', bg:'var(--blue-dim)'};
+    return {label:'Mode Kalori Seimbang', desc:'Target kalori mengikuti kebutuhan energi harianmu. Fokus pada kualitas makanan dan latihan yang konsisten.', color:'var(--accent)', bg:'var(--accent-dim)'};
     }
 
     function calculateWater(weight){
@@ -1952,9 +2043,9 @@
     malamMeal = generateRecipe(malamMeal, day, 2, usedBumbus, usedSayurs);
 
     // Stamp type + scale
-    pagiMeal  = scaleMeal(Object.assign({}, pagiMeal,  {type:'pagi'}),  calPagi,  'Sarapan',     '🌅','06:00–08:00');
-    siangMeal = scaleMeal(Object.assign({}, siangMeal, {type:'siang'}), calSiang, 'Makan Siang', '☀️','12:00–13:00');
-    malamMeal = scaleMeal(Object.assign({}, malamMeal, {type:'malam'}), calMalam, 'Makan Malam', '🌙','18:00–19:00');
+    pagiMeal  = scaleMeal(Object.assign({}, pagiMeal,  {type:'pagi'}),  calPagi,  'Sarapan',     ICONS.sunrise,'06:00–08:00');
+    siangMeal = scaleMeal(Object.assign({}, siangMeal, {type:'siang'}), calSiang, 'Makan Siang', ICONS.bowl,'12:00–13:00');
+    malamMeal = scaleMeal(Object.assign({}, malamMeal, {type:'malam'}), calMalam, 'Makan Malam', ICONS.moon,'18:00–19:00');
 
     if(pagiMeal.kalori  < 200) pagiMeal  = {...pagiMeal,  kalori:200};
     if(siangMeal.kalori < 300) siangMeal = {...siangMeal, kalori:300};
@@ -2065,6 +2156,33 @@
     if(diff>1.5){warn.classList.add('show');}else{warn.classList.remove('show');}
     }
 
+    const CHART_CDN='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+    let _chartState='idle'; // idle | loading | ready | failed
+    let _chartWaiters=[];
+
+    /* Chart.js dimuat malas dari CDN. Kalau gagal, halaman tetap tampil. */
+    function _ensureChartJS(done){
+    if(typeof Chart!=='undefined'){done(true);return;}
+    if(_chartState==='ready'){done(true);return;}
+    if(_chartState==='failed'){done(false);return;}
+    _chartWaiters.push(done);
+    if(_chartState==='loading') return;
+    _chartState='loading';
+    const s=document.createElement('script');
+    s.src=CHART_CDN;
+    s.onload=()=>{
+        _chartState=(typeof Chart!=='undefined')?'ready':'failed';
+        const waiters=_chartWaiters;_chartWaiters=[];
+        waiters.forEach(cb=>{try{cb(_chartState==='ready');}catch(e){}});
+    };
+    s.onerror=()=>{
+        _chartState='failed';
+        const waiters=_chartWaiters;_chartWaiters=[];
+        waiters.forEach(cb=>{try{cb(false);}catch(e){}});
+    };
+    document.head.appendChild(s);
+    }
+
     function renderWeightChart(){
     const tracking=loadState(KEYS.tracking);
     const empty=document.getElementById('prog-chart-empty');
@@ -2073,6 +2191,19 @@
     if(!tracking||!tracking.weights||tracking.weights.length<1){
         empty.style.display='block';canvas.style.display='none';return;
     }
+    _ensureChartJS(function(ok){
+        if(!ok){
+        empty.textContent='Grafik tidak tersedia (Chart.js belum dimuat).';
+        empty.style.display='block';canvas.style.display='none';return;
+        }
+        drawWeightChart(tracking);
+    });
+    }
+
+    function drawWeightChart(tracking){
+    const empty=document.getElementById('prog-chart-empty');
+    const canvas=document.getElementById('weight-chart');
+    if(!empty||!canvas||typeof Chart==='undefined') return;
     empty.style.display='none';canvas.style.display='block';
     const sorted=[...tracking.weights].sort((a,b)=>a.day-b.day);
     const labels=sorted.map(e=>`H${e.day}`);
@@ -2080,21 +2211,29 @@
     const user=loadState(KEYS.user);
     const targetWeight=user?user.targetWeight:null;
     if(window._weightChart&&typeof window._weightChart.destroy==='function'){window._weightChart.destroy();}
+    // Warna dibaca dari token tema aktif supaya chart ikut mode gelap/terang.
+    const cs=getComputedStyle(document.documentElement);
+    const cssVar=(name)=>cs.getPropertyValue(name).trim();
+    const accent=cssVar('--accent')||'#0f7a44';
+    const text2=cssVar('--text2')||'#4c544e';
+    const text3=cssVar('--text3')||'#6d766e';
+    const grid=cssVar('--border')||'#e1e5de';
+    const target=cssVar('--orange')||'#ad5a1a';
     window._weightChart=new Chart(canvas,{
         type:'line',
         data:{
         labels,
         datasets:[
-            {label:'Berat Badan (kg)',data:values,borderColor:'#00e87a',backgroundColor:'#00e87a18',tension:0.3,pointBackgroundColor:'#00e87a',pointRadius:4,fill:true},
-            ...(targetWeight?[{label:'Target',data:Array(labels.length).fill(targetWeight),borderColor:'#ff704355',borderDash:[6,4],pointRadius:0,fill:false}]:[]),
+            {label:'Berat Badan (kg)',data:values,borderColor:accent,backgroundColor:accent+'22',tension:0.3,pointBackgroundColor:accent,pointRadius:4,fill:true},
+            ...(targetWeight?[{label:'Target',data:Array(labels.length).fill(targetWeight),borderColor:target,borderDash:[6,4],pointRadius:0,fill:false}]:[]),
         ]
         },
         options:{
         responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{labels:{color:'#8888aa',font:{size:11}}}},
+        plugins:{legend:{labels:{color:text2,font:{size:11}}}},
         scales:{
-            x:{ticks:{color:'#55556a',font:{size:11}},grid:{color:'#2a2a46'}},
-            y:{ticks:{color:'#55556a',font:{size:11}},grid:{color:'#2a2a46'}},
+            x:{ticks:{color:text3,font:{size:11}},grid:{color:grid}},
+            y:{ticks:{color:text3,font:{size:11}},grid:{color:grid}},
         }
         }
     });
@@ -2166,12 +2305,12 @@
     const h=new Date().getHours();
     const greet=h<11?'Selamat pagi,':h<15?'Selamat siang,':h<18?'Selamat sore,':'Selamat malam,';
     const greetEl=document.getElementById('lh-greet');if(greetEl) greetEl.textContent=greet;
-    const nameEl=document.getElementById('lh-name');if(nameEl) nameEl.textContent=userData.name+' 👋';
+    const nameEl=document.getElementById('lh-name');if(nameEl) nameEl.textContent=userData.name;
     const dayEl=document.getElementById('lh-day');if(dayEl) dayEl.innerHTML=`<span>Hari ke-${day+1}</span> dari 90 hari program`;
     const todayData=loadToday();
     const dayDone=todayData.workoutDone&&todayData.mealsCompleted.every(Boolean);
     const btnEl=document.getElementById('lh-main-btn');
-    if(btnEl) btnEl.textContent=dayDone?'✅ Hari Ini Selesai':(day>0?'Lanjut Program Hari Ini →':'Mulai Hari Pertama →');
+    if(btnEl) btnEl.textContent=dayDone?'Hari ini selesai':(day>0?'Lanjut program hari ini':'Mulai hari pertama');
     }
 
     /* ============================================================
@@ -2200,7 +2339,7 @@
     /* meals locked — no re-process on render */
     const lpTitleEl=document.getElementById('lp-title');if(lpTitleEl) lpTitleEl.textContent=userData.name;
     const lpDayEl=document.getElementById('lp-day-label');if(lpDayEl) lpDayEl.textContent=`Hari ke-${day+1} dari 90`;
-    const lpStreakEl=document.getElementById('lp-streak');if(lpStreakEl) lpStreakEl.textContent=`🔥 ${streak}`;
+    const lpStreakEl=document.getElementById('lp-streak');if(lpStreakEl) lpStreakEl.innerHTML=`${ICONS.flame} Streak ${streak}`;
     loadEnergyForToday();
     renderDashboard(day,dayData,tdee,programData,userData);
     renderWorkoutTab(day,dayData.workout);
@@ -2260,7 +2399,7 @@
         if(rflag){
         const pct=Math.round(parseFloat(rflag)*100);
         const w=document.getElementById('dash-warnings-wrap');
-        if(w) w.innerHTML+=`<div class="dash-warning"><div class="dash-warning-title">🩹 Mode Pemulihan Aktif (${pct}%)</div>Catatan kemarin mendeteksi kondisi tubuh memerlukan pemulihan. Intensitas latihan disesuaikan ke ${pct}%.</div>`;
+        if(w) w.innerHTML+=`<div class="dash-warning"><div class="dash-warning-title">Mode pemulihan aktif (${pct}%)</div>Catatan kemarin menunjukkan tubuh butuh pemulihan. Intensitas latihan hari ini disesuaikan ke ${pct}%.</div>`;
         }
     }catch(e){}
     // 90 dots
@@ -2289,15 +2428,15 @@
     const mealsCount=todayData.mealsCompleted.filter(Boolean).length;
     const allDone=todayData.workoutDone&&mealsCount===3;
     if(allDone){
-        guide.className='dash-guide type-done';label.textContent='Keren!';
-        msg.textContent='Hari ini sudah selesai! Kamu luar biasa 🎉 Istirahat yang cukup agar otot bisa pulih maksimal.';
+        guide.className='dash-guide type-done';label.textContent='Selesai';
+        msg.textContent='Latihan dan makan hari ini sudah beres. Istirahat cukup supaya pemulihan otot berjalan maksimal.';
     } else if(!todayData.workoutDone){
-        guide.className='dash-guide type-workout';label.textContent='Selanjutnya: Latihan';
-        msg.textContent='Ayo ke tab Latihan dan selesaikan sesi hari ini dulu. Latihan dulu, makan setelahnya!';
+        guide.className='dash-guide type-workout';label.textContent='Selanjutnya: latihan';
+        msg.textContent='Buka tab Latihan dan selesaikan sesi hari ini. Makan menyusul setelahnya.';
     } else {
         const remaining=3-mealsCount;
-        guide.className='dash-guide type-meal';label.textContent='Sudah Latihan, Bagus!';
-        msg.textContent=`Latihan selesai! Masih ada ${remaining} jadwal makan yang belum ditandai. Yuk ke tab Menu.`;
+        guide.className='dash-guide type-meal';label.textContent='Latihan selesai';
+        msg.textContent=`Masih ada ${remaining} jadwal makan yang belum ditandai. Buka tab Menu untuk mencatatnya.`;
     }
     }
 
@@ -2365,8 +2504,8 @@
         const userType=getUserType();
         const lowImpact=isLowImpactMode(day);
         let badges=`<span class="badge badge-blue">${workout.icon} ${workout.typeLabel}</span>`;
-        if(lowImpact) badges+=` <span class="badge badge-orange">🛡️ Low Impact</span>`;
-        if(userType==='overweight') badges+=` <span class="badge badge-orange">🔒 Aman Sendi</span>`;
+        if(lowImpact) badges+=` <span class="badge badge-orange">${ICONS.shield} Low Impact</span>`;
+        if(userType==='overweight') badges+=` <span class="badge badge-orange">${ICONS.lock} Aman Sendi</span>`;
         wtbEl.innerHTML=badges;
     }
     const wtEl=document.getElementById('workout-title');
@@ -2375,15 +2514,15 @@
     if(wmEl){
         const tplabel=(workout&&workout.trainingPhaseLabel)?workout.trainingPhaseLabel:getTrainingPhaseLabel(day);
         wmEl.innerHTML=`
-        <span>⏱ Rest: ${finalAdj.restDisplay}</span>
-        <span>📊 ${finalAdj.sets} Set × ${finalAdj.repsDisplay} Rep</span>
+        <span>${ICONS.timer} Istirahat ${finalAdj.restDisplay}</span>
+        <span>${ICONS.bars} ${finalAdj.sets} set × ${finalAdj.repsDisplay} rep</span>
         <span>${(PHASES[workout.phase]||{label:''}).label}</span>
-        <span>📅 ${tplabel}</span>
-        <span>🕐 ~${finalAdj.totalMins} menit</span>
+        <span>${ICONS.calendar} ${tplabel}</span>
+        <span>${ICONS.clock} sekitar ${finalAdj.totalMins} menit</span>
         `;
     }
     const wtrEl=document.getElementById('workout-time-rec');
-    if(wtrEl) wtrEl.textContent='🕐 '+workout.timeRec;
+    if(wtrEl) wtrEl.innerHTML=ICONS.clock+' '+workout.timeRec;
 
     // Warmup section
     const warmupSec=document.getElementById('workout-warmup-section');
@@ -2398,7 +2537,7 @@
                     <div class="exercise-num" style="background:var(--purple-dim);color:var(--purple);">W${i+1}</div>
                     <div><div class="exercise-name">${ex.nama}</div></div>
                 </div>
-                <div class="exercise-chevron">▾</div>
+                <div class="exercise-chevron">${ICONS.chevron}</div>
                 </div>
                 <div class="exercise-body">
                 <div class="exercise-section-title">Cara Melakukan</div>
@@ -2464,7 +2603,7 @@
                 </div>
             </div>
             </div>
-            <div class="exercise-chevron">▾</div>
+            <div class="exercise-chevron">${ICONS.chevron}</div>
         </div>
         <div class="exercise-body">
             <div class="exercise-section-title">Cara Melakukan</div>
@@ -2504,7 +2643,7 @@
                     <div class="exercise-num" style="background:var(--blue-dim);color:var(--blue);">C${i+1}</div>
                     <div><div class="exercise-name">${ex.nama}</div></div>
                 </div>
-                <div class="exercise-chevron">▾</div>
+                <div class="exercise-chevron">${ICONS.chevron}</div>
                 </div>
                 <div class="exercise-body">
                 <div class="exercise-section-title">Cara Melakukan</div>
@@ -2526,19 +2665,14 @@
     if(doneWrap){
         if(todayData.workoutDone){
         const energy=todayData.energy||selectedEnergy||3;
-        let completionMsg='Kamu sudah selesai latihan hari ini 💪';
-        let completionSub='Istirahat yang cukup biar otot pulih maksimal.';
-        if(energy>=4){completionMsg='Latihan kamu mantap hari ini, pertahankan!';completionSub='Kondisi prima terpakai dengan baik. Lanjutkan besok!';}
-        else if(energy===3){completionMsg='Bagus, kamu tetap konsisten hari ini 👍';completionSub='Konsistensi itu kunci — kamu sudah buktiin itu.';}
-        else{completionMsg='Tetap hebat, kamu tetap bergerak meski kondisi tidak maksimal 🙏';completionSub='Ini yang membedakan kamu. Besok pasti lebih baik.';}
-        doneWrap.innerHTML=`<div class="ux-workout-complete"><div class="ux-workout-complete-icon">✅</div><div class="ux-workout-complete-msg">${completionMsg}</div><div class="ux-workout-complete-sub">${completionSub}</div></div>`;
+        _renderWorkoutComplete(doneWrap, energy);
         document.querySelectorAll('.exercise-num').forEach(n=>{if(n)n.classList.add('active');});
         _unlockWorkoutNotes();
         } else if(!todayData.energyChecked){
         doneWrap.innerHTML=`
             <div style="text-align:center;">
-            <p style="font-size:.85rem;color:var(--text2);margin-bottom:14px;">Ceritakan kondisi tubuhmu hari ini agar intensitas latihan disesuaikan.</p>
-            <button class="btn btn-primary btn-full" onclick="showEnergyModal()">⚡ Mulai Latihan</button>
+            <p style="font-size:.85rem;color:var(--text2);margin-bottom:14px;">Isi kondisi tubuhmu hari ini supaya intensitas latihan bisa disesuaikan.</p>
+            <button class="btn btn-primary btn-full" onclick="showEnergyModal()">${ICONS.bolt} Mulai Latihan</button>
             </div>`;
         } else {
         const totalEx=workout.exercises.length;
@@ -2546,7 +2680,7 @@
             <p style="font-size:.82rem;color:var(--text2);text-align:center;margin-bottom:14px;">
             Selesaikan semua ${totalEx} latihan di atas (0/${totalEx} selesai), lalu tandai selesai.
             </p>
-            <button class="btn btn-primary btn-full" onclick="markWorkoutDone()" style="opacity:.4;cursor:not-allowed;">✅ Tandai Latihan Selesai</button>`;
+            <button class="btn btn-primary btn-full" onclick="markWorkoutDone()" disabled>${ICONS.check} Tandai Latihan Selesai</button>`;
         }
     }
     const wni=document.getElementById('workout-notes-input');
@@ -2578,13 +2712,26 @@
     if(!t){
         t=document.createElement('div');
         t.id='_egate_toast';
-        t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--card);border:1.5px solid var(--orange);color:var(--orange);padding:11px 22px;border-radius:99px;font-size:.83rem;font-weight:600;z-index:9999;pointer-events:none;transition:opacity .3s;white-space:nowrap;';
+        t.className='toast';
         document.body.appendChild(t);
     }
-    t.textContent='⚡ Isi energi & tidur terlebih dahulu';
+    t.innerHTML=ICONS.bolt+' Isi energi & tidur dulu';
     t.style.opacity='1';
     clearTimeout(t._hide);
     t._hide=setTimeout(()=>{t.style.opacity='0';},2200);
+    }
+
+    /* ── Completion copy — single source, varies by energy ── */
+    function _completionCopy(energy){
+    if(energy>=4) return {msg:'Sesi hari ini tuntas', sub:'Kondisi prima terpakai dengan baik. Jaga ritme ini besok.'};
+    if(energy===3) return {msg:'Sesi hari ini selesai', sub:'Energi tidak penuh, tapi kamu tetap menyelesaikannya.'};
+    return {msg:'Sesi hari ini selesai', sub:'Energi rendah hari ini. Pemulihan yang cukup itu bagian dari latihan.'};
+    }
+
+    function _renderWorkoutComplete(target, energy){
+    if(!target) return;
+    const c=_completionCopy(energy);
+    target.innerHTML=`<div class="ux-workout-complete"><div class="ux-workout-complete-icon">${ICONS.check}</div><div class="ux-workout-complete-msg">${c.msg}</div><div class="ux-workout-complete-sub">${c.sub}</div></div>`;
     }
 
     function markWorkoutDone(){
@@ -2597,10 +2744,10 @@
         if(!t){
         t=document.createElement('div');
         t.id='_exdone_toast';
-        t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--card);border:1.5px solid var(--orange);color:var(--orange);padding:11px 22px;border-radius:99px;font-size:.83rem;font-weight:600;z-index:9999;pointer-events:none;transition:opacity .3s;white-space:nowrap;';
+        t.className='toast';
         document.body.appendChild(t);
         }
-        t.textContent='⚠️ Selesaikan semua latihan terlebih dahulu';
+        t.innerHTML=ICONS.alert+' Selesaikan semua latihan dulu';
         t.style.opacity='1';
         clearTimeout(t._hide);
         t._hide=setTimeout(()=>{t.style.opacity='0';},2500);
@@ -2609,27 +2756,8 @@
     todayData.workoutDone=true;saveToday(todayData);
     updateStreak();
     _unlockWorkoutNotes();
-    // UX v6.7: Dynamic completion message based on energy
     const energy=todayData.energy||selectedEnergy||3;
-    let completionMsg='Kamu sudah selesai latihan hari ini 💪';
-    let completionSub='Istirahat yang cukup biar otot pulih maksimal.';
-    if(energy>=4){
-        completionMsg='Latihan kamu mantap hari ini, pertahankan!';
-        completionSub='Kondisi prima terpakai dengan baik. Lanjutkan besok!';
-    } else if(energy===3){
-        completionMsg='Bagus, kamu tetap konsisten hari ini 👍';
-        completionSub='Konsistensi itu kunci — kamu sudah buktiin itu.';
-    } else {
-        completionMsg='Tetap hebat, kamu tetap bergerak meski kondisi tidak maksimal 🙏';
-        completionSub='Ini yang membedakan kamu. Besok pasti lebih baik.';
-    }
-    const dw=document.getElementById('workout-done-wrap');
-    if(dw) dw.innerHTML=`
-        <div class="ux-workout-complete">
-        <div class="ux-workout-complete-icon">✅</div>
-        <div class="ux-workout-complete-msg">${completionMsg}</div>
-        <div class="ux-workout-complete-sub">${completionSub}</div>
-        </div>`;
+    _renderWorkoutComplete(document.getElementById('workout-done-wrap'), energy);
     document.querySelectorAll('.exercise-num').forEach(n=>{if(n)n.classList.add('active');});
     refreshAllPanes();
     }
@@ -2686,7 +2814,7 @@
     card.innerHTML=`
         <div class="meal-card-header" onclick="toggleMeal(${idx})">
         <div class="meal-time-badge">
-            <div class="meal-time-icon">${meal.icon||'🍱'}</div>
+            <div class="meal-time-icon">${meal.icon||ICONS.bowl}</div>
             <div>
             <div class="meal-time-label">${meal.timeLabel||''} · ${meal.timeRange||''}</div>
             <div class="meal-time-name">${meal.nama}</div>
@@ -2694,7 +2822,7 @@
         </div>
         <div class="meal-card-right">
             <span class="meal-cal">${meal.kalori||meal.base_cal||0} kkal</span>
-            <span class="meal-chevron">▾</span>
+            <span class="meal-chevron">${ICONS.chevron}</span>
         </div>
         </div>
         <div class="meal-card-body">
@@ -2703,17 +2831,17 @@
             <div class="meal-macro-item"><div class="meal-macro-val">${makro.karbo}g</div><div class="meal-macro-label">Karbo</div></div>
             <div class="meal-macro-item"><div class="meal-macro-val txt-muted">${makro.lemak}g</div><div class="meal-macro-label">Lemak</div></div>
         </div>
-        <div class="meal-section-title">Bahan-bahan <span style="font-weight:400;text-transform:none;font-size:.7rem;color:var(--text3);">(alt = alternatif pengganti)</span></div>
+        <div class="meal-section-title">Bahan <span>(alt = pengganti)</span></div>
         <div class="meal-bahan-list">${bahanHTML}</div>
-        <div class="meal-section-title">Cara Memasak</div>
+        <div class="meal-section-title">Cara memasak</div>
         <div class="meal-langkah-list">
             ${langkah.map((l,i)=>`<div class="meal-langkah-item"><div class="meal-langkah-num">${i+1}</div><div>${l}</div></div>`).join('')}
         </div>
-        <div style="display:flex;justify-content:center;margin:12px 0 6px;">
-            <button onclick="event.stopPropagation();showMealSwapModal(${idx})" style="background:transparent;border:1.5px solid var(--border2);color:var(--text2);padding:8px 22px;border-radius:99px;font-size:.79rem;font-weight:600;cursor:pointer;letter-spacing:.02em;transition:border-color .2s,color .2s;">🔄 Ganti Menu</button>
+        <div style="display:flex;justify-content:center;margin:13px 0 7px;">
+            <button onclick="event.stopPropagation();showMealSwapModal(${idx})" class="btn btn-outline btn-sm">${ICONS.swap} Ganti Menu</button>
         </div>
         <button class="meal-done-btn ${done?'done':''}" id="meal-btn-${idx}" onclick="toggleMealDone(${idx})">
-            ${done?'✅ Sudah Dimakan':'○ Tandai Sudah Makan'}
+            ${done?ICONS.check+' Sudah dimakan':'Tandai sudah makan'}
         </button>
         </div>`;
     return card;
@@ -2734,9 +2862,9 @@
     if(mCalEl) mCalEl.textContent=tdee.toLocaleString('id-ID')+' kkal';
     const mMacEl=document.getElementById('menu-macro-pills');
     if(mMacEl) mMacEl.innerHTML=`
-        <span class="macro-pill">🥩 ${totalProt}g Protein</span>
-        <span class="macro-pill">🍚 ${totalKarbo}g Karbo</span>
-        <span class="macro-pill">🫒 ${totalLemak}g Lemak</span>`;
+        <span class="macro-pill">${totalProt}g protein</span>
+        <span class="macro-pill">${totalKarbo}g karbo</span>
+        <span class="macro-pill">${totalLemak}g lemak</span>`;
     // Goal notice
     const goalNotice=document.getElementById('menu-goal-notice');
     if(goalNotice&&goal){
@@ -2769,10 +2897,10 @@
     const streak=getStreak();const phase=getPhaseForDay(day);const ph=PHASES[phase];const week=Math.floor(day/7);
     const overview=document.getElementById('prog-overview');
     overview.innerHTML=`
-        <div class="prog-stat-card"><div class="prog-stat-icon">📅</div><div class="prog-stat-val txt-accent">${day+1}</div><div class="prog-stat-label">Hari Berjalan</div></div>
-        <div class="prog-stat-card"><div class="prog-stat-icon">🔥</div><div class="prog-stat-val txt-orange">${streak}</div><div class="prog-stat-label">Streak Aktif</div></div>
-        <div class="prog-stat-card"><div class="prog-stat-icon">📊</div><div class="prog-stat-val">${Math.round((day/90)*100)}%</div><div class="prog-stat-label">Program Selesai</div></div>
-        <div class="prog-stat-card"><div class="prog-stat-icon">⚡</div><div class="prog-stat-val txt-blue">${week+1}</div><div class="prog-stat-label">Minggu Ke-</div></div>`;
+        <div class="prog-stat-card"><div class="prog-stat-icon">${ICONS.calendar}</div><div class="prog-stat-val txt-accent">${day+1}</div><div class="prog-stat-label">Hari berjalan</div></div>
+        <div class="prog-stat-card"><div class="prog-stat-icon">${ICONS.flame}</div><div class="prog-stat-val txt-orange">${streak}</div><div class="prog-stat-label">Streak</div></div>
+        <div class="prog-stat-card"><div class="prog-stat-icon">${ICONS.bars}</div><div class="prog-stat-val">${Math.round((day/90)*100)}%</div><div class="prog-stat-label">Program selesai</div></div>
+        <div class="prog-stat-card"><div class="prog-stat-icon">${ICONS.bolt}</div><div class="prog-stat-val txt-blue">${week+1}</div><div class="prog-stat-label">Minggu ke-</div></div>`;
 
     renderWeightChart();
 
@@ -2820,67 +2948,65 @@
         }).join('')}
         </div>`;
 
-    // Weekly bars
-    // Ambil data waktu asli dari perangkat
+    // Weekly bars — real completion read from per-day records (ip90_today_<date>)
     const now = new Date();
-    // getDay() menghasilkan: 0 (Minggu), 1 (Senin), ... 6 (Sabtu)
-    let currentDayIndex = now.getDay(); 
-
-    // Karena array kamu dimulai dari 'Sen', kita sesuaikan index-nya
-    // Jika Minggu (0), kita ubah jadi 6 agar sesuai urutan array ['Sen'...'Min']
-    // Jika Senin (1), kita ubah jadi 0, dst.
-    const adjustedToday = (currentDayIndex === 0) ? 6 : currentDayIndex - 1;
+    const dow = now.getDay(); // 0 Minggu ... 6 Sabtu
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - ((dow === 0 ? 7 : dow) - 1));
 
     const weeklySection = document.getElementById('prog-weekly-section');
-    const days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+    const days = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
 
-    // Kita asumsikan 'week' adalah variabel yang kamu definisikan di tempat lain 
-    // Jika ini untuk minggu berjalan, bisa set default: const week = 0;
+    const dayScores = days.map((_, i) => {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        const key = KEYS.today + d.toISOString().split('T')[0];
+        const rec = loadState(key);
+        if(!rec) return 0;
+        const meals = Array.isArray(rec.mealsCompleted) ? rec.mealsCompleted.filter(Boolean).length : 0;
+        return Math.round((rec.workoutDone ? 50 : 0) + (meals / 3) * 50);
+    });
+    const adjustedToday = (dow === 0) ? 6 : dow - 1;
 
     weeklySection.innerHTML = `
-        <div class="section-label">Minggu Ini (Minggu ${week + 1})</div>
+        <div class="section-label">Minggu ini (Minggu ${week + 1})</div>
         <div class="prog-weekly-bars">
         ${days.map((d, i) => {
-            // Logika isToday dan isPast berdasarkan urutan array
             const isToday = i === adjustedToday;
-            const isPast = i < adjustedToday;
-
-            const heightPct = isPast ? 100 : isToday ? 60 : 10;
-            const bg = isPast ? 'var(--accent)' : isToday ? 'var(--blue)' : 'var(--border)';
-
+            const score = dayScores[i];
+            const classNames = ['prog-weekly-bar'];
+            if(score > 0) classNames.push('filled');
+            if(isToday) classNames.push('current');
             return `
             <div class="prog-weekly-bar-wrap">
-            <div class="prog-weekly-bar ${isPast ? 'filled' : isToday ? 'current' : ''}" 
-                style="height:${heightPct}%; background:${bg}">
-            </div>
-            <div class="prog-weekly-day" 
-                style="color:${isToday ? 'var(--text)' : 'var(--text3)'}">
-                ${d}
-            </div>
+            <div class="${classNames.join(' ')}" style="height:${Math.max(4, score)}%"></div>
+            <div class="prog-weekly-day" style="color:${isToday ? 'var(--text)' : 'var(--text3)'}">${d}</div>
             </div>`;
         }).join('')}
         </div>`;
 
     // Goal section
-    const goalLabel=userData.goal==='lose'?'Turunkan Berat Badan':userData.goal==='gain'?'Tambah Massa Otot':'Jaga Berat Badan Ideal';
-    const goalDesc=userData.goal==='lose'?`Dari ${userData.weight}kg → Target ${userData.targetWeight}kg (defisit kalori)`:userData.goal==='gain'?`Dari ${userData.weight}kg → Target ${userData.targetWeight}kg (surplus kalori)`:`Jaga di sekitar ${userData.weight}kg (kalori seimbang)`;
+    const goalLabel=userData.goal==='lose'?'Turunkan berat badan':userData.goal==='gain'?'Tambah massa otot':'Jaga berat badan';
+    const goalDesc=userData.goal==='lose'?`Dari ${userData.weight} kg ke target ${userData.targetWeight} kg`:userData.goal==='gain'?`Dari ${userData.weight} kg ke target ${userData.targetWeight} kg`:`Jaga di sekitar ${userData.weight} kg`;
+    const goalTypeDesc=userData.goal==='lose'?'Defisit kalori':userData.goal==='gain'?'Surplus kalori':'Kalori seimbang';
+    const checkIcon=(ok)=>ok?ICONS.check:ICONS.minus;
     const progGoal=document.getElementById('prog-goal-section');
     progGoal.innerHTML=`
         <div class="section-label">Targetmu</div>
         <div class="prog-goal-items">
-        <div class="prog-goal-item"><div class="prog-goal-check">🎯</div><div class="prog-goal-info"><div class="prog-goal-label">${goalLabel}</div><div class="prog-goal-sub">${goalDesc}</div></div></div>
-        <div class="prog-goal-item"><div class="prog-goal-check">🔥</div><div class="prog-goal-info"><div class="prog-goal-label">${programData.tdee} kkal/hari</div><div class="prog-goal-sub">${userData.goal==='lose'?'Defisit kalori untuk menurunkan berat':userData.goal==='gain'?'Surplus kalori untuk menambah massa otot':'Kalori seimbang untuk menjaga berat'}</div></div></div>
+        <div class="prog-goal-item"><div class="prog-goal-check">${ICONS.target}</div><div class="prog-goal-info"><div class="prog-goal-label">${goalLabel}</div><div class="prog-goal-sub">${goalDesc}</div></div></div>
+        <div class="prog-goal-item"><div class="prog-goal-check">${ICONS.flame}</div><div class="prog-goal-info"><div class="prog-goal-label">${programData.tdee.toLocaleString('id-ID')} kkal/hari</div><div class="prog-goal-sub">${goalTypeDesc}</div></div></div>
         <div class="prog-goal-item">
-            <div class="prog-goal-check" style="${day>=7?'background:var(--accent-dim);border-color:var(--accent);':''}">${day>=7?'✅':'⬜'}</div>
-            <div class="prog-goal-info"><div class="prog-goal-label">Selesai Minggu Pertama</div><div class="prog-goal-sub">${day>=7?'Tercapai! Kamu sudah melewati fase paling sulit.':`${7-day} hari lagi.`}</div></div>
+            <div class="prog-goal-check" style="${day>=7?'background:var(--accent-dim);border-color:var(--accent);color:var(--accent);':''}">${checkIcon(day>=7)}</div>
+            <div class="prog-goal-info"><div class="prog-goal-label">Minggu pertama</div><div class="prog-goal-sub">${day>=7?'Selesai.':`${7-day} hari lagi.`}</div></div>
         </div>
         <div class="prog-goal-item">
-            <div class="prog-goal-check" style="${day>=30?'background:var(--accent-dim);border-color:var(--accent);':''}">${day>=30?'✅':'⬜'}</div>
-            <div class="prog-goal-info"><div class="prog-goal-label">30 Hari Pertama</div><div class="prog-goal-sub">${day>=30?'Luar biasa! Sebulan penuh program selesai.':`${30-day} hari lagi.`}</div></div>
+            <div class="prog-goal-check" style="${day>=30?'background:var(--accent-dim);border-color:var(--accent);color:var(--accent);':''}">${checkIcon(day>=30)}</div>
+            <div class="prog-goal-info"><div class="prog-goal-label">30 hari pertama</div><div class="prog-goal-sub">${day>=30?'Selesai.':`${30-day} hari lagi.`}</div></div>
         </div>
         <div class="prog-goal-item">
-            <div class="prog-goal-check" style="${day>=90?'background:var(--accent-dim);border-color:var(--accent);':''}">${day>=90?'✅':'⬜'}</div>
-            <div class="prog-goal-info"><div class="prog-goal-label">90 Hari Selesai!</div><div class="prog-goal-sub">${day>=90?'KAMU BERHASIL! 90 hari yang luar biasa!':`${90-day} hari lagi. Kamu bisa!`}</div></div>
+            <div class="prog-goal-check" style="${day>=90?'background:var(--accent-dim);border-color:var(--accent);color:var(--accent);':''}">${checkIcon(day>=90)}</div>
+            <div class="prog-goal-info"><div class="prog-goal-label">90 hari</div><div class="prog-goal-sub">${day>=90?'Selesai.':`${90-day} hari lagi.`}</div></div>
         </div>
         </div>`;
     }
@@ -2987,15 +3113,9 @@
     if(mCount) mCount.textContent=mealsCount;
     const doneWrap=document.getElementById('workout-done-wrap');
     if(doneWrap&&todayData.workoutDone){
-        // UX v6.7: Only re-render done wrap if not already showing ux-workout-complete
         if(!doneWrap.querySelector('.ux-workout-complete')){
         const energy=todayData.energy||selectedEnergy||3;
-        let completionMsg='Kamu sudah selesai latihan hari ini 💪';
-        let completionSub='Istirahat yang cukup biar otot pulih maksimal.';
-        if(energy>=4){completionMsg='Latihan kamu mantap hari ini, pertahankan!';completionSub='Kondisi prima terpakai dengan baik. Lanjutkan besok!';}
-        else if(energy===3){completionMsg='Bagus, kamu tetap konsisten hari ini 👍';completionSub='Konsistensi itu kunci — kamu sudah buktiin itu.';}
-        else{completionMsg='Tetap hebat, kamu tetap bergerak meski kondisi tidak maksimal 🙏';completionSub='Ini yang membedakan kamu. Besok pasti lebih baik.';}
-        doneWrap.innerHTML=`<div class="ux-workout-complete"><div class="ux-workout-complete-icon">✅</div><div class="ux-workout-complete-msg">${completionMsg}</div><div class="ux-workout-complete-sub">${completionSub}</div></div>`;
+        _renderWorkoutComplete(doneWrap, energy);
         }
         document.querySelectorAll('.exercise-num').forEach(n=>{if(n)n.classList.add('active');});
         _unlockWorkoutNotes();
@@ -3007,12 +3127,12 @@
         const done=todayData.mealsCompleted[idx];
         card.classList.toggle('completed',done);
         const btn=document.getElementById('meal-btn-'+idx);
-        if(btn){btn.className=`meal-done-btn ${done?'done':''}`;btn.textContent=done?'✅ Sudah Dimakan':'○ Tandai Sudah Makan';}
+        if(btn){btn.className=`meal-done-btn ${done?'done':''}`;btn.innerHTML=done?ICONS.check+' Sudah dimakan':'Tandai sudah makan';}
         });
     }
     const streak=getStreak();
     const streakEl=document.getElementById('lp-streak');
-    if(streakEl) streakEl.textContent=`🔥 ${streak}`;
+    if(streakEl) streakEl.innerHTML=`${ICONS.flame} Streak ${streak}`;
     }
 
     /* UX v6.7: Daily focus guidance */
@@ -3024,7 +3144,7 @@
     else if(goal==='gain') focusText='Fokus hari ini: cukup makan dan latihan stabil';
     else focusText='Fokus hari ini: jaga keseimbangan';
     let adaptHtml='';
-    if(day<7) adaptHtml=`<div class="ux-adapt-week-banner">🌱 Minggu adaptasi: tidak perlu langsung ketat, kurangi secara bertahap.</div>`;
+    if(day<7) adaptHtml=`<div class="ux-adapt-week-banner">${ICONS.leaf} Minggu adaptasi: tidak perlu langsung ketat, kurangi bertahap.</div>`;
     // Check recovery flag
     let recoveryHtml='';
     try{
@@ -3032,9 +3152,9 @@
         const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
         const yk='ip90_recovery_next_'+yesterday.toISOString().split('T')[0];
         const yflag=localStorage.getItem(yk);
-        if(rflag||yflag) recoveryHtml=`<div class="ux-recovery-notice">🩹 Latihan hari ini disesuaikan karena kondisi sebelumnya — tubuhmu sedang pemulihan.</div>`;
+        if(rflag||yflag) recoveryHtml=`<div class="ux-recovery-notice">${ICONS.bandage} Latihan hari ini disesuaikan karena kondisi sebelumnya, tubuhmu sedang pemulihan.</div>`;
     }catch(e){}
-    wrap.innerHTML=`${adaptHtml}${recoveryHtml}<div class="ux-daily-focus"><strong>💡 Panduan Harian</strong>${focusText}</div>`;
+    wrap.innerHTML=`${adaptHtml}${recoveryHtml}<div class="ux-daily-focus"><strong>Panduan harian</strong>${focusText}</div>`;
     }
 
     /* UX v6.7: Meal guidance */
@@ -3042,10 +3162,10 @@
     const wrap=document.getElementById('ux-meal-guidance-wrap');
     if(!wrap) return;
     let cls='',text='';
-    if(goal==='lose'){cls='lose';text='Menu ini disusun untuk membantu penurunan berat badan — porsi dan kalori sudah dikontrol.';}
-    else if(goal==='gain'){cls='gain';text='Menu ini mendukung peningkatan berat badan — cukupi porsi makan kamu hari ini.';}
-    else{text='Menu ini dirancang untuk menjaga keseimbanganmu — makan tepat waktu dan nikmati prosesnya.';}
-    wrap.innerHTML=`<div class="ux-meal-guidance ${cls}">🍱 ${text}</div>`;
+    if(goal==='lose'){cls='lose';text='Menu hari ini disusun untuk defisit kalori. Porsi sudah dihitung sesuai targetmu.';}
+    else if(goal==='gain'){cls='gain';text='Menu hari ini disusun untuk surplus kalori. Cukupi porsi makanmu.';}
+    else{text='Menu hari ini disusun untuk kalori seimbang. Makan tepat waktu.';}
+    wrap.innerHTML=`<div class="ux-meal-guidance ${cls}">${text}</div>`;
     }
 
     /* ============================================================
@@ -3082,7 +3202,7 @@
     const targetCal = Math.round(tdee * dist[slot]);
 
     const TIME_LABELS = ['Sarapan','Makan Siang','Makan Malam'];
-    const ICONS       = ['🌅','☀️','🌙'];
+    const TIME_ICONS  = [ICONS.sunrise,ICONS.bowl,ICONS.moon];
     const TIME_RANGES = ['06:00–08:00','12:00–13:00','18:00–19:00'];
     const TYPES       = ['pagi','siang','malam'];
 
@@ -3104,7 +3224,7 @@
         Object.assign({}, withRecipe, { type: TYPES[slot] }),
         targetCal,
         TIME_LABELS[slot],
-        ICONS[slot],
+        TIME_ICONS[slot],
         TIME_RANGES[slot]
         );
     });
@@ -3126,7 +3246,8 @@
     if(!modal){
         modal = document.createElement('div');
         modal.id = 'meal-swap-modal';
-        modal.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.65);display:flex;align-items:flex-end;justify-content:center;';
+        modal.className = 'modal-overlay';
+        modal.style.zIndex = '10000';
         modal.addEventListener('click', function(e){ if(e.target===modal) closeMealSwapModal(); });
         document.body.appendChild(modal);
     }
@@ -3134,8 +3255,14 @@
     const alternatives = getSwapAlternatives(currentMeal, slotIdx, day, tdee);
 
     if(!alternatives.length){
-        modal.innerHTML = '<div style="background:var(--bg);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:30px 20px 40px;text-align:center;"><div style="font-size:2rem;margin-bottom:12px;">😔</div><div style="font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:8px;">Tidak ada alternatif</div><div style="font-size:.8rem;color:var(--text3);margin-bottom:22px;">Semua pilihan lain mengandung bahan yang kamu hindari.</div><button onclick="closeMealSwapModal()" style="background:var(--card);border:1.5px solid var(--border2);color:var(--text2);padding:10px 28px;border-radius:99px;font-size:.85rem;font-weight:600;cursor:pointer;">Tutup</button></div>';
+        modal.innerHTML = '<div class="swap-sheet"><div class="swap-empty">'
+        +'<div class="swap-empty-icon">'+ICONS.search+'</div>'
+        +'<div class="swap-empty-title">Tidak ada alternatif</div>'
+        +'<div class="swap-empty-sub">Semua pilihan lain mengandung bahan yang kamu hindari.</div>'
+        +'<button class="btn btn-outline btn-full" onclick="closeMealSwapModal()">Tutup</button>'
+        +'</div></div>';
         modal.style.display = 'flex';
+        modal.classList.add('active');
         return;
     }
 
@@ -3149,42 +3276,45 @@
         const bahanList = alt.resep && Array.isArray(alt.resep.bahan)
         ? alt.resep.bahan.slice(0,3).map(b => b.gram + (b.unit==='g'?'g':' '+b.unit)+' '+b.item.toLowerCase()).join(', ')
         : '';
-        return '<div onclick="applyMealSwap('+slotIdx+','+i+')" style="background:var(--card2);border:1.5px solid var(--border2);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;">'
-        +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:7px;">'
-        +'<div style="font-size:.9rem;font-weight:700;color:var(--text);line-height:1.35;">'+alt.nama+'</div>'
-        +'<div style="font-size:.88rem;font-weight:700;color:var(--accent);white-space:nowrap;">'+alt.kalori+' kkal</div>'
+        return '<div class="swap-alt" onclick="applyMealSwap('+slotIdx+','+i+')">'
+        +'<div class="swap-alt-top">'
+        +'<div class="swap-alt-name">'+alt.nama+'</div>'
+        +'<div class="swap-alt-cal">'+alt.kalori+' kkal</div>'
         +'</div>'
-        +'<div style="display:flex;gap:10px;font-size:.75rem;margin-bottom:9px;">'
-        +'<span style="color:var(--blue);">🥩 '+mk.protein+'g protein</span>'
-        +'<span style="color:var(--text2);">🍚 '+mk.karbo+'g karbo</span>'
-        +'<span style="color:var(--text3);">🫒 '+mk.lemak+'g lemak</span>'
+        +'<div class="swap-alt-macros">'
+        +'<span class="p">'+mk.protein+'g protein</span>'
+        +'<span class="k">'+mk.karbo+'g karbo</span>'
+        +'<span class="l">'+mk.lemak+'g lemak</span>'
         +'</div>'
-        +(bahanList?'<div style="font-size:.73rem;color:var(--text3);margin-bottom:11px;">📦 '+bahanList+(alt.resep.bahan.length>3?' ...':'')+'</div>':'')
-        +'<div style="background:var(--accent);color:#000;text-align:center;padding:8px 0;border-radius:99px;font-size:.82rem;font-weight:700;letter-spacing:.02em;">✓ Pilih Menu Ini</div>'
+        +(bahanList?'<div class="swap-alt-bahan">'+bahanList+(alt.resep.bahan.length>3?' …':'')+'</div>':'')
+        +'<div class="swap-alt-choose">Pilih menu ini</div>'
         +'</div>';
     }).join('');
 
-    modal.innerHTML = '<div style="background:var(--bg);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:22px 18px 40px;max-height:90vh;overflow-y:auto;">'
-        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
-        +'<div style="font-size:1rem;font-weight:700;color:var(--text);">🔄 Ganti Menu</div>'
-        +'<button onclick="closeMealSwapModal()" style="background:none;border:none;color:var(--text2);font-size:1.3rem;cursor:pointer;padding:0 4px;line-height:1;">✕</button>'
+    modal.innerHTML = '<div class="swap-sheet">'
+        +'<div class="swap-sheet-head">'
+        +'<div class="swap-sheet-title">Ganti Menu</div>'
+        +'<button class="swap-close" onclick="closeMealSwapModal()" aria-label="Tutup">'+ICONS.close+'</button>'
         +'</div>'
-        +'<div style="font-size:.75rem;color:var(--text3);margin-bottom:14px;">'+SLOT_NAMES[slotIdx]+' · kalori tetap sesuai targetmu</div>'
-        +'<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 13px;margin-bottom:16px;">'
-        +'<div style="font-size:.7rem;color:var(--text3);margin-bottom:3px;">Menu sekarang:</div>'
-        +'<div style="font-size:.86rem;font-weight:600;color:var(--text);">'+currentMeal.nama+'</div>'
+        +'<div class="swap-sub">'+SLOT_NAMES[slotIdx]+' · kalori tetap sesuai targetmu</div>'
+        +'<div class="swap-current">'
+        +'<div class="swap-current-label">Menu sekarang</div>'
+        +'<div class="swap-current-name">'+currentMeal.nama+'</div>'
         +'</div>'
-        +'<div style="font-size:.79rem;font-weight:600;color:var(--text2);margin-bottom:10px;">Pilih alternatif:</div>'
+        +'<div class="swap-options-label">Pilih alternatif</div>'
         +altCardsHTML
-        +'<button onclick="closeMealSwapModal()" style="width:100%;background:transparent;border:1.5px solid var(--border2);color:var(--text3);padding:10px 0;border-radius:99px;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:4px;">Batal</button>'
+        +'<button class="swap-cancel" onclick="closeMealSwapModal()">Batal</button>'
         +'</div>';
 
     modal.style.display = 'flex';
+    modal.classList.add('active');
     }
 
     function closeMealSwapModal(){
     const modal = document.getElementById('meal-swap-modal');
-    if(modal) modal.style.display = 'none';
+    if(!modal) return;
+    modal.classList.remove('active');
+    modal.style.display = 'none';
     }
 
     function applyMealSwap(slotIdx, altIdx){
@@ -3218,10 +3348,10 @@
     if(!toast){
         toast = document.createElement('div');
         toast.id = '_swap_ok_toast';
-        toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--card);border:1.5px solid var(--accent);color:var(--accent);padding:11px 24px;border-radius:99px;font-size:.83rem;font-weight:600;z-index:9999;pointer-events:none;white-space:nowrap;transition:opacity .3s;';
+        toast.className = 'toast';
         document.body.appendChild(toast);
     }
-    toast.textContent = '✅ Menu berhasil diganti!';
+    toast.innerHTML = ICONS.check+' Menu berhasil diganti';
     toast.style.opacity = '1';
     clearTimeout(toast._hideTimer);
     toast._hideTimer = setTimeout(function(){ toast.style.opacity='0'; }, 2500);
@@ -3234,9 +3364,9 @@
     const totalLemak = meals.reduce(function(s,m){ return s+((m.makro||{}).lemak  ||0); }, 0);
     const mMacEl = document.getElementById('menu-macro-pills');
     if(mMacEl) mMacEl.innerHTML =
-        '<span class="macro-pill">🥩 '+totalProt+'g Protein</span>'
-        +'<span class="macro-pill">🍚 '+totalKarbo+'g Karbo</span>'
-        +'<span class="macro-pill">🫒 '+totalLemak+'g Lemak</span>';
+        '<span class="macro-pill">'+totalProt+'g protein</span>'
+        +'<span class="macro-pill">'+totalKarbo+'g karbo</span>'
+        +'<span class="macro-pill">'+totalLemak+'g lemak</span>';
     }
 
     /* ============================================================

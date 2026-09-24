@@ -2,27 +2,43 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%2300c853'/%3E%3Cpath d='M6.5 6.5h11M6.5 17.5h11M12 4v16' stroke='%23000' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<meta http-equiv="Cache-Control" content="no-store, must-revalidate">
 <title>Instruktur Pribadi 90 Hari</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link rel="stylesheet" href="style.css">
+<script>
+// Terapkan tema sebelum render untuk mencegah kedip (FOUC).
+(function () {
+  try {
+    var t = localStorage.getItem('ip90_theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
 <!-- ════════════════════════════════════════ LANDING -->
-<div id="screen-la" class="screen">
+<div id="screen-la" class="screen active">
   <div class="la-bg"></div>
   <div class="la-grid"></div>
   <div class="la-wrap">
 
     <!-- Logo -->
-    <div class="la-logo">
-      <div class="la-logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2v20M6.5 6.5h11M6.5 17.5h11"/><circle cx="12" cy="12" r="3"/></svg>
+    <div class="la-top">
+      <div class="la-logo">
+        <div class="la-logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2v20M6.5 6.5h11M6.5 17.5h11"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <span class="la-logo-text">Instruktur Pribadi</span>
       </div>
-      <span class="la-logo-text">Instruktur Pribadi</span>
+      <button class="theme-toggle" type="button" onclick="toggleTheme(this)" aria-label="Ganti mode gelap atau terang" title="Ganti tema">
+        <span class="theme-toggle-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+      </button>
     </div>
 
     <!-- Headline -->
@@ -62,7 +78,7 @@
 
     <!-- CTA -->
     <div class="la-cta">
-      <button class="btn btn-primary btn-full" onclick="showScreen('lf')" style="font-size:1rem;padding:16px 20px;">
+      <button class="btn btn-primary btn-full btn-lg" onclick="showScreen('lf')">
         Mulai Hari Ini
       </button>
       <p class="la-tagline">Tanpa ribet. Tanpa alasan.</p>
@@ -73,7 +89,7 @@
       </div>
     </div>
 
-    <div class="la-footer">Crafted by <strong>Muhamad Rafi Apriyansyah</strong></div>
+    <div class="la-footer">Dibuat oleh <strong>Muhamad Rafi Apriyansyah</strong></div>
   </div>
 </div>
 
@@ -90,6 +106,9 @@
         <div class="lf-title">Data Awal</div>
         <div class="lf-subtitle">Isi sekali, program langsung siap</div>
       </div>
+      <button class="theme-toggle" type="button" onclick="toggleTheme(this)" aria-label="Ganti mode gelap atau terang" title="Ganti tema">
+        <span class="theme-toggle-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+      </button>
     </div>
 
     <div id="form-container">
@@ -252,7 +271,7 @@
           </div>
         </div>
 
-        <div class="dislike-section-label" style="margin-top:12px;">Karbohidrat</div>
+        <div class="dislike-section-label dislike-mt">Karbohidrat</div>
         <div class="dislike-grid">
           <div class="dislike-chip" data-dislike="nasi" onclick="toggleDislike(this)">
             <span class="dislike-chip-icon">
@@ -270,7 +289,7 @@
           </div>
         </div>
 
-        <div class="dislike-section-label" style="margin-top:12px;">Lainnya</div>
+        <div class="dislike-section-label dislike-mt">Lainnya</div>
         <div class="dislike-grid">
           <div class="dislike-chip" data-dislike="gorengan" onclick="toggleDislike(this)">
             <span class="dislike-chip-icon">
@@ -295,7 +314,7 @@
       </div>
 
       <div class="lf-submit-wrap">
-        <button class="btn btn-primary btn-full" id="submit-btn" onclick="handleFormSubmit()" style="padding:16px;font-size:1rem;">
+        <button class="btn btn-primary btn-full btn-lg" id="submit-btn" onclick="handleFormSubmit()">
           Buat Program Saya
         </button>
       </div>
@@ -309,15 +328,20 @@
   <div class="lh-wrap">
     <div class="lh-top">
       <div class="lh-logo-sm">90 Hari</div>
-      <div class="lh-settings" onclick="showResetModal()" title="Pengaturan">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <div class="lh-top-actions">
+        <button class="theme-toggle" type="button" onclick="toggleTheme(this)" aria-label="Ganti mode gelap atau terang" title="Ganti tema">
+          <span class="theme-toggle-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+        </button>
+        <button class="lh-settings" type="button" onclick="showResetModal()" title="Hapus data" aria-label="Hapus semua data">
+          <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></svg>
+        </button>
       </div>
     </div>
     <div id="lh-greet" class="lh-greet">Halo,</div>
     <div id="lh-name" class="lh-name">—</div>
     <div id="lh-day" class="lh-day">Program dimulai hari ini</div>
     <div class="lh-actions">
-      <button class="btn btn-primary btn-full" onclick="showScreen('lp')" id="lh-main-btn" style="padding:16px;font-size:1rem;">
+      <button class="btn btn-primary btn-full btn-lg" onclick="showScreen('lp')" id="lh-main-btn">
         Lanjut Hari Ini
       </button>
       <div class="lh-reset-wrap">
@@ -344,7 +368,12 @@
           <div class="lp-topbar-day" id="lp-day-label">Hari ke-1 dari 90</div>
         </div>
       </div>
-      <div class="lp-topbar-streak" id="lp-streak">🔥 0</div>
+      <div class="lp-topbar-right">
+        <div class="lp-topbar-streak" id="lp-streak">Streak 0</div>
+        <button class="theme-toggle" type="button" onclick="toggleTheme(this)" aria-label="Ganti mode gelap atau terang" title="Ganti tema">
+          <span class="theme-toggle-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+        </button>
+      </div>
     </div>
 
     <!-- Tab content -->
@@ -411,14 +440,12 @@
             </div>
             <div class="dash-prog-items">
               <div class="dash-prog-item">
-                <div class="dash-prog-icon">🏋️</div>
                 <div class="dash-prog-info">
                   <div class="dash-prog-name">Latihan</div>
-                  <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-workout-bar" style="width:0%;background:var(--blue)"></div></div>
+                  <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-workout-bar" style="width:0%"></div></div>
                 </div>
               </div>
               <div class="dash-prog-item">
-                <div class="dash-prog-icon">🍱</div>
                 <div class="dash-prog-info">
                   <div class="dash-prog-name">Makan (<span id="prog-meal-count">0</span>/3)</div>
                   <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-meal-bar" style="width:0%"></div></div>
@@ -462,7 +489,7 @@
           <div class="workout-notes-section hidden" id="workout-notes-section">
             <div class="workout-notes-title">Catatan Kondisi Tubuh</div>
             <textarea class="workout-notes-textarea" id="workout-notes-input" placeholder="Catat rasa nyeri, kelelahan, atau pengalaman latihan hari ini..." disabled></textarea>
-            <button class="workout-notes-save" id="workout-notes-save-btn" onclick="saveWorkoutNotes()" style="opacity:.5;cursor:not-allowed;" disabled>Simpan Catatan</button>
+            <button class="workout-notes-save" id="workout-notes-save-btn" onclick="saveWorkoutNotes()" disabled>Simpan Catatan</button>
             <div class="workout-notes-saved" id="notes-saved-msg">Catatan tersimpan</div>
           </div>
         </div>
@@ -517,7 +544,7 @@
 
           <div class="prog-journal-card">
             <div class="prog-journal-title">Catatan Kondisi Tubuh</div>
-            <div style="font-size:.75rem;color:var(--text2);margin-bottom:12px;line-height:1.55;">Catat nyeri, kelelahan, atau cedera untuk membantu menyesuaikan intensitas latihan besok.</div>
+            <div class="prog-journal-hint">Catat nyeri, kelelahan, atau cedera untuk membantu menyesuaikan intensitas latihan besok.</div>
             <div class="prog-journal-row">
               <div class="prog-journal-field">
                 <textarea class="prog-journal-textarea" id="journal-notes" placeholder="Contoh: Lutut sedikit nyeri, capek berat setelah latihan, sakit punggung..."></textarea>
@@ -530,7 +557,7 @@
           <div class="prog-phase-card" id="prog-phase-card"></div>
           <div class="prog-weekly-section" id="prog-weekly-section"></div>
           <div class="prog-goal-section" id="prog-goal-section"></div>
-          <div style="text-align:center;padding:20px 0 8px;font-size:.65rem;color:var(--text3);">
+          <div class="prog-footer">
             Instruktur Pribadi 90 Hari · by Muhamad Rafi Apriyansyah
           </div>
         </div>
@@ -582,7 +609,7 @@
 
 
 <!-- ════════════════════════════════════════ ENERGY CHECK MODAL -->
-<div class="energy-modal-overlay" id="energy-modal" style="pointer-events:all;">
+<div class="energy-modal-overlay" id="energy-modal">
   <div class="energy-modal-box" onclick="event.stopPropagation()">
     <div class="energy-modal-title">Cek Kondisimu Hari Ini</div>
     <div class="energy-modal-sub">Jawab sebentar biar latihan disesuaikan dengan kondisi tubuhmu.</div>
@@ -595,7 +622,7 @@
       <div class="energy-star" onclick="selectEnergy(4)">4</div>
       <div class="energy-star" onclick="selectEnergy(5)">5</div>
     </div>
-    <div id="energy-star-err" style="font-size:.75rem;color:var(--orange);margin-bottom:10px;display:none;">Pilih level energimu dulu.</div>
+    <div id="energy-star-err" class="field-err">Pilih level energimu dulu.</div>
 
     <div class="energy-label">Berapa jam kamu tidur tadi malam?</div>
     <div class="sleep-input-wrap">
@@ -603,20 +630,29 @@
         oninput="updateEnergyConfirmBtn();updateIntensityPreview();">
       <span class="sleep-input-unit">jam</span>
     </div>
-    <div id="energy-sleep-err" style="font-size:.75rem;color:var(--orange);margin-bottom:10px;display:none;">Masukkan jam tidur (1–12 jam).</div>
+    <div id="energy-sleep-err" class="field-err">Masukkan jam tidur (1–12 jam).</div>
 
     <div class="intensity-preview" id="intensity-preview">
       Pilih energi dan jam tidur untuk melihat intensitas latihan hari ini.
     </div>
     <div class="ux-energy-hint hidden" id="ux-energy-hint"></div>
 
-    <button class="btn btn-primary btn-full" id="energy-confirm-btn"
-      onclick="confirmEnergyCheck()" disabled style="opacity:.45;cursor:not-allowed;margin-top:16px;">
+    <button class="btn btn-primary btn-full energy-confirm" id="energy-confirm-btn"
+      onclick="confirmEnergyCheck()" disabled>
       Mulai Latihan
     </button>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="script.js?v=3"></script>
+<script>
+// Fallback: pastikan selalu ada 1 layar terlihat walau script.js gagal dimuat
+window.addEventListener('load', function () {
+  if (!document.querySelector('.screen.active')) {
+    document.getElementById('screen-la').classList.add('active');
+  }
+});
+</script>
+<noscript><style>.screen{display:flex!important}</style></noscript>
 </body>
 </html>
