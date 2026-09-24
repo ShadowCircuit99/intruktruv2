@@ -22,7 +22,7 @@
 </head>
 <body>
 
-<!-- ════════════════════════════════════════ LANDING -->
+<!-- ---------------------------------------- LANDING -->
 <div id="screen-la" class="screen active">
   <div class="la-bg"></div>
   <div class="la-grid"></div>
@@ -43,7 +43,7 @@
 
     <!-- Headline -->
     <h1 class="la-headline">90 Hari.<br>Buktiin Kamu<br><span>Bisa Konsisten.</span></h1>
-    <p class="la-sub">Latihan, makan, dan progress harian.<br>Semua sudah diatur — tinggal kamu jalanin.</p>
+    <p class="la-sub">Latihan, makan, dan progress harian.<br>Semua sudah diatur, tinggal kamu jalanin.</p>
 
     <!-- Feature list -->
     <div class="la-features">
@@ -71,7 +71,7 @@
         </div>
         <div class="la-feature-text">
           <strong>Progress yang Kelihatan</strong>
-          Berat, pinggang, dan kebiasaan — semua ke-track.
+          Berat, pinggang, dan kebiasaan, semua ke-track.
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@
 </div>
 
 
-<!-- ════════════════════════════════════════ FORM / ONBOARDING -->
+<!-- ---------------------------------------- FORM / ONBOARDING -->
 <div id="screen-lf" class="screen">
   <div class="lf-wrap">
 
@@ -129,7 +129,7 @@
           <input type="number" class="form-input" id="f-weight" placeholder="70" min="30" max="200" oninput="checkWeightSafety()">
           <div class="form-error-msg" id="err-weight">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
-            30–200 kg
+            30-200 kg
           </div>
         </div>
         <div class="form-group">
@@ -153,7 +153,7 @@
           <input type="number" class="form-input" id="f-height" placeholder="170" min="100" max="250">
           <div class="form-error-msg" id="err-height">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
-            100–250 cm
+            100-250 cm
           </div>
         </div>
         <div class="form-group">
@@ -161,7 +161,7 @@
           <input type="number" class="form-input" id="f-age" placeholder="25" min="15" max="80">
           <div class="form-error-msg" id="err-age">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
-            15–80 tahun
+            15-80 tahun
           </div>
         </div>
       </div>
@@ -185,10 +185,10 @@
         <label class="form-label">Tingkat Aktivitas Sehari-hari</label>
         <select class="form-select" id="f-activity">
           <option value="">Pilih tingkat aktivitas</option>
-          <option value="1.2">Tidak aktif — kerja kantoran, jarang gerak</option>
-          <option value="1.375">Sedikit aktif — olahraga 1–3x/minggu</option>
-          <option value="1.55">Cukup aktif — olahraga 3–5x/minggu</option>
-          <option value="1.725">Sangat aktif — olahraga 6–7x/minggu</option>
+          <option value="1.2">Tidak aktif, kerja kantoran, jarang gerak</option>
+          <option value="1.375">Sedikit aktif, olahraga 1-3x/minggu</option>
+          <option value="1.55">Cukup aktif, olahraga 3-5x/minggu</option>
+          <option value="1.725">Sangat aktif, olahraga 6-7x/minggu</option>
         </select>
         <div class="form-error-msg" id="err-activity">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
@@ -310,7 +310,7 @@
         <div class="dislike-notice" id="dislike-notice" style="display:none;">
           Bahan yang dipilih tidak akan muncul selama 90 hari.
         </div>
-        <div class="form-hint">Pilih bahan yang ingin dihindari — menu akan otomatis disesuaikan.</div>
+        <div class="form-hint">Pilih bahan yang ingin dihindari, menu akan otomatis disesuaikan.</div>
       </div>
 
       <div class="lf-submit-wrap">
@@ -323,7 +323,7 @@
 </div>
 
 
-<!-- ════════════════════════════════════════ HOME -->
+<!-- ---------------------------------------- HOME -->
 <div id="screen-lh" class="screen">
   <div class="lh-wrap">
     <div class="lh-top">
@@ -338,7 +338,7 @@
       </div>
     </div>
     <div id="lh-greet" class="lh-greet">Halo,</div>
-    <div id="lh-name" class="lh-name">—</div>
+    <div id="lh-name" class="lh-name">-</div>
     <div id="lh-day" class="lh-day">Program dimulai hari ini</div>
     <div class="lh-actions">
       <button class="btn btn-primary btn-full btn-lg" onclick="showScreen('lp')" id="lh-main-btn">
@@ -353,7 +353,7 @@
 </div>
 
 
-<!-- ════════════════════════════════════════ PROGRAM -->
+<!-- ---------------------------------------- PROGRAM -->
 <div id="screen-lp" class="screen">
   <div class="lp-inner">
 
@@ -407,29 +407,29 @@
             </div>
             <div class="dash-water-info">
               <div class="dash-water-title">Target Air Harian</div>
-              <div class="dash-water-val" id="dash-water-val">— ml</div>
-              <div class="dash-water-hint">30–35 ml × berat badanmu</div>
+              <div class="dash-water-val" id="dash-water-val">- ml</div>
+              <div class="dash-water-hint">30-35 ml × berat badanmu</div>
             </div>
           </div>
           <div id="dash-adapt-notice" class="dash-adapt-notice hidden">
-            <div class="dash-adapt-title">Minggu Adaptasi (Hari 1–7)</div>
+            <div class="dash-adapt-title">Minggu Adaptasi (Hari 1-7)</div>
             <div class="dash-adapt-list">
-              <div class="dash-adapt-item">Kurangi porsi makan secara bertahap — tidak perlu langsung ketat</div>
-              <div class="dash-adapt-item">Kurangi gula — hindari minuman manis dan makanan bergula tinggi</div>
+              <div class="dash-adapt-item">Kurangi porsi makan secara bertahap, tidak perlu langsung ketat</div>
+              <div class="dash-adapt-item">Kurangi gula, hindari minuman manis dan makanan bergula tinggi</div>
               <div class="dash-adapt-item">Hindari makanan yang digoreng deep-fry</div>
             </div>
           </div>
           <div class="dash-cal-row">
             <div class="dash-cal-item">
-              <div class="dash-cal-val txt-accent" id="dash-cal-total">—</div>
+              <div class="dash-cal-val txt-accent" id="dash-cal-total">-</div>
               <div class="dash-cal-label">Target Kalori</div>
             </div>
             <div class="dash-cal-item">
-              <div class="dash-cal-val txt-blue" id="dash-cal-protein">—</div>
+              <div class="dash-cal-val txt-blue" id="dash-cal-protein">-</div>
               <div class="dash-cal-label">Protein (g)</div>
             </div>
             <div class="dash-cal-item">
-              <div class="dash-cal-val" id="dash-cal-carb">—</div>
+              <div class="dash-cal-val" id="dash-cal-carb">-</div>
               <div class="dash-cal-label">Karbo (g)</div>
             </div>
           </div>
@@ -499,14 +499,14 @@
       <div class="tab-pane" id="tab-menu">
         <div class="menu-pad">
           <div class="menu-cal-header">
-            <div class="menu-cal-total" id="menu-cal-total">— kkal</div>
+            <div class="menu-cal-total" id="menu-cal-total">- kkal</div>
             <div class="menu-cal-label">Target kalori hari ini</div>
             <div class="menu-macro-pills" id="menu-macro-pills"></div>
           </div>
           <div id="ux-meal-guidance-wrap"></div>
           <div id="menu-goal-notice" class="menu-goal-notice-box hidden"></div>
           <div id="menu-adapt-notice" class="menu-adapt-notice hidden">
-            <strong>Fase Adaptasi (Hari 1–7):</strong> Porsi bisa disesuaikan dengan kebiasaan makan sehari-hari. Kurangi gula dan gorengan secara bertahap — tidak perlu langsung drastis.
+            <strong>Fase Adaptasi (Hari 1-7):</strong> Porsi bisa disesuaikan dengan kebiasaan makan sehari-hari. Kurangi gula dan gorengan secara bertahap, tidak perlu langsung drastis.
           </div>
           <div class="meal-cards" id="meal-cards"></div>
         </div>
@@ -595,7 +595,7 @@
 </div>
 
 
-<!-- ════════════════════════════════════════ RESET MODAL -->
+<!-- ---------------------------------------- RESET MODAL -->
 <div class="modal-overlay" id="reset-modal">
   <div class="modal-box">
     <div class="modal-title">Mulai Ulang Program?</div>
@@ -608,7 +608,7 @@
 </div>
 
 
-<!-- ════════════════════════════════════════ ENERGY CHECK MODAL -->
+<!-- ---------------------------------------- ENERGY CHECK MODAL -->
 <div class="energy-modal-overlay" id="energy-modal">
   <div class="energy-modal-box" onclick="event.stopPropagation()">
     <div class="energy-modal-title">Cek Kondisimu Hari Ini</div>
@@ -630,7 +630,7 @@
         oninput="updateEnergyConfirmBtn();updateIntensityPreview();">
       <span class="sleep-input-unit">jam</span>
     </div>
-    <div id="energy-sleep-err" class="field-err">Masukkan jam tidur (1–12 jam).</div>
+    <div id="energy-sleep-err" class="field-err">Masukkan jam tidur (1-12 jam).</div>
 
     <div class="intensity-preview" id="intensity-preview">
       Pilih energi dan jam tidur untuk melihat intensitas latihan hari ini.

@@ -34,8 +34,8 @@ start index.html
 ### 3. Struktur Folder
 instruktur-olahraga/
 ```
-│── index.html
-│── css/
-│   └── style.css
-│── js/
-│   └── script.js
+│-- index.html
+│-- css/
+│   └-- style.css
+│-- js/
+│   └-- script.js

@@ -2,7 +2,7 @@
    Instruktur Pribadi 90 Hari
    ========================================================== */
 
-/* ── Design tokens ─────────────────────────────────────── */
+/* -- Design tokens --------------------------------------- */
 :root,
 [data-theme="light"]{
   color-scheme:light;
@@ -81,7 +81,7 @@
   --font-b:Arial,Helvetica,'Helvetica Neue',sans-serif;
 }
 
-/* ── Base ──────────────────────────────────────────────── */
+/* -- Base ------------------------------------------------ */
 *,*::before,*::after{box-sizing:border-box}
 html{font-size:15px;-webkit-text-size-adjust:100%}
 body{
@@ -100,7 +100,7 @@ button,input,select,textarea{font-family:inherit;font-size:.88rem;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:5px}
 
-/* ── Utilities ─────────────────────────────────────────── */
+/* -- Utilities ------------------------------------------- */
 .hidden{display:none!important}
 .txt-accent{color:var(--accent)}
 .txt-blue{color:var(--blue)}
@@ -113,7 +113,7 @@ button{cursor:pointer}
 .icon-sm{width:14px;height:14px}
 .icon-lg{width:19px;height:19px}
 
-/* ── Theme toggle ──────────────────────────────────────── */
+/* -- Theme toggle ---------------------------------------- */
 .theme-toggle{
   width:36px;height:36px;border-radius:9px;background:var(--card);
   border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
@@ -123,11 +123,11 @@ button{cursor:pointer}
 .theme-toggle-icon{display:flex}
 .theme-toggle-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-/* ── Screens ───────────────────────────────────────────── */
+/* -- Screens --------------------------------------------- */
 .screen{display:none;min-height:100vh;min-height:100dvh;flex-direction:column}
 .screen.active{display:flex;align-items:center}
 
-/* ── Buttons ───────────────────────────────────────────── */
+/* -- Buttons --------------------------------------------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   padding:12px 18px;border-radius:10px;border:1px solid transparent;
@@ -147,7 +147,7 @@ button{cursor:pointer}
 .btn-lg{padding:15px 20px;font-size:.96rem}
 .btn-sm{padding:8px 12px;font-size:.78rem}
 
-/* ── Cards ─────────────────────────────────────────────── */
+/* -- Cards ----------------------------------------------- */
 .card,
 .la-feature,.la-stat,.dash-day-hero,.dash-intensity-card,.dash-water-card,
 .dash-progress-section,.dash-guide,.workout-header,.exercise-card,
@@ -161,7 +161,7 @@ button{cursor:pointer}
   box-shadow:var(--shadow-sm);
 }
 
-/* ── Badges ────────────────────────────────────────────── */
+/* -- Badges ---------------------------------------------- */
 .badge{
   display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;
   font-size:.66rem;font-weight:600;border:1px solid var(--border2);
@@ -634,7 +634,7 @@ button{cursor:pointer}
 .swap-cancel{width:100%;background:transparent;border:1px solid var(--border2);color:var(--text3);padding:11px 0;border-radius:99px;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:4px}
 .swap-cancel:hover{background:var(--card2)}
 
-/* ── Loader & toasts ───────────────────────────────────── */
+/* -- Loader & toasts ------------------------------------- */
 .loader{width:16px;height:16px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;margin:0 auto}
 @keyframes spin{to{transform:rotate(360deg)}}
 .toast{
