@@ -886,6 +886,9 @@
     // Once per day: if already checked, NEVER reopen
     const td=loadToday();
     if(td.energyChecked) return;
+    // Jangan reset form kalau modal sudah terbuka (misal dibuka 2x berurutan)
+    const _m=document.getElementById('energy-modal');
+    if(_m&&_m.classList.contains('active')) return;
     // Kill all running timers immediately, v7.1 DOM-bound
     clearInterval(window._exTimerInterval);
     clearTimeout(window._exTimerTimeout);
@@ -2341,6 +2344,14 @@
     const lpDayEl=document.getElementById('lp-day-label');if(lpDayEl) lpDayEl.textContent=`Hari ke-${day+1} dari 90`;
     const lpStreakEl=document.getElementById('lp-streak');if(lpStreakEl) lpStreakEl.innerHTML=`${ICONS.flame} Streak ${streak}`;
     loadEnergyForToday();
+    // Notif kondisi harian (energi + tidur) dijadwalkan duluan supaya
+    // error render di tab mana pun tidak bisa menggagalkannya.
+    try{
+        _applyTabLockState();
+        if(!loadToday().energyChecked){
+        setTimeout(showEnergyModal,350);
+        }
+    }catch(e){}
     renderDashboard(day,dayData,tdee,programData,userData);
     renderWorkoutTab(day,dayData.workout);
     renderMenuTab(dayData.meals,tdee,day,userData.goal);
@@ -2351,14 +2362,6 @@
         if(savedTab&&savedTab!=='dashboard'){
         const btn=document.querySelector(`.lp-tab[onclick*="'${savedTab}'"]`);
         if(btn) switchTab(btn,savedTab);
-        }
-    }catch(e){}
-    // Notif kondisi harian (energi + tidur) muncul saat dashboard pertama dibuka,
-    // bukan menunggu user membuka tab lain. Sekali sehari, setelah diisi tidak muncul lagi.
-    try{
-        _applyTabLockState();
-        if(!loadToday().energyChecked){
-        setTimeout(showEnergyModal,350);
         }
     }catch(e){}
     }
@@ -2893,7 +2896,7 @@
     // Reset filter kategori ke Semua setiap render
     const catRow=document.getElementById('meal-cat-row');
     if(catRow) catRow.querySelectorAll('.meal-cat-chip').forEach(c=>c.classList.toggle('active',c.dataset.cat==='semua'));
-    _renderMenuRecs(meals,tdee,day);
+    try{_renderMenuRecs(meals,tdee,day);}catch(e){console.error('menu recs error:',e);}
     }
 
     /* Filter kartu menu berdasarkan kategori slot (pagi/siang/malam) */
