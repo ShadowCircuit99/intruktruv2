@@ -2353,6 +2353,14 @@
         if(btn) switchTab(btn,savedTab);
         }
     }catch(e){}
+    // Notif kondisi harian (energi + tidur) muncul saat dashboard pertama dibuka,
+    // bukan menunggu user membuka tab lain. Sekali sehari, setelah diisi tidak muncul lagi.
+    try{
+        _applyTabLockState();
+        if(!loadToday().energyChecked){
+        setTimeout(showEnergyModal,350);
+        }
+    }catch(e){}
     }
 
     /* ============================================================
@@ -2882,6 +2890,82 @@
         const card=renderMealCard(meal, idx, null);
         container.appendChild(card);
     });
+    // Reset filter kategori ke Semua setiap render
+    const catRow=document.getElementById('meal-cat-row');
+    if(catRow) catRow.querySelectorAll('.meal-cat-chip').forEach(c=>c.classList.toggle('active',c.dataset.cat==='semua'));
+    _renderMenuRecs(meals,tdee,day);
+    }
+
+    /* Filter kartu menu berdasarkan kategori slot (pagi/siang/malam) */
+    function filterMenuCat(btn){
+    const cat=btn.dataset.cat;
+    document.querySelectorAll('#meal-cat-row .meal-cat-chip').forEach(c=>c.classList.toggle('active',c===btn));
+    const order=['pagi','siang','malam'];
+    order.forEach((type,idx)=>{
+        const card=document.getElementById('meal-card-'+idx);
+        if(card) card.style.display=(cat==='semua'||cat===type)?'':'none';
+    });
+    document.querySelectorAll('#menu-rec-list .menu-rec-item').forEach(el=>{
+        el.style.display=(cat==='semua'||el.dataset.slot===cat)?'':'none';
+    });
+    }
+
+    /* Rekomendasi: alternatif dari tiap slot agar pilihan lebih bervariasi.
+       Memakai getSwapAlternatives supaya kalori tetap sesuai target + dislike tetap aktif. */
+    function _renderMenuRecs(meals,tdee,day){
+    const list=document.getElementById('menu-rec-list');
+    const section=document.getElementById('menu-rec-section');
+    if(!list||!section) return;
+    const SLOT_LABEL=['Sarapan','Makan Siang','Makan Malam'];
+    const TYPES=['pagi','siang','malam'];
+    let recs=[];
+    for(let slot=0;slot<3;slot++){
+        if(!meals[slot]) continue;
+        try{
+        const alts=getSwapAlternatives(meals[slot],slot,day,tdee)||[];
+        alts.forEach(a=>{a._slot=slot;recs.push(a);});
+        }catch(e){}
+    }
+    section._recs=recs;
+    if(!recs.length){
+        list.innerHTML='<div class="menu-rec-empty">Tidak ada alternatif lain. Semua pilihan mengandung bahan yang kamu hindari.</div>';
+        return;
+    }
+    const activeCat=(document.querySelector('#meal-cat-row .meal-cat-chip.active')||{}).dataset||{cat:'semua'};
+    list.innerHTML=recs.map((r,i)=>{
+        const mk=r.makro||{protein:0,karbo:0,lemak:0};
+        return '<div class="menu-rec-item" data-slot="'+TYPES[r._slot]+'"'+(activeCat.cat!=='semua'&&activeCat.cat!==TYPES[r._slot]?' style="display:none"':'')+'>'
+        +'<div class="menu-rec-top"><div class="menu-rec-name">'+r.nama+'</div>'
+        +'<div class="menu-rec-cal">'+r.kalori+' kkal</div></div>'
+        +'<div class="menu-rec-meta">'+SLOT_LABEL[r._slot]+' · '+mk.protein+'g protein · '+mk.karbo+'g karbo</div>'
+        +'<button class="menu-rec-use" type="button" onclick="applyRecSwap('+i+')">Pakai untuk '+SLOT_LABEL[r._slot]+'</button>'
+        +'</div>';
+    }).join('');
+    }
+
+    function applyRecSwap(i){
+    const section=document.getElementById('menu-rec-section');
+    if(!section||!Array.isArray(section._recs)) return;
+    const newMeal=section._recs[i];
+    if(!newMeal||newMeal._slot===undefined) return;
+    const slotIdx=newMeal._slot;
+    const day=getCurrentDay();
+    const dk=getDislikes().join('_');
+    const cKey=KEYS.daydata+day+'_d_'+dk+'_v14';
+    const dayData=loadState(cKey);
+    if(!dayData||!Array.isArray(dayData.meals)) return;
+    const frozenMeal=deepFreezeMeals([newMeal])[0];
+    dayData.meals[slotIdx]=frozenMeal;
+    saveState(cKey,dayData);
+    const container=document.getElementById('meal-cards');
+    const oldCard=document.getElementById('meal-card-'+slotIdx);
+    if(container&&oldCard){
+        const newCard=renderMealCard(frozenMeal,slotIdx,null);
+        newCard.classList.add('open');
+        container.replaceChild(newCard,oldCard);
+    }
+    _refreshMenuMacros(dayData.meals);
+    _renderMenuRecs(dayData.meals,loadState(KEYS.program).tdee,day);
     }
 
     function toggleMeal(idx){document.getElementById('meal-card-'+idx).classList.toggle('open');}

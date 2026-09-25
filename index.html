@@ -508,7 +508,18 @@
           <div id="menu-adapt-notice" class="menu-adapt-notice hidden">
             <strong>Fase Adaptasi (Hari 1-7):</strong> Porsi bisa disesuaikan dengan kebiasaan makan sehari-hari. Kurangi gula dan gorengan secara bertahap, tidak perlu langsung drastis.
           </div>
+          <div class="meal-cat-row" id="meal-cat-row" role="tablist" aria-label="Kategori menu">
+            <button class="meal-cat-chip active" type="button" data-cat="semua" onclick="filterMenuCat(this)">Semua</button>
+            <button class="meal-cat-chip" type="button" data-cat="pagi" onclick="filterMenuCat(this)">Sarapan</button>
+            <button class="meal-cat-chip" type="button" data-cat="siang" onclick="filterMenuCat(this)">Makan Siang</button>
+            <button class="meal-cat-chip" type="button" data-cat="malam" onclick="filterMenuCat(this)">Makan Malam</button>
+          </div>
           <div class="meal-cards" id="meal-cards"></div>
+          <div class="menu-rec-section" id="menu-rec-section">
+            <div class="section-label">Menu lain yang cocok</div>
+            <div class="menu-rec-sub">Alternatif dari kategori yang sama, kalori tetap sesuai target.</div>
+            <div class="menu-rec-list" id="menu-rec-list"></div>
+          </div>
         </div>
       </div>
 

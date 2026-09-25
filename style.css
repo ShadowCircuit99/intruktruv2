@@ -479,6 +479,20 @@ button{cursor:pointer}
 .menu-adapt-notice,.menu-goal-notice-box{border-radius:10px;padding:11px 13px;margin-bottom:10px;font-size:.75rem;line-height:1.55;background:var(--card);border:1px solid var(--border);color:var(--text2)}
 
 .meal-cards{display:flex;flex-direction:column;gap:9px}
+.meal-cat-row{display:flex;gap:7px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px}
+.meal-cat-chip{flex-shrink:0;padding:7px 14px;border-radius:99px;font-size:.74rem;font-weight:600;background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-family:inherit}
+.meal-cat-chip.active{background:var(--text);border-color:var(--text);color:var(--bg)}
+.menu-rec-section{margin-top:14px}
+.menu-rec-sub{font-size:.72rem;color:var(--text2);margin:2px 0 9px}
+.menu-rec-list{display:flex;flex-direction:column;gap:8px}
+.menu-rec-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 13px}
+.menu-rec-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.menu-rec-name{font-size:.8rem;font-weight:700}
+.menu-rec-cal{font-size:.72rem;color:var(--text2);flex-shrink:0}
+.menu-rec-meta{font-size:.7rem;color:var(--text2);margin-top:3px}
+.menu-rec-use{margin-top:8px;width:100%;padding:8px;border-radius:8px;font-size:.74rem;font-weight:700;background:transparent;border:1px solid var(--border2);color:var(--text);cursor:pointer;font-family:inherit}
+.menu-rec-use:active{background:var(--card2)}
+.menu-rec-empty{font-size:.76rem;color:var(--text2);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px}
 .meal-card{overflow:hidden;transition:border-color .15s}
 .meal-card.completed{border-color:var(--accent)}
 .meal-card-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 15px;cursor:pointer}
