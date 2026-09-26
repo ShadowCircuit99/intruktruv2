@@ -427,22 +427,36 @@ button{cursor:pointer}
 .exercise-card.just-opened{border-color:var(--accent)}
 .ux-next-exercise-hint{display:block;font-size:.7rem;color:var(--text2);margin-top:8px;text-align:center}
 
+/* Sesi harian: pemanasan > latihan utama > pendinginan */
+.stage-header{padding:14px 2px 4px}
+.stage-header:first-child{padding-top:4px}
+.stage-title{font-family:var(--font-h);font-weight:700;font-size:.95rem;color:var(--stage-color,var(--accent))}
+.stage-hint{font-size:.72rem;color:var(--text3);margin-top:3px;line-height:1.5}
+.exercise-card{border-left:3px solid var(--stage-color,var(--border))}
+.exercise-card.locked{opacity:.55}
+.exercise-card.locked .exercise-num{background:var(--card2);color:var(--text3)}
+.exercise-card.locked .exercise-name{color:var(--text2)}
+.exercise-card.done-item{opacity:.72}
+.exercise-card.done-item .exercise-num{background:var(--accent);color:var(--accent-ink)}
+.ex-rep-label.locked-rep{background:var(--card2);border-color:var(--border2);color:var(--text3)}
+.ex-timer-display.locked-mode{color:var(--text3)}
+
 /* Timers */
-.ex-timer-wrap,.rest-timer-wrap{margin-top:11px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:13px;text-align:center}
+.ex-timer-wrap{margin-top:11px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:13px;text-align:center}
 .ex-rep-label{display:inline-flex;align-items:center;gap:5px;background:var(--accent-dim);border:1px solid var(--accent-line);color:var(--accent);border-radius:99px;padding:3px 13px;font-size:.72rem;font-weight:700;margin-bottom:9px}
 .ex-rep-label svg{width:13px;height:13px;stroke-width:2.4}
 .ex-rep-label.rest-rep{background:var(--blue-dim);border-color:var(--blue-line);color:var(--blue)}
 .ex-rep-label.done-rep{background:var(--accent-dim);border-color:var(--accent-line);color:var(--accent)}
-.ex-timer-phase,.ex-timer-state,.rest-timer-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px}
-.ex-timer-display,.rest-timer-display{font-family:var(--font-h);font-weight:800;font-size:1.5rem;margin-bottom:9px;letter-spacing:-.5px}
+.ex-timer-phase,.ex-timer-state{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px}
+.ex-timer-display{font-family:var(--font-h);font-weight:800;font-size:1.5rem;margin-bottom:9px;letter-spacing:-.5px}
 .ex-timer-display svg{width:26px;height:26px;stroke-width:2.4}
 .ex-timer-display.rest-mode{color:var(--blue)}
 .ex-timer-display.done-mode{color:var(--accent)}
-.ex-timer-btns,.rest-timer-btns{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
-.ex-timer-btn,.rest-timer-btn{padding:8px 14px;border-radius:8px;font-size:.72rem;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--card);color:var(--text);transition:background .15s}
-.ex-timer-btn:hover,.rest-timer-btn:hover{background:var(--card2)}
-.ex-timer-btn.start,.rest-timer-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.ex-timer-btn.start:hover,.rest-timer-btn.primary:hover{background:var(--accent-strong)}
+.ex-timer-btns{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+.ex-timer-btn{padding:8px 14px;border-radius:8px;font-size:.72rem;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--card);color:var(--text);transition:background .15s}
+.ex-timer-btn:hover{background:var(--card2)}
+.ex-timer-btn.start{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ex-timer-btn.start:hover{background:var(--accent-strong)}
 .ex-timer-btn.rest{background:var(--blue-dim);border-color:var(--blue-line);color:var(--blue)}
 
 .ux-workout-complete{padding:18px;text-align:center;border-radius:var(--r-sm);background:var(--accent-dim);border:1px solid var(--accent-line)}
@@ -464,8 +478,6 @@ button{cursor:pointer}
 .workout-notes-saved.show,.prog-tracking-saved.show,.prog-journal-saved.show{display:block;color:var(--accent)}
 .prog-validation-warn.show{display:block;color:var(--amber)}
 .workout-locked .exercise-list,
-.workout-locked #workout-warmup-section,
-.workout-locked #workout-cooldown-section,
 .workout-locked .workout-done-wrap{visibility:hidden}
 
 /* ==========================================================
