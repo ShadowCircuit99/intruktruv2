@@ -422,7 +422,7 @@
           <div class="dash-cal-row">
             <div class="dash-cal-item">
               <div class="dash-cal-val txt-accent" id="dash-cal-total">-</div>
-              <div class="dash-cal-label">Target Kalori</div>
+              <div class="dash-cal-label">Kalori Menu</div>
             </div>
             <div class="dash-cal-item">
               <div class="dash-cal-val txt-blue" id="dash-cal-protein">-</div>
@@ -431,6 +431,14 @@
             <div class="dash-cal-item">
               <div class="dash-cal-val" id="dash-cal-carb">-</div>
               <div class="dash-cal-label">Karbo (g)</div>
+            </div>
+            <div class="dash-cal-item">
+              <div class="dash-cal-val txt-muted" id="dash-cal-fat">-</div>
+              <div class="dash-cal-label">Lemak (g)</div>
+            </div>
+            <div class="dash-cal-item">
+              <div class="dash-cal-val txt-accent" id="dash-cal-fiber">-</div>
+              <div class="dash-cal-label">Serat (g)</div>
             </div>
           </div>
           <div class="dash-progress-section">
@@ -447,7 +455,7 @@
               </div>
               <div class="dash-prog-item">
                 <div class="dash-prog-info">
-                  <div class="dash-prog-name">Makan (<span id="prog-meal-count">0</span>/3)</div>
+                  <div class="dash-prog-name">Makan (<span id="prog-meal-count">0</span>/5)</div>
                   <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-meal-bar" style="width:0%"></div></div>
                 </div>
               </div>
@@ -497,19 +505,24 @@
         <div class="menu-pad">
           <div class="menu-cal-header">
             <div class="menu-cal-total" id="menu-cal-total">- kkal</div>
-            <div class="menu-cal-label">Target kalori hari ini</div>
+            <div class="menu-cal-label">Total Interdisciplinary menu hari ini</div>
+            <div class="menu-target-line" id="menu-target-line"></div>
             <div class="menu-macro-pills" id="menu-macro-pills"></div>
+            <div class="menu-nutrition-notice" id="menu-nutrition-notice"></div>
           </div>
           <div id="ux-meal-guidance-wrap"></div>
           <div id="menu-goal-notice" class="menu-goal-notice-box hidden"></div>
+          <div id="menu-floor-notice" class="menu-floor-notice hidden"></div>
           <div id="menu-adapt-notice" class="menu-adapt-notice hidden">
-            <strong>Fase Adaptasi (Hari 1-7):</strong> Porsi bisa disesuaikan dengan kebiasaan makan sehari-hari. Kurangi gula dan gorengan secara bertahap, tidak perlu langsung drastis.
+            <strong>Minggu Adaptasi (Hari 1-7):</strong> Porsi bisa disesuaikan dengan kebiasaan makan sehari-hari. Kurangi gula dan gorengan secara bertahap, tidak perlu langsung drastis.
           </div>
           <div class="meal-cat-row" id="meal-cat-row" role="tablist" aria-label="Kategori menu">
             <button class="meal-cat-chip active" type="button" data-cat="semua" onclick="filterMenuCat(this)">Semua</button>
             <button class="meal-cat-chip" type="button" data-cat="pagi" onclick="filterMenuCat(this)">Sarapan</button>
             <button class="meal-cat-chip" type="button" data-cat="siang" onclick="filterMenuCat(this)">Makan Siang</button>
+            <button class="meal-cat-chip" type="button" data-cat="snack" onclick="filterMenuCat(this)">Snack</button>
             <button class="meal-cat-chip" type="button" data-cat="malam" onclick="filterMenuCat(this)">Makan Malam</button>
+            <button class="meal-cat-chip" type="button" data-cat="minuman" onclick="filterMenuCat(this)">Minuman</button>
           </div>
           <div class="meal-cards" id="meal-cards"></div>
           <div class="menu-rec-section" id="menu-rec-section">
@@ -652,7 +665,9 @@
   </div>
 </div>
 
-<script src="script.js?v=4"></script>
+<script src="nutrition.js?v=1"></script>
+<script src="recipes.js?v=1"></script>
+<script src="script.js?v=5"></script>
 <script>
 // Fallback: pastikan selalu ada 1 layar terlihat walau script.js gagal dimuat
 window.addEventListener('load', function () {

@@ -1,18 +1,17 @@
-# Backup & sementara
-*.bak
-*.tmp
-*~
+# Catatan audit internal -- sengaja tidak ikut ter-push ke GitHub.
+AUDIT.md
 
-# File probe/debug lokal
-__probe.html
-error.png
+# Alat + data mentah USDA FoodData Central (ratusan MB).
+# Angkanya sudah dipindahkan ke nutrition.js sebagai SUMBER_GIZI,
+# jadi folder ini tidak perlu ikut deployed.
+fdc/
 
-# OS
+# Backup & perkakas
+_backup_*.js
+_tmp_*.js
+_rapi*.js
+_splice.js
+node_modules/
+package-lock.json
 .DS_Store
 Thumbs.db
-desktop.ini
-
-# Editor
-.vscode/
-.idea/
-*.swp

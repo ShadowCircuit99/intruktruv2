@@ -344,7 +344,7 @@ button{cursor:pointer}
 .dash-adapt-item{font-size:.76rem;color:var(--text2);padding-left:13px;position:relative}
 .dash-adapt-item::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
 
-.dash-cal-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.dash-cal-row{flex-wrap:wrap;display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:8px;margin-bottom:10px}
 .dash-cal-item{padding:14px 8px;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-sm)}
 .dash-cal-val{font-family:var(--font-h);font-weight:700;font-size:1.05rem}
 .dash-cal-label{font-size:.62rem;color:var(--text3);margin-top:2px}
@@ -426,6 +426,33 @@ button{cursor:pointer}
 .exercise-error::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:7px}
 .exercise-card.just-opened{border-color:var(--accent)}
 .ux-next-exercise-hint{display:block;font-size:.7rem;color:var(--text2);margin-top:8px;text-align:center}
+
+/* Gizi pada kartu menu */
+.meal-detail-row{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.68rem;color:var(--text3);margin-top:9px;padding:9px 11px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm)}
+.meal-detail-row span.warn{color:var(--amber);font-weight:600}
+.meal-detail-row .meal-oil-note{color:var(--orange);font-weight:600}
+.meal-method-row{display:flex;align-items:flex-start;gap:8px;margin-top:9px}
+.meal-method-note{font-size:.68rem;color:var(--text3);line-height:1.45}
+.meal-note{font-size:.7rem;color:var(--amber);background:var(--yellow-dim);border:1px solid var(--amber);border-radius:var(--r-sm);padding:8px 10px;margin-top:9px}
+.menu-target-line{font-size:.7rem;color:var(--text3);margin-top:3px}
+.menu-target-line.warn{color:var(--amber)}
+.menu-nutrition-notice{font-size:.64rem;color:var(--text3);margin-top:9px;line-height:1.5;padding-top:9px;border-top:1px solid var(--border)}
+.menu-floor-notice{font-size:.72rem;color:var(--amber);background:var(--yellow-dim);border:1px solid var(--amber);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:10px;line-height:1.5}
+.swap-current{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:12px}
+.swap-current-label{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+.swap-current-name{font-weight:600;font-size:.86rem;margin-top:4px}
+.swap-current-nutri{font-size:.7rem;color:var(--text3);margin-top:3px}
+.swap-alts{display:flex;flex-direction:column;gap:9px}
+.swap-alt{border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px;cursor:pointer;transition:border-color .15s,background .15s}
+.swap-alt:hover{border-color:var(--accent);background:var(--card2)}
+.swap-alt-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.swap-alt-name{font-weight:600;font-size:.84rem}
+.swap-alt-cal{font-size:.78rem;font-weight:700;color:var(--accent);flex-shrink:0}
+.swap-alt-meta,.swap-altplore{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:.66rem;color:var(--text3);margin-top:6px}
+.swap-alt-bahan{font-size:.68rem;color:var(--text2);margin-top:7px;line-height:1.45}
+.swap-alt-pilih{display:flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;color:var(--accent);margin-top:9px}
+.swap-alt-pilih .icon{width:13px;height:13px}
+.swap-empty{font-size:.78rem;color:var(--text3);text-align:center;padding:14px 0}
 
 /* Sesi harian: pemanasan > latihan utama > pendinginan */
 .stage-header{padding:14px 2px 4px}
