@@ -1,19 +1,4 @@
-/*
-   RESEP MAKANAN
-   53 resep, tiap bahan memakai id dari NUTRIENTS (nutrition.js) supaya angka
-   gizi dihitung otomatis dari beratnya. Tidak ada satu pun angka gizi yang
-   ditulis manual di file ini.
-   FORMAT BAHAN   B(id, jumlah, peran, satuan, opsi)
-   peran  : karbo (44) | protein (53) | sayur (58) | buah (10) |
-   bumbu (76) | oil | minuman (8)
-   satuan : g (158) | siung (51) | butir (11) | ml (10) | lembar (7) |
-   buah (7) | batang (2) | cup (2) | bungkus (1)
-   opsi   : { alts, note, scale:false }
-   scale:false = bahan ini tidak ikut diubah porsinya saat
-   menyesuaikan target kalori, supaya rasa dan tekstur tidak berubah.
-   method = metode masak. Menentukan minyak, air tersisa, dan minyak yang
-   meresap. Lihat COOK_METHODS di nutrition.js.
-   */
+
 
     const B = (id, qty, role, unit, opt) => {
     const b = { id: id, qty: qty, role: role || 'bumbu', unit: unit || 'g' };
@@ -29,7 +14,8 @@
     const MERICA = (g) => B('merica_bubuk', g === undefined ? 0.3 : g, 'bumbu', 'g', { scale: false });
     const KASIN = (ml) => B('kecap_asin', ml === undefined ? 8 : ml, 'bumbu', 'ml', { scale: false });
     const MANIS = (ml) => B('kecap_manis', ml === undefined ? 10 : ml, 'bumbu', 'ml', { scale: false });
-    const MINYAK = (ml) => B('minyak_kelapa', ml, 'oil', 'ml', { scale: false });
+    
+    const MINYAK = (ml) => B('minyak_goreng', ml, 'oil', 'ml', { scale: false });
 
     const RECIPES = [
 
@@ -45,9 +31,9 @@
     MANIS(10), GARAM(1), MERICA(0.2), MINYAK(4)
     ],
     langkah:[
-    'Panaskan minyak di teflon api sedang, tumis bawang putih geprek sampai harum, sekitar 30 detik.',
+    'Panaskan minyak di wajan api sedang, tumis bawang putih geprek sampai harum, sekitar 30 detik.',
     'Masukkan bayam, aduk, masak 2 menit sampai layu. Cicipi garam, lalu angkat.',
-    'Di teflon yang sama, pecahkan telur satu per satu dan jangan diaduk.',
+    'Di wajan yang sama, pecahkan telur satu per satu dan jangan diaduk.',
     'Masak 2 sampai 3 menit dengan api kecil. Siram kecap manis saat pinggirannya sudah set.',
     'Sajikan nasi hangat dengan telur ceplok dan tumis bayam.'
     ] },
@@ -64,7 +50,7 @@
     ],
     langkah:[
     'Iris tempe tipis, lumuri rata dengan kunyit parut, garam, dan lada. Diamkan 5 menit.',
-    'Goreng di teflon dengan minyak, api sedang, 3 menit tiap sisi. Jangan sering dibalik.',
+    'Goreng di wajan dengan minyak, api sedang, 3 menit tiap sisi. Jangan sering dibalik.',
     'Tumis bawang putih geprek di wajan lain sampai harum, masukkan kangkung dan kecap asin.',
     'Masak 2 menit sampai kangkung layu, bumbui garam.',
     'Sajikan nasi merah dengan tempe goreng kunyit dan tumis kangkung.'
@@ -84,7 +70,7 @@
     langkah:[
     'Cincang kasar sawi dan bawang merah, sisihkan.',
     'Kocok 2 telur dengan garam dan lada sampai rata, masukkan potongan sawi.',
-    'Tuang ke teflon dengan sedikit minyak, masak api sedang sampai sisi bawah set.',
+    'Tuang ke wajan dengan sedikit minyak, masak api sedang sampai sisi bawah set.',
     'Balik sekali, masak 1 menit lagi. Jangan digoreng terlalu lama agar tidak kering.',
     'Sajikan dengan roti tawar dan segelas susu UHT.'
     ] },
@@ -119,7 +105,7 @@
     langkah:[
     'Rebus kentang utuh 20 menit hingga bisa ditusuk garpu. Kupas dan potong.',
     'Rebus telur 10 menit, kupas.',
-    'Goreng telur sebentar di teflon dengan minyak sampai kulit sedikit kecokelatan.',
+    'Goreng telur sebentar di wajan dengan minyak sampai kulit sedikit kecokelatan.',
     'Tumis tomat cincang kasar dengan daun salam, garam, dan lada sampai menjadi saus kental.',
     'Masukkan telur goreng ke saus, aduk pelan 2 menit. Sajikan dengan kentang rebus.'
     ] },
@@ -134,7 +120,7 @@
     ],
     langkah:[
     'Potong tahu jadi beberapa bagian tebal.',
-    'Goreng di teflon dengan minyak minimal sampai semua sisi kuning kecokelatan.',
+    'Goreng di wajan dengan minyak minimal sampai semua sisi kuning kecokelatan.',
     'Tumis bawang putih geprek, masukkan tahu goreng dan kecap manis, masak 2 menit api kecil.',
     'Rebus sawi di air bergarum 2 menit, lalu tiriskan.',
     'Sajikan nasi merah dengan tahu kecap dan sawi rebus.'
@@ -171,7 +157,7 @@
     langkah:[
     'Potong tempe jadi dadu agak besar, rebus 3 menit untuk mengurangi rasa pahit, lalu tiriskan.',
     'Tumis bawang putih geprek sampai harum. Tuang 150 ml air, kecap manis, dan ketumbar, biarkan mendidih.',
-    'Masukkan tempe, kecilkan api, masak 15 menit sambil sesekali diaduk pelan sampai kah menyusut.',
+    'Masukkan tempe, kecilkan api, masak 15 menit sambil sesekali diaduk pelan sampai kuah menyusut.',
     'Tumis bayam dengan bawang putih 2 menit sampai layu.',
     'Sajikan nasi merah dengan tempe bacem dan tumis bayam.'
     ] },
@@ -253,7 +239,7 @@
     langkah:[
     'Tiris tomat dari bijinya, potong kecil, cincang halus bawang putih.',
     'Tumis bawang putih sampai harum, masukkan tomat, garam, dan lada, masak 2 menit sampai lembut.',
-    'Kocok telur dengan garam, tuang ke teflan berminyak, masak api sedang 2 menit.',
+    'Kocok telur dengan garam, tuang ke wajan berminyak, masak api sedang 2 menit.',
     'Taburkan keju, tutup 30 detik agar leleh, lalu angkat sebelum terlalu kering.',
     'Sajikan dengan roti tawar dan satu buah jeruk.'
     ] },
@@ -274,7 +260,7 @@
     langkah:[
     'Haluskan kunyit, bawang putih, bawang merah, dan jahe jadi bumbu.',
     'Lumuri ayam dengan bumbu, garam, dan lada. Diamkan 20 menit agar meresap.',
-    'Goreng di teflon dengan minyak, api sedang, 6 sampai 7 menit tiap sisi.',
+    'Goreng di wajan dengan minyak, api sedang, 6 sampai 7 menit tiap sisi.',
     'Tumis kangkung dengan bawang putih 2 menit, bumbui garam.',
     'Sajikan nasi bersama ayam goreng bumbu kuning dan tumis kangkung.'
     ] },
@@ -331,7 +317,7 @@
     langkah:[
     'Potong tahu jadi bagian agak tebal, rebus 3 menit untuk mengurangi kadar air, lalu tiriskan.',
     'Tumis bawang putih geprek sampai harum. Masukkan 150 ml air, kecap manis, ketumbar, dan daun salam.',
-    'Masukkan tahu, kecilkan api, masak 15 sampai 20 menit sambil sesekali dibalik sampai kah menyusut.',
+    'Masukkan tahu, kecilkan api, masak 15 sampai 20 menit sambil sesekali dibalik sampai kuah menyusut.',
     'Tumis kol iris tipis 3 menit.',
     'Sajikan bersama nasi dan tahu bacem.'
     ] },
@@ -351,8 +337,8 @@
     langkah:[
     'Didihkan 700 ml air, masukkan serai geprek, jahe iris, bawang putih, dan daun salam. Biarkan 2 menit.',
     'Masukkan dada ayam utuh, kecilkan api ke sedang, rebus 25 sampai 30 menit. Angkat lalu suwir.',
-    'Saring kah ke panci bersih, masukkan wortel potong, rebus 10 menit.',
-    'Bumbui kah dengan garam dan lada, cicipi sebelum mengangkat dari api.',
+    'Saring kuah ke panci bersih, masukkan wortel potong, rebus 10 menit.',
+    'Bumbui kuah dengan garam dan lada, cicipi sebelum mengangkat dari api.',
     'Sajikan nasi putih dengan suwiran ayam rempah dan sup wortel hangat.'
     ] },
 
@@ -388,7 +374,7 @@
     ],
     langkah:[
     'Iris tempe agak tebal, lumuri dengan ketumbar, kunyit, garam, dan lada.',
-    'Goreng di teflon 3 menit tiap sisi, biarkan tiap sisi matang dulu sebelum dibalik.',
+    'Goreng di wajan 3 menit tiap sisi, biarkan tiap sisi matang dulu sebelum dibalik.',
     'Didihkan 600 ml air, masukkan tomat cincang dan garam.',
     'Masukkan jagung dan kacang panjang, masak 8 menit sampai empuk.',
     'Sajikan nasi dengan tempe goreng rempah dan sayur asem hangat.'
@@ -406,7 +392,7 @@
     MANIS(8), GARAM(1), MERICA(0.3), MINYAK(4)
     ],
     langkah:[
-    'Potong tahu jadi dadu sedang, panggang di teflon tanpa minyak sampai semua sisi kecokelatan.',
+    'Potong tahu jadi dadu sedang, panggang di wajan tanpa minyak sampai semua sisi kecokelatan.',
     'Balik pelan-pelan agar tidak hancur, lalu sisihkan.',
     'Tumis bawang merah iris, masukkan tomat cincang kasar, kecap manis, dan 2 sendok makan air.',
     'Masak sampai tomat lunak dan saus mengental, masukkan tahu, aduk pelan, masak 3 menit.',
@@ -425,7 +411,7 @@
     ],
     langkah:[
     'Kocok 3 telur dengan garam dan lada sampai rata.',
-    'Tuang ke teflon dengan minyak, masak api sedang sampai bawah set, balik sekali, masak 1 menit.',
+    'Tuang ke wajan dengan minyak, masak api sedang sampai bawah set, balik sekali, masak 1 menit.',
     'Jangan sampai terlalu kering, angkat dan potong-potong.',
     'Tumis kangkung dengan bawang merah dan putih 2 menit sampai layu.',
     'Siram kecap manis di atas dadar, sajikan bersama nasi putih.'
@@ -463,7 +449,7 @@
     langkah:[
     'Potong tempe dan tahu jadi dadu sedang, lumuri dengan kunyit parut, ketumbar, garam, dan lada. Diamkan 5 menit.',
     'Goreng tempe dulu 3 menit tiap sisi sampai kecokelatan, lalu angkat.',
-    'Goreng tahu di teflon yang sama dengan hati-hati, balik pelan supaya tidak hancur, 2 menit tiap sisi.',
+    'Goreng tahu di wajan yang sama dengan hati-hati, balik pelan supaya tidak hancur, 2 menit tiap sisi.',
     'Tumis kol iris tipis dengan bawang putih 3 menit sampai agak layu.',
     'Sajikan tempe dan tahu goreng kunyit bersama tumis kol dan nasi merah.'
     ] },
@@ -481,7 +467,7 @@
     langkah:[
     'Bersihkan ikan, buat 2 sampai 3 sayatan diagonal agar bumbu meresap.',
     'Lumuri dengan kecap manis, garam, dan lada, diamkan 10 menit.',
-    'Panggang di grill pan dengan minyak, 4 menit tiap sisi.',
+    'Panggang di wajan dengan minyak, 4 menit tiap sisi.',
     'Sambal: tumis bawang merah iris dengan tomat cincang, garam, dan lada sampai mengental.',
     'Kukus brokoli 4 menit, sajikan bersama nasi dan ikan bakar dengan sambal.'
     ] },
@@ -518,7 +504,7 @@
     KASIN(20), GARAM(1), MINYAK(6)
     ],
     langkah:[
-    'Panggang tahu di teflon sampai kecokelatan, potong dadu.',
+    'Panggang tahu di wajan sampai kecokelatan, potong dadu.',
     'Celup kangkung, tauge, dan buncis dalam air mendidih 2 menit, tiriskan.',
     'Tumis bawang merah dan putih, masukkan kentang rebus potong, kecap asin, dan gula. Masak 3 menit.',
     'Campur semua sayur ke dalam piring, letakkan tahu di atas.',
@@ -579,8 +565,8 @@
     ],
     langkah:[
     'Didihkan 600 ml air, masukkan jahe geprek dan bawang putih geprek. Biarkan 2 menit.',
-    'Masukkan ayam utuh, kecilkan api, rebus 20 menit. Angkat, suwir, kembalikan ke kah.',
-    'Masukkan wortel dan kentang potong ke kah, rebus 10 menit sampai empuk.',
+    'Masukkan ayam utuh, kecilkan api, rebus 20 menit. Angkat, suwir, kembalikan ke kuah.',
+    'Masukkan wortel dan kentang potong ke kuah, rebus 10 menit sampai empuk.',
     'Tabur daun bawang iris, bumbui garam dan lada.',
     'Sajikan sup hangat bersama nasi merah.'
     ] },
@@ -597,7 +583,7 @@
     KASIN(8), GARAM(1), MERICA(0.3), MINYAK(6)
     ],
     langkah:[
-    'Iris tempe sangat tipis sekitar 3 mm, goreng di teflon dengan sedikit minyak sampai kecokelatan.',
+    'Iris tempe sangat tipis sekitar 3 mm, goreng di wajan dengan sedikit minyak sampai kecokelatan.',
     'Potong tahu tebal, kukus 10 menit sampai matang, lalu siram kecap asin.',
     'Tumis bawang putih geprek, masukkan wortel dan kol iris, tumis 4 menit.',
     'Sajikan tahu kukus, tempe goreng, tumis sayur, dan nasi.'
@@ -616,9 +602,9 @@
     ],
     langkah:[
     'Rebus ayam bersama jahe iris tebal dan bawang putih geprek di 400 ml air, api sedang, 20 menit. Suwir.',
-    'Tambahkan daun bawang iris ke kah, bumbui garam dan lada.',
+    'Tambahkan daun bawang iris ke kuah, bumbui garam dan lada.',
     'Rebus buncis di air bergarum 5 menit hingga empuk tapi masih hijau, lalu tiriskan.',
-    'Sajikan nasi merah porsi kecil dengan kah ayam jahe dan buncis rebus.'
+    'Sajikan nasi merah porsi kecil dengan kuah ayam jahe dan buncis rebus.'
     ] },
 
     { id:'malam-tahu-sambal', nama:'Nasi Putih, Tahu Goreng Sambal, dan Tumis Sawi',
@@ -633,7 +619,7 @@
     GARAM(1.2), MERICA(0.4), MINYAK(6)
     ],
     langkah:[
-    'Potong tahu jadi dadu sedang, goreng di teflon dengan minyak sampai semua sisi cokelat dan agak kering.',
+    'Potong tahu jadi dadu sedang, goreng di wajan dengan minyak sampai semua sisi cokelat dan agak kering.',
     'Tumis bawang merah dan putih, masukkan tomat cincang, garam, dan lada. Masak sampai mengental.',
     'Masukkan tahu goreng ke sambal, aduk pelan agar tidak hancur, masak 2 sampai 3 menit.',
     'Tumis sawi hijau dengan bawang putih 2 menit sampai layu.',
@@ -651,10 +637,10 @@
     KASIN(8), GARAM(1), MERICA(0.3), MINYAK(6)
     ],
     langkah:[
-    'Iris tempe tipis, goreng di teflon dengan minyak sampai tiap sisi matang dan crispy.',
+    'Iris tempe tipis, goreng di wajan dengan minyak sampai tiap sisi matang dan kering.',
     'Tumis bawang merah dan putih iris sampai harum dan layu.',
     'Masukkan kangkung dan kecap asin, aduk sebentar, tumis 2 menit sampai layu.',
-    'Sajikan nasi merah dengan tempe goreng crispy dan tumis kangkung bawang.'
+    'Sajikan nasi merah dengan tempe goreng kering dan tumis kangkung bawang.'
     ] },
 
     { id:'malam-ikan-kukus', nama:'Nasi Putih Porsi Kecil, Ikan Kukus Jahe, dan Wortel',
@@ -810,7 +796,7 @@
     B('kerupuk', 30, 'karbo', 'g', { alts:'kerupuk_udang' })
     ],
     langkah:[
-    'Goreng tahu sampai garing, atau panggang di teflon dengan sedikit minyak.',
+    'Goreng tahu sampai garing, atau panggang di wajan dengan sedikit minyak.',
     'Sajikan bersama kerupuk. Kerupuk perlu dijaga porsinya karena asin dan berminyak.'
     ] },
 
@@ -911,32 +897,25 @@
     ] },
     ];
 
-    /*
-       PENCOCOKAN BAHAN
-       Dua fungsi: menandai bahan yang dihindari user, dan
-       memasang pengganti yang nutrition-nya ikut dihitung ulang.
-       */
+    
 
-    // Kata kunci dari chip "makanan yang dihindari" -> daftar id bahan.
     const KEYWORD_TO_IDS = {
     'ayam': ['dada_ayam','paha_ayam','ayam_kampung'],
     'telur': ['telur_ayam','telur_bebek'],
-    'ikan': ['ikan_tongkol','ikan_lele','ikan_nila','ikan_kembung','salmon'],
+    'ikan': ['ikan_tongkol','ikan_lele','ikan_nila','ikan_kembung'],
     'tempe': ['tempe','tempe_mendoan'],
     'tahu': ['tahu_putih','tahu_kuning'],
     'nasi': ['nasi_putih','nasi_merah','beras_putih','beras_merah'],
     'mie instan': ['mie_instan','bihun'],
     'susu': ['susu_sapi','yogurt_plain','keju'],
     'gula': ['gula_pasir','gula_merah','madu'],
-    'minyak': ['minyak_kelapa','minyak_kaca'],
+    'minyak': ['minyak_goreng','minyak_sawit','minyak_kelapa'],
     'santan': ['santan_kelapa','santan_kental'],
     'keju': ['keju'],
     'kacang': ['kacang_kering','kacang_merah','kacang_hijau','edamame'],
-    // "gorengan" ditangani terpisah: tidak memblokir bahan, tapi memaksa metode masak.
     'gorengan': []
     };
 
-    // Metode masak yang memakai banyak minyak, untuk chip "gorengan".
     const OIL_HEAVY_METHODS = ['goreng','tumis','panggang'];
 
     const SLOT_ORDER = ['pagi','siang','snack','malam','minuman'];
@@ -949,7 +928,6 @@
     for(const r of RECIPES){ if(r.id===id) return r; }
     return null;
     }
-
 
     window.RESEP = {
     RECIPES, KEYWORD_TO_IDS, OIL_HEAVY_METHODS, SLOT_ORDER,

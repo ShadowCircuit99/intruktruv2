@@ -1,17 +1,56 @@
-# Catatan audit internal -- sengaja tidak ikut ter-push ke GitHub.
+# ================================================================
+# Berkas yang TIDAK ikut ter-push ke GitHub.
+#
+# Yang di-push hanya 11 berkas deploy. Semuanya di baris "Deploy"
+# di README.md, dan cek.js memverifikasi bahwa tidak ada berkas lain
+# yang ikut ter-track.
+# ================================================================
+
+# Catatan audit internal. Isinya temuan dan history perbaikan,
+# bukan bagian dari aplikasi.
 AUDIT.md
 
-# Alat + data mentah USDA FoodData Central (ratusan MB).
+# Data mentah USDA FoodData Central. Ratusan megabyte.
 # Angkanya sudah dipindahkan ke nutrition.js sebagai SUMBER_GIZI,
 # jadi folder ini tidak perlu ikut deployed.
 fdc/
+*.zip
+*.csv
 
-# Backup & perkakas
+# Berkas sementara dari perkakas pengembangan.
 _backup_*.js
 _tmp_*.js
 _rapi*.js
 _splice.js
+_*.js
+_*.css
+*.bak
+*.tmp
+*.orig
+*.rej
+
+# Dependensi. Aplikasi tidak butuh apa pun, tapi uji regresi
+# memakai jsdom yang dipasang lokal, bukan ikut disimpan.
 node_modules/
+package.json
 package-lock.json
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Berkas yang dibuat editor dan sistem operasi.
 .DS_Store
 Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+.#*
+
+# Rahasia. Tidak ada di proyek ini, tapi tetap dijaga supaya
+# tidak ada kebetulan ikut ter-push.
+.env
+.env.*
+*.pem
+*.key

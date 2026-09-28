@@ -1,51 +1,18 @@
-/*
-   NUTRITION ENGINE
-   Semua angka gizi berasal dari USDA FoodData Central, diambil otomatis dari
-   file CSV resmi (SR Legacy 2018-04, Foundation Food 2026-04-30, Survey/FNDDS
-   2024-10-31). Bukan diketik manual. Rincian per bahan ada di SUMBER.md, dan
-   nomor FDC-nya di SUMBER_GIZI.
-   Rumus:
-   gizi hidangan = Σ (gizi bahan × gram dipakai ÷ 100) + minyak terserap
-   energi        = protein×4 + karbo×4 + lemak×9 + serat×2   (faktor Atwater)
-   Energi tidak diambil dari kolom calories USDA, tapi dihitung dari
-   makronutrien. Alasannya USDA memakai faktor Atwater sendiri yang
-   berbeda-beda -- kacang tanah misal 587 kkal di tabelnya, sedangkan 4/4/9
-   memberi 443. Kolom k disimpan hanya sebagai pembanding kualitas data.
-   Konvensi karbo: c = karbohidrat TERSEDIA (karbohidrat total 1005 dikurangi
-   serat 1079), supaya serat tidak dihitung dua kali sebagai energi.
-   */
 
-    /* Energi dari faktor Atwater: 4 kkal/g protein dan karbohidrat,
-       9 kkal/g lemak, 2 kkal/g serat. */
+
+    
     function energyFromMacros(p, c, f, fb){
     return p*4 + c*4 + f*9 + fb*2;
     }
 
-    /* ASAL ANGKA DI BAWAH
-
-    Semuanya diambil dari USDA FoodData Central: file CSV resmi SR Legacy
-    2018-04 dan Foundation Food 2026-04-30, diunduh dari fdc.nal.usda.gov
-    lalu dibaca baris demi baris. Tidak ada angka yang diketik dari ingatan.
-
-    Tiga bahan belum punya sumber USDA dan diberi angka 0 dengan penanda
-    "BELUM BERSUMBER": serai, susu kedelai, coklat panas. Angka 0 di sana
-    BUKAN nilai sebenarnya dan tidak boleh dipakai sebagai acuan.
-
-    Dua puluh satu bahan memakai padanan USDA lain karena bahan aslinya
-    tidak ada di database itu. Barisnya diberi tanda "// padanan USDA"
-    beserta alasannya, jadi tidak ada yang diam-diam disamakan.
-
-    Alat untuk memperbarui: lihat folder fdc/. */
+    
     const NUTRIENT_SOURCE = 'USDA FoodData Central (SR Legacy 2018-04, Foundation Food 2026-04-30, Survey/FNDDS 2024-10-31), diambil otomatis dari file CSV resmi; hanya serai yang belum bersumber dan 21 memakai padanan USDA - lihat catatan di tiap baris';
 
-    /* Tingkat keyakinan per bahan, supaya angka perkiraan tidak tercampur
-    dengan angka yang benar-benar terukur. 'derived' = tidak ada baris baku,
-    nilainya disusun dari komponen atau mengikuti faktor Atwater berbeda. */
-        /* Bahan yang angkanya belum punya sumber USDA, atau memakai padanan.
-       Lihat SUMBER_GIZI untuk daftar lengkap dan alasannya. -- */
-        /* Bahan yang angkanya belum punya sumber USDA, atau memakai padanan.
-       Lihat SUMBER_GIZI untuk daftar lengkap dan alasannya. -- */
-    const NUTRIENT_TRUST = {
+    
+        
+        
+    /* Status sumber tiap bahan */
+const NUTRIENT_TRUST={
   ketupat:          'padanan',
   lontong:          'padanan',
   roti_tahu:        'padanan',
@@ -64,6 +31,7 @@
   merica_bubuk:     'padanan',
   kecap_manis:      'padanan',
   minyak_sawit:     'padanan',
+  minyak_goreng:     'padanan',
   santan_kental:    'padanan',
   salak:            'padanan',
   kerupuk:          'padanan',
@@ -71,35 +39,22 @@
   serai:            'belum bersumber',
     };
 
-    /* Sumber per bahan, supaya angkanya bisa diaudit.
-       Buka https://fdc.nal.usda.gov lalu cari fdc_id-nya untuk melihat
-       baris asli. Dataset:
-         SR = SR Legacy 2018-04
-         FO = Foundation Food 2026-04-30 (nilai pengukuran laboratorium)
-         FD = Survey Food / FNDDS 2024-10-31
-         FO = Foundation Food 2026-04-30 (nilai pengukuran laboratorium)
-       "padanan"  = bahan aslinya tidak ada di USDA, jadi memakai bahan USDA
-                  lain sebagai pembanding; alasannya ada di baris bawahnya.
-       "kosong"   = belum ada sumber USDA sama sekali, angkanya 0 dan
-                  BELUM boleh dianggap sebagai nilai sebenarnya. -- */
-    const SUMBER_GIZI = {
+    
+    /* Nomor FDC per bahan */
+const SUMBER_GIZI={
     beras_putih:      {ds:'SR',fdc:168877,desc:'Rice, white, long-grain, regular, raw, enriched'},
     beras_merah:      {ds:'SR',fdc:169703,desc:'Rice, brown, long-grain, raw (Includes foods for USDA\'s Food Distribution Program)'},
     nasi_putih:       {ds:'SR',fdc:168878,desc:'Rice, white, long-grain, regular, enriched, cooked'},
     nasi_merah:       {ds:'SR',fdc:169704,desc:'Rice, brown, long-grain, cooked (Includes foods for USDA\'s Food Distribution Program)'},
     ketupat:          {ds:'SR',fdc:168878,desc:'Rice, white, long-grain, regular, enriched, cooked'},  // padanan
-                      // padanan: Ketupat tidak ada di USDA. Bahannya sama dengan nasi putih matang, jadi angka diambil dari nasi putih matang.
     lontong:          {ds:'SR',fdc:168878,desc:'Rice, white, long-grain, regular, enriched, cooked'},  // padanan
-                      // padanan: USDA hanya punya rice cake KERING (380-392 kkal), sedangkan lontong direbus. Dipakai nasi putih matang supaya besarannya tidak jauh meleset; deviasi nyata masih sekitar 25 persen.
     roti_tawar:       {ds:'SR',fdc:174924,desc:'Bread, white, commercially prepared'},
     roti_gandum:      {ds:'SR',fdc:172688,desc:'Bread, whole-wheat, commercially prepared'},
     roti_tahu:        {ds:'SR',fdc:174924,desc:'Bread, white, commercially prepared'},  // padanan
-                      // padanan: Roti isi tahu tidak ada di USDA. Yang dipakai hanya roti tawar putih; isi tahu tidak termasuk, jadi angka calories sebenarnya lebih tinggi.
     kentang:          {ds:'SR',fdc:170026,desc:'Potatoes, flesh and skin, raw'},
     ubi_jalar:        {ds:'SR',fdc:168482,desc:'Sweet potato, raw, unprepared (Includes foods for USDA\'s Food Distribution Program)'},
     jagung_manis:     {ds:'SR',fdc:169998,desc:'Corn, sweet, yellow, raw'},
     mie_instan:       {ds:'SR',fdc:168905,desc:'Noodles, chinese, chow mein'},  // padanan
-                      // padanan: Mie instan tidak ada di SR Legacy. Chow mein kering dipakai sebagai pembanding, DAN ini bukan nilai mie instan sebenarnya. Angka aslinya perlu dataset Survey/Branded USDA.
     bihun:            {ds:'SR',fdc:169742,desc:'Rice noodles, dry'},
     sari_kedelai:     {ds:'SR',fdc:174276,desc:'Soy protein isolate'},
     oatmeal:          {ds:'SR',fdc:173904,desc:'Cereals, oats, regular and quick, not fortified, dry'},
@@ -109,22 +64,17 @@
     ayam_kampung:     {ds:'SR',fdc:171052,desc:'Chicken, broilers or fryers, meat only, raw'},
     daging_sapi:      {ds:'SR',fdc:171796,desc:'Beef, ground, 85% lean meat / 15% fat, raw'},
     daging_kambing:   {ds:'SR',fdc:174370,desc:'Lamb, ground, raw'},  // padanan
-                      // padanan: USDA tidak punya daging kambing. Memakai lamb (daging kambing Australia) sebagai pembanding.
     ikan_tongkol:     {ds:'SR',fdc:175119,desc:'Fish, mackerel, Atlantic, raw'},  // padanan
-                      // padanan: Ikan tongkol tidak ada di USDA. Memakai mackerel Atlantik, ikan oily yang paling dekat secara gizi.
     ikan_lele:        {ds:'SR',fdc:175165,desc:'Fish, catfish, channel, farmed, raw'},
     ikan_nila:        {ds:'SR',fdc:175176,desc:'Fish, tilapia, raw'},
     ikan_kembung:     {ds:'SR',fdc:174182,desc:'Fish, anchovy, european, raw'},  // padanan
-                      // padanan: Ikan kembung tidak ada di USDA. Memakai teri Eropa, ikan kecil oily yang paling dekat.
     salmon:           {ds:'SR',fdc:175167,desc:'Fish, salmon, Atlantic, farmed, raw'},
     telur_ayam:       {ds:'SR',fdc:171287,desc:'Egg, whole, raw, fresh'},
     telur_bebek:      {ds:'SR',fdc:172189,desc:'Egg, duck, whole, fresh, raw'},
     bakso:            {ds:'SR',fdc:174587,desc:'Luncheon sausage, pork and beef'},  // padanan
-                      // padanan: Bakso tidak ada di USDA. Memakai luncheon sausage babi-sapi, yang komposisinya paling dekat.
     sosis:            {ds:'SR',fdc:167696,desc:'Frankfurter, beef, low fat'},
     tempe:            {ds:'SR',fdc:174272,desc:'Tempeh'},  // nutrien tidak lengkap
     tempe_mendoan:    {ds:'SR',fdc:172467,desc:'Tempeh, cooked'},  // padanan; nutrien tidak lengkap
-                      // padanan: Tempe mendoan tidak ada di USDA. Memakai tempe matang yang sudah digoreng.
     tahu_putih:       {ds:'SR',fdc:172448,desc:'Tofu, firm, prepared with calcium sulfate and magnesium chloride (nigari)'},
     tahu_kuning:      {ds:'SR',fdc:172449,desc:'Tofu, soft, prepared with calcium sulfate and magnesium chloride (nigari)'},
     keju:             {ds:'SR',fdc:173414,desc:'Cheese, cheddar'},
@@ -134,18 +84,15 @@
     edamame:          {ds:'SR',fdc:168411,desc:'edamame, frozen, prepared'},
     bayam:            {ds:'SR',fdc:168462,desc:'Spinach, raw'},
     kangkung:         {ds:'SR',fdc:170390,desc:'Cabbage, chinese (pak-choi), raw'},  // padanan
-                      // padanan: Kangkung (water spinach) tidak ada di USDA. Memakai pak-choi sebagai daun hijau Asia.
     sawi_hijau:       {ds:'SR',fdc:169256,desc:'Mustard greens, raw'},
     sawi_putih:       {ds:'SR',fdc:170390,desc:'Cabbage, chinese (pak-choi), raw'},
     wortel:           {ds:'SR',fdc:170393,desc:'Carrots, raw'},
     buncis:           {ds:'SR',fdc:169961,desc:'Beans, snap, green, raw'},
     kacang_panjang:   {ds:'SR',fdc:169961,desc:'Beans, snap, green, raw'},  // padanan
-                      // padanan: Kacang panjang tidak ada di USDA. Memakai buncis hijau.
     kol:              {ds:'SR',fdc:169975,desc:'Cabbage, raw'},
     brokoli:          {ds:'SR',fdc:170379,desc:'Broccoli, raw'},
     labu_siam:        {ds:'SR',fdc:170402,desc:'Chayote, fruit, raw'},
     labu_kuning:      {ds:'SR',fdc:169295,desc:'Squash, winter, butternut, raw'},  // padanan
-                      // padanan: Labu kuning tidak ada di USDA. Memakai squash winter butternut, yang paling dekat.
     terong:           {ds:'SR',fdc:169228,desc:'Eggplant, raw'},
     tauge:            {ds:'SR',fdc:169957,desc:'Mung beans, mature seeds, sprouted, raw'},
     timun:            {ds:'SR',fdc:168409,desc:'Cucumber, with peel, raw'},
@@ -155,27 +102,22 @@
     bawang_merah:     {ds:'SR',fdc:170000,desc:'Onions, raw'},
     bawang_putih:     {ds:'SR',fdc:169230,desc:'Garlic, raw'},
     kunyit:           {ds:'SR',fdc:172231,desc:'Spices, turmeric, ground'},  // padanan
-                      // padanan: Kunyit segar tidak ada di USDA. Memakai serbuk kunyit; serat lebih rendah.
     jahe:             {ds:'SR',fdc:169231,desc:'Ginger root, raw'},
     daun_salam:       {ds:'SR',fdc:170917,desc:'Spices, bay leaf'},
     daun_bawang:      {ds:'SR',fdc:170005,desc:'Onions, spring or scallions (includes tops and bulb), raw'},
     ketumbar_bubuk:   {ds:'SR',fdc:170923,desc:'Spices, cumin seed'},  // padanan
-                      // padanan: Memakai biji ketumbar utuh, bukan bubuk.
     merica_bubuk:     {ds:'SR',fdc:170931,desc:'Spices, pepper, black'},  // padanan
-                      // padanan: Memakai lada hitam utuh, bukan bubuk.
     garam:            {ds:'SR',fdc:173468,desc:'Salt, table'},
     kecap_manis:      {ds:'SR',fdc:172886,desc:'Sauce, hoisin, ready-to-serve'},  // padanan
-                      // padanan: Kecap manis tidak ada di USDA. Memakai hoisin, saus kecap manis yang paling dekat.
     kecap_asin:       {ds:'SR',fdc:174277,desc:'Soy sauce made from soy and wheat (shoyu)'},
+    minyak_goreng:    {ds:'SR',fdc:171015,desc:'Oil, palm'},  // padanan
     minyak_kelapa:    {ds:'SR',fdc:171412,desc:'Oil, coconut'},
     minyak_sawit:     {ds:'SR',fdc:171015,desc:'Oil, palm'},  // padanan
-                      // padanan: USDA hanya punya palm kernel oil, bukan minyak sawit grocery. Dipakai sebagai pembanding saja.
     gula_pasir:       {ds:'SR',fdc:169655,desc:'Sugars, granulated'},
     gula_merah:       {ds:'SR',fdc:168833,desc:'Sugars, brown'},
     madu:             {ds:'SR',fdc:169640,desc:'Honey'},
     santan_kelapa:    {ds:'SR',fdc:170172,desc:'Nuts, coconut milk, raw (liquid expressed from grated meat and water)'},
     santan_kental:    {ds:'SR',fdc:170173,desc:'Nuts, coconut milk, canned (liquid expressed from grated meat and water)'},  // padanan; nutrien tidak lengkap
-                      // padanan: Santan kental tidak ada. Memakai santan kelapa kaleng.
     pisang:           {ds:'SR',fdc:173944,desc:'Bananas, raw'},
     apel:             {ds:'SR',fdc:171688,desc:'Apples, raw, with skin'},
     jeruk:            {ds:'SR',fdc:169097,desc:'Oranges, raw, all commercial varieties'},
@@ -184,20 +126,16 @@
     pepaya:           {ds:'SR',fdc:169926,desc:'Papayas, raw'},
     nanas:            {ds:'SR',fdc:169124,desc:'Pineapple, raw, all varieties'},
     salak:            {ds:'SR',fdc:174687,desc:'Jackfruit, raw'},  // padanan
-                      // padanan: Salak tidak ada di USDA. Memakai nangka, buah tropis yang paling dekat.
     anggur:           {ds:'SR',fdc:174683,desc:'Grapes, red or green (European type, such as Thompson seedless), raw'},
     air:              {ds:'SR',fdc:174158,desc:'Water, bottled, generic'},
-                      // Air murni: USDA mencatat 0 kkal dan 0 forall nutrient lain.
     teh:              {ds:'SR',fdc:173227,desc:'Beverages, tea, black, brewed, prepared with tap water'},
     susu_sapi:        {ds:'SR',fdc:171265,desc:'Milk, whole, 3.25% milkfat, with added vitamin D'},
     susu_kedelai:     {ds:'FD',fdc:2705405,desc:'Soy milk, unsweetened'},
     yogurt_plain:     {ds:'SR',fdc:171284,desc:'Yogurt, plain, whole milk'},
     coklat_hot:       {ds:'FD',fdc:2705473,desc:'Hot chocolate / cocoa, made with whole or reduced fat (2%) milk'},
     kerupuk:          {ds:'SR',fdc:172746,desc:'Crackers, saltines (includes oyster, soda, soup)'},  // padanan
-                      // padanan: Kerupuk tidak ada di USDA. Memakai cracker asin sebagai gantinya.
     jeruk_nipis:      {ds:'SR',fdc:168155,desc:'Limes, raw'},
     kerupuk_udang:    {ds:'SR',fdc:174098,desc:'Crackers, flavored, fish-shaped'},  // padanan
-                      // padanan: Kerupuk udang tidak ada di USDA. Memakai cracker bentuk ikan.
     alpukat:          {ds:'SR',fdc:171705,desc:'Avocados, raw, all commercial varieties'},
     asam_jawa:        {ds:'SR',fdc:167763,desc:'Tamarinds, raw'},
     serai:            {ds:'-',fdc:0,desc:'belum ada sumber USDA'},
@@ -205,16 +143,9 @@
 
     window.SUMBER_GIZI = SUMBER_GIZI;
 
-    const NUTRIENTS = {
-    /* ---- Nilai per 100 g bagian yang dapat dimakan.
-       SEMUA angka di bawah diambil dari USDA FoodData Central lewat file CSV
-       resmi, bukan diketik manual. Sumber per bahan ada di SUMBER_GIZI.
-       k,p,c,f,fb,sg,na,sf,ch = USDA nutrient id 1008, 1003, (1005-1079),
-       1004, 1079, 1063, 1093, 1258, 1253. Karbo dipakai yang NETO supaya
-       serat tidak dihitung dua kali sebagai energi.
-       Baris "// padanan USDA" memakai bahan USDA lain sebagai pengganti
-       karena bahan aslinya tidak ada di database itu. Baris "// BELUM
-       BERSUMBER" angkanya 0 dan TIDAK boleh dianggap sebagai nilai sebenarnya. -- */
+    /* Basis gizi per bahan */
+const NUTRIENTS={
+    
   beras_putih:      {cat:'Beras putih kering',k:365,p:7.1,c:78.7,f:0.7,fb:1.3,sg:0,na:5,sf:0.2,ch:0},
   beras_merah:      {cat:'Beras merah kering',k:367,p:7.5,c:72.7,f:3.2,fb:3.6,sg:0,na:5,sf:0.6,ch:0},
   nasi_putih:       {cat:'Nasi putih matang',k:130,p:2.7,c:27.8,f:0.3,fb:0.4,sg:0,na:1,sf:0.1,ch:0},
@@ -284,6 +215,7 @@
   garam:            {cat:'Garam',k:0,p:0,c:0,f:0,fb:0,sg:0,na:38758,sf:0,ch:0},
   kecap_manis:      {cat:'Kecap manis',k:220,p:3.3,c:41.3,f:3.4,fb:2.8,sg:0,na:1615,sf:0.6,ch:3,dens:1.16,per:{sendok:15}},  // padanan USDA
   kecap_asin:       {cat:'Kecap asin',k:53,p:8.1,c:4.1,f:0.6,fb:0.8,sg:0,na:5493,sf:0.1,ch:0,dens:1.12,per:{sendok:15}},
+    minyak_goreng:    {cat:'Minyak goreng',k:884,p:0,c:0,f:100,fb:0,sg:0,na:0,sf:49.3,ch:0,dens:0.92,per:{sendok:5}},  // padanan USDA (Oil, palm)
   minyak_kelapa:    {cat:'Minyak kelapa',k:892,p:0,c:0,f:99.1,fb:0,sg:0,na:0,sf:82.5,ch:0,dens:0.92,per:{sendok:5}},
   minyak_sawit:     {cat:'Minyak kelapa sawit',k:884,p:0,c:0,f:100,fb:0,sg:0,na:0,sf:49.3,ch:0,dens:0.92,per:{sendok:5}},  // padanan USDA
   gula_pasir:       {cat:'Gula pasir',k:387,p:0,c:100,f:0,fb:0,sg:0,na:1,sf:0,ch:0,per:{sendok:10}},
@@ -313,13 +245,8 @@
   asam_jawa:        {cat:'Asam jawa kering',k:239,p:2.8,c:57.4,f:0.6,fb:5.1,sg:0,na:28,sf:0.3,ch:0},
     };
 
-    /*
-       SATUAN NON-GRAM
-       Bentuk,butir,siung,lembar,sendok punya berat berbeda tiap bahan,
-       jadi konversinya disimpan per bahan, bukan global.
-       */
+    
 
-    // Bulatan pembulatan saat mengubah porsi, per bahan.
     const SNAP = {
     default: 5,
     beras_putih: 25, nasi_putih: 25, nasi_merah: 25, ketupat: 25, lontong: 25,
@@ -344,8 +271,7 @@
     return SNAP.default;
     }
 
-    /* Konversi jumlah + satuan ke gram. Return null kalau satuannya
-       tidak dikenal supaya pemanggil bisa menolak, bukan menebak. */
+    
     function toGrams(ingId, qty, unit){
     const ing=NUTRIENTS[ingId];
     if(!ing) return null;
@@ -359,23 +285,15 @@
     return n*per;
     }
 
-    /*
-       METODE MASAK
-       air    : sisa air setelah matang sebagai fraksi berat
-       reaps  : minyak yang meresap per gram bahan protein
-       reapsC : minyak yang meresap per gram bahan karbohidrat
-       Protein menyerap jauh lebih banyak minyak daripada karbohidrat,
-       jadi keduanya tidak memakai faktor yang sama. Resep tanpa method
-       (buah, minuman, makanan yang dimakan langsung) memakai mode
-       TANPA MASAK supaya tidak ada minyak fiktif yang ikut dihitung.
-       */
-    const COOK_METHODS = {
+    
+    /* Metode masak */
+const COOK_METHODS={
     rebus:    {label:'Direbus',           air:0.90,reaps:0.00,reapsC:0.00,note:'Tanpa minyak. Sebagian air menguap.'},
     kukus:    {label:'Dikukus',           air:0.92,reaps:0.00,reapsC:0.00,note:'Tanpa minyak. Nutrisi paling terjaga.'},
-    panggang: {label:'Dipanggang',        air:0.70,reaps:0.03,reapsC:0.01,note:'Teflon dengan minyak tipis, yang menempel sedikit saja.'},
-    tumis:    {label:'Tumis',             air:0.80,reaps:0.04,reapsC:0.01,note:'Minyak cooking, sebagian kecil larut ke bahan.'},
+    panggang: {label:'Dipanggang',        air:0.70,reaps:0.03,reapsC:0.01,note:'Panggang dengan sedikit minyak, yang hanya menempel di permukaan.'},
+    tumis:    {label:'Tumis',             air:0.80,reaps:0.04,reapsC:0.01,note:'Minyak goreng, sebagian kecil meresap ke bahan.'},
     goreng:   {label:'Digoreng',          air:0.60,reaps:0.12,reapsC:0.03,note:'Minyak goreng, sebagian besar meresap ke bahan.'},
-    bacem:    {label:'Direbus kah Kaldu', air:1.30,reaps:0.02,reapsC:0.01,note:'Direbus dalam kah bumbu sampai kah menyusut.'},
+    bacem:    {label:'Direbus Bumbu',     air:1.30,reaps:0.02,reapsC:0.01,note:'Direbus dalam kuah bumbu sampai kuahnya menyusut.'},
     mentah:   {label:'Tanpa dimasak',     air:1.00,reaps:0.00,reapsC:0.00,note:'Dimakan langsung, tanpa minyak.'},
     };
 
@@ -384,17 +302,7 @@
     return COOK_METHODS[key]||COOK_METHODS.mentah;
     }
 
-    /*
-       PERHITUNGAN GIZI
-       nutrition = jumlah (gizi bahan x gram / 100) + minyak terserap
-       Energi AKAN dihitung ulang dari p, c, f, fb dengan faktor
-       Atwater, bukan diambil dari kolom k. Jadi tidak ada satu pun
-       angka kalori yang masuk dari mana pun kecuali turunan bahan.
-       Minyak terserap: saat menggoreng, sebagian minyak masuk ke
-       dalam bahan. Untuk bahan utama diambil 14% dari beratnya
-       sebagai angka konservatif, lalu ditampilkan terpisah supaya
-       jelas dari mana kalorinya datang.
-       */
+    
     const NUTRI_KEYS = ['p','c','f','fb','sg','na','sf','ch'];
 
     function emptyNutrition(){
@@ -436,7 +344,6 @@
             role:b.role||'bumbu'});
     });
 
-    // Minyak yang meresap: protein lebih menyerap dari karbohidrat.
     if(method.reaps>0||method.reapsC>0){
         const absorbed=proteinGrams*method.reaps+carbGrams*method.reapsC;
         total.minyakTerserap=Math.round(absorbed*10)/10;
@@ -449,10 +356,7 @@
     return total;
     }
 
-    /* Pembanding kualitas data: bandingkan energi terpublikasi (k)
-       dengan energi hasil 4/4/9. Deviasi besar wajar untuk kacang
-       dan rempah karena sumbernya memakai faktor Atwater lain, tapi
-       angka yang menyimpang sampai >25% layak diperiksa ulang. */
+    
     function auditNutrientDB(threshold){
     const limit=(threshold===undefined)?25:threshold;
     const out=[];
@@ -466,18 +370,7 @@
     return out;
     }
 
-    /*
-       PENYESUAIAN PORSI
-       Target kalori dicapai dengan mengubah HANYA porsi bahan utama.
-       Bumbu, minyak, dan rempah dikunci (scale:false) supaya rasa
-       hidangan tidak berubah.
-       Dua tahap:
-       1. semua bahan utama dikalikan satu rasio
-       2. kalau masih meleset, koreksi hanya sumber karbohidrat,
-       karena dampaknya per gram paling besar dan ke rasa paling kecil
-       Yang ditampilkan aplikasi SELALU dihitung ulang dari gram akhir,
-       bukan dari target yang diminta.
-       */
+    
     const SCALE_MIN=0.55;
     const SCALE_MAX=2.0;
 
@@ -485,7 +378,6 @@
     return bahan.map(function(b){ return Object.assign({}, b); });
     }
 
-    // Jumlah dalam satuan asli, dibulatkan ke satuan yang masuk akal.
     function applyQty(bahan, qty){
     const per=(NUTRIENTS[bahan.id]&&NUTRIENTS[bahan.id].per)||{};
     const u=bahan.unit||'g';
@@ -524,7 +416,6 @@
 
     n=computeNutrition(bahan,method);
 
-    // Pass 2: koreksi lewat sumber karbohidrat saja.
     const gap=want-n.k;
     if(Math.abs(gap)>want*0.10){
         const idx=bahan.findIndex(function(b){ return b.role==='karbo'&&b.scale!==false; });
@@ -552,7 +443,7 @@
     };
     }
 
-    /* Ringkasan nutrition untuk ditampilkan. */
+    
     function nutritionSummary(n, target){
     return {
         kalori:n.k,
@@ -575,24 +466,7 @@
     return Math.abs(n.k-derived)/n.k;
     }
 
-    /*
-       TARGET ENERGI & MAKRO
-       BMR  : Mifflin-St Jeor
-       TDEE : BMR × aktivitas. Program ini ada 5-6 hari latihan,
-       jadi aktivitas yang dipakai adalah yang lebih tinggi
-       antara laporan user dan kebutuhan program.
-       Lose : -20% TDEE, TIDAK boleh turun di bawah BMR.
-       Defisit flat 500 kkal tidak dipakai karena pada=user
-       dengan TDEE kecil, batas bawahnya malah lebih besar
-       dari TDEE sehingga berat naik.
-       Makro:
-       protein  2.0 g/kg (lose, jaga massa otot saat defisit)
-       1.8 g/kg (gain) · 1.6 g/kg (maintain)
-       lemak    28% energi, minimal 0.6 g/kg
-       karbo    sisanya
-       serat    max(25 g, 14 g / 1000 kkal)
-       gula     batas atas 10% energi (rekomendasi WHO)
-       */
+    
     const ACTIVITY_TRAINING = 1.55; // 5-6x latihan seminggu
 
     function calcEnergyTargets(user){
@@ -612,7 +486,6 @@
 
     if(u.goal==='lose'){
         kcal=Math.round(tdee*0.80);
-        // Batas keras: jangan pernah di bawah metabolisme basal.
         if(kcal<bmr){
             kcal=bmr;
             catatan='Target dibatasi di metabolisme basal. Defisit lebih besar perlu pengawasan tenaga profesional.';
@@ -640,10 +513,7 @@
     };
     }
 
-    /*
-       DISTRIBUSI MAKAN
-       Lima slot: sarapan, siang, snack, malam, minuman.
-       */
+    
     const MEAL_SLOTS = [
     {key:'pagi',   label:'Sarapan',     range:'06:00-08:00',  icon:'sunrise'},
     {key:'siang',  label:'Makan Siang', range:'11:30-13:00',  icon:'bowl'},
@@ -653,7 +523,6 @@
     ];
 
     const MEAL_DIST = {
-    //        pagi   siang  snack  malam  drink  (jumlahnya selalu 1.0)
     lose:     [0.26, 0.34, 0.10, 0.27, 0.03],
     maintain: [0.26, 0.32, 0.12, 0.27, 0.03],
     gain:     [0.28, 0.32, 0.13, 0.27, 0.00],
@@ -682,10 +551,6 @@
     };
     }
 
-
-/* Data dan fungsi ini dipakai script.js dan recipes.js. Diekspor
-   ke window supaya tidak bergantung pada cakupan leksikal bersama
-   antar tag script. */
     window.NUTRISI = {
     NUTRIENTS, NUTRIENT_TRUST, COOK_METHODS, MEAL_SLOTS, MEAL_DIST, SNAP, NUTRIENT_SOURCE,
     SCALE_MIN, SCALE_MAX,

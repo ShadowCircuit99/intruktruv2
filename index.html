@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
 <title>Instruktur Pribadi 90 Hari</title>
 <script>
-// Terapkan tema sebelum render untuk mencegah kedip (FOUC).
+
 (function () {
   try {
     var t = localStorage.getItem('ip90_theme');
@@ -42,8 +42,8 @@
     </div>
 
     <!-- Headline -->
-    <h1 class="la-headline">90 Hari.<br>Buktiin Kamu<br><span>Bisa Konsisten.</span></h1>
-    <p class="la-sub">Latihan, makan, dan progress harian.<br>Semua sudah diatur, tinggal kamu jalanin.</p>
+    <h1 class="la-headline">90 Hari.<br>Latihan, Makan,<br><span>dan Psi Kendali.</span></h1>
+    <p class="la-sub">Jadwal latihan dan menu harian sudah disiapkan.<br>Tinggal dijalankan, apa adanya setiap hari.</p>
 
     <!-- Feature list -->
     <div class="la-features">
@@ -52,8 +52,8 @@
           <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
         <div class="la-feature-text">
-          <strong>Latihan yang Ngikutin Kondisimu</strong>
-          Capek? diturunin. Fit? dinaikin.
+          <strong>Latihan Sesuai Kondisi</strong>
+          Volume latihan menyesuaikan energi dan jam tidurmu hari itu.
         </div>
       </div>
       <div class="la-feature">
@@ -61,8 +61,8 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
         </div>
         <div class="la-feature-text">
-          <strong>Makan Simple, Bukan Ribet</strong>
-          Bahan gampang dicari, bukan makanan mahal.
+          <strong>Menu Sederhana</strong>
+          Bahan yang ada di warung terdekat, bukan makanan mahal.
         </div>
       </div>
       <div class="la-feature">
@@ -70,8 +70,8 @@
           <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
         <div class="la-feature-text">
-          <strong>Progress yang Kelihatan</strong>
-          Berat, pinggang, dan kebiasaan, semua ke-track.
+          <strong>Progres yang Terukur</strong>
+          Berat badan, lingkar pinggang, dan kebiasaan harian tercatat.
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@
       <button class="btn btn-primary btn-full btn-lg" onclick="showScreen('lf')">
         Mulai Hari Ini
       </button>
-      <p class="la-tagline">Tanpa ribet. Tanpa alasan.</p>
+      <p class="la-tagline">Sekali mulai, 90 hari.</p>
       <div class="la-stats">
         <div class="la-stat"><div class="la-stat-num">90</div><div class="la-stat-label">Hari Program</div></div>
         <div class="la-stat"><div class="la-stat-num">4</div><div class="la-stat-label">Fase Latihan</div></div>
@@ -92,7 +92,6 @@
     <div class="la-footer">Dibuat oleh <strong>Muhamad Rafi Apriyansyah</strong></div>
   </div>
 </div>
-
 
 <!-- ---------------------------------------- FORM / ONBOARDING -->
 <div id="screen-lf" class="screen">
@@ -205,21 +204,21 @@
               <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
             </div>
             <div class="form-goal-name">Turun</div>
-            <div class="form-goal-desc">Defisit kalori</div>
+            <div class="form-goal-desc">Di bawah kebutuhan</div>
           </div>
           <div class="form-goal-btn" onclick="selectGoal(this,'maintain')">
             <div class="form-goal-icon">
               <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
             <div class="form-goal-name">Jaga</div>
-            <div class="form-goal-desc">Kalori seimbang</div>
+            <div class="form-goal-desc">Sesuai kebutuhan</div>
           </div>
           <div class="form-goal-btn" onclick="selectGoal(this,'gain')">
             <div class="form-goal-icon">
               <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
             </div>
             <div class="form-goal-name">Naik</div>
-            <div class="form-goal-desc">Surplus kalori</div>
+            <div class="form-goal-desc">Di atas kebutuhan</div>
           </div>
         </div>
         <div class="form-error-msg" id="err-goal">
@@ -322,7 +321,6 @@
   </div>
 </div>
 
-
 <!-- ---------------------------------------- HOME -->
 <div id="screen-lh" class="screen">
   <div class="lh-wrap">
@@ -332,9 +330,31 @@
         <button class="theme-toggle" type="button" onclick="toggleTheme(this)" aria-label="Ganti mode gelap atau terang" title="Ganti tema">
           <span class="theme-toggle-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
         </button>
+        <button class="lh-settings notif-bell" type="button" onclick="toggleNotifPanel(this)" title="Pengingat harian" aria-label="Atur pengingat harian" aria-expanded="false">
+          <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="notif-dot" id="notif-dot" hidden></span>
+        </button>
         <button class="lh-settings" type="button" onclick="showResetModal()" title="Hapus data" aria-label="Hapus semua data">
           <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></svg>
         </button>
+        <div class="notif-panel" id="notif-panel" hidden>
+          <div class="notif-panel-title">Pengingat harian</div>
+          <div class="notif-status" id="notif-status">-</div>
+          <div class="notif-row">
+            <label class="notif-switch">
+              <input type="checkbox" id="notif-toggle" onchange="notifToggle(this.checked)">
+              <span>Aktifkan</span>
+            </label>
+          </div>
+          <div class="notif-row">
+            <label for="notif-time" class="notif-label">Ingatkan pukul</label>
+            <input class="notif-time" type="time" id="notif-time" onchange="notifSetJam(this.value)">
+          </div>
+          <div class="notif-btnrow">
+            <button class="notif-btn" type="button" onclick="notifUji()">Coba sekarang</button>
+          </div>
+          <p class="notif-note">Notifikasi hanya muncul selama tab ini terbuka di peramban. Kalau tab ditutup, pengingat tidak bisa muncul. Begitu tab dibuka lagi, pengingat hari itu tetap dikirim saat itu juga.</p>
+        </div>
       </div>
     </div>
     <div id="lh-greet" class="lh-greet">Halo,</div>
@@ -352,7 +372,6 @@
   </div>
 </div>
 
-
 <!-- ---------------------------------------- PROGRAM -->
 <div id="screen-lp" class="screen">
   <div class="lp-inner">
@@ -369,7 +388,7 @@
         </div>
       </div>
       <div class="lp-topbar-right">
-        <div class="lp-topbar-streak" id="lp-streak">Streak 0</div>
+        <div class="lp-topbar-streak" id="lp-streak">Beruntun 0</div>
         <button class="theme-toggle" type="button" onclick="toggleTheme(this)" aria-label="Ganti mode gelap atau terang" title="Ganti tema">
           <span class="theme-toggle-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
         </button>
@@ -379,96 +398,100 @@
     <!-- Tab content -->
     <div class="lp-content" id="lp-content">
 
-      <!-- Dashboard Tab -->
+      <!-- Tab Hari Ini -->
       <div class="tab-pane active" id="tab-dashboard">
         <div class="dash-pad">
-          <div class="dash-day-hero">
-            <div class="dash-day-num" id="dash-day-num">HARI KE-1 DARI 90</div>
-            <div class="dash-day-title" id="dash-day-title">Hari Pertama</div>
-            <div class="dash-day-phase" id="dash-day-phase">Fase: Fondasi · Minggu 1</div>
-          </div>
-          <div id="ux-daily-focus-wrap"></div>
-          <div id="dash-warnings-wrap"></div>
-          <div id="dash-intensity-card" class="dash-intensity-card hidden">
-            <div class="dash-intensity-left">
-              <div class="dash-intensity-icon">
-                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              </div>
-              <div class="dash-intensity-info">
-                <div class="dash-intensity-label">Intensitas Hari Ini</div>
-                <div class="dash-intensity-val" id="dash-intensity-val">Energi & tidur normal</div>
-              </div>
-            </div>
-            <div class="dash-intensity-badge" id="dash-intensity-badge">100%</div>
-          </div>
-          <div class="dash-water-card">
-            <div class="dash-water-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-            </div>
-            <div class="dash-water-info">
-              <div class="dash-water-title">Target Air Harian</div>
-              <div class="dash-water-val" id="dash-water-val">- ml</div>
-              <div class="dash-water-hint">30-35 ml × berat badanmu</div>
-            </div>
-          </div>
-          <div id="dash-adapt-notice" class="dash-adapt-notice hidden">
-            <div class="dash-adapt-title">Minggu Adaptasi (Hari 1-7)</div>
-            <div class="dash-adapt-list">
-              <div class="dash-adapt-item">Kurangi porsi makan secara bertahap, tidak perlu langsung ketat</div>
-              <div class="dash-adapt-item">Kurangi gula, hindari minuman manis dan makanan bergula tinggi</div>
-              <div class="dash-adapt-item">Hindari makanan yang digoreng deep-fry</div>
-            </div>
-          </div>
-          <div class="dash-cal-row">
-            <div class="dash-cal-item">
-              <div class="dash-cal-val txt-accent" id="dash-cal-total">-</div>
-              <div class="dash-cal-label">Kalori Menu</div>
-            </div>
-            <div class="dash-cal-item">
-              <div class="dash-cal-val txt-blue" id="dash-cal-protein">-</div>
-              <div class="dash-cal-label">Protein (g)</div>
-            </div>
-            <div class="dash-cal-item">
-              <div class="dash-cal-val" id="dash-cal-carb">-</div>
-              <div class="dash-cal-label">Karbo (g)</div>
-            </div>
-            <div class="dash-cal-item">
-              <div class="dash-cal-val txt-muted" id="dash-cal-fat">-</div>
-              <div class="dash-cal-label">Lemak (g)</div>
-            </div>
-            <div class="dash-cal-item">
-              <div class="dash-cal-val txt-accent" id="dash-cal-fiber">-</div>
-              <div class="dash-cal-label">Serat (g)</div>
-            </div>
-          </div>
-          <div class="dash-progress-section">
-            <div class="dash-prog-header">
-              <div class="dash-prog-title">Progres Hari Ini</div>
-              <div class="dash-prog-pct" id="dash-day-pct">0%</div>
-            </div>
-            <div class="dash-prog-items">
-              <div class="dash-prog-item">
-                <div class="dash-prog-info">
-                  <div class="dash-prog-name">Latihan</div>
-                  <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-workout-bar" style="width:0%"></div></div>
-                </div>
-              </div>
-              <div class="dash-prog-item">
-                <div class="dash-prog-info">
-                  <div class="dash-prog-name">Makan (<span id="prog-meal-count">0</span>/5)</div>
-                  <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-meal-bar" style="width:0%"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="dash-guide" id="dash-guide">
-            <div class="dash-guide-label" id="dash-guide-label">Panduan</div>
-            <div class="dash-guide-msg" id="dash-guide-msg">Memuat panduan...</div>
-          </div>
-          <div class="dash-90-section">
-            <div class="section-label">90 Hari Perjalananmu</div>
-            <div class="dash-90-dots" id="dash-90-dots"></div>
-          </div>
+          <!-- Mode perawatan: muncul hanya setelah hari ke-90 -->
+          <div id="maint-banner" class="maint-banner hidden"></div>
+          <!-- Aksi berikutnya: satu kartu, berubah sendiri mengikuti status -->
+<div class="dash-now" id="dash-now"></div>
+
+<!-- Tiga angka ringkas. Sisanya ada di rincian bawah -->
+<div class="dash-status">
+  <div class="dash-status-item">
+    <div class="dash-status-val txt-accent" id="dash-cal-total">-</div>
+    <div class="dash-status-label">Kalori Menu</div>
+  </div>
+  <div class="dash-status-item">
+    <div class="dash-status-val txt-blue" id="dash-cal-protein">-</div>
+    <div class="dash-status-label">Protein</div>
+  </div>
+  <div class="dash-status-item">
+    <div class="dash-status-val" id="dash-day-pct">0%</div>
+    <div class="dash-status-label">Progres Hari Ini</div>
+  </div>
+</div>
+
+<!-- Peringatan keselamatan: tidak pernah dilipat, selalu terlihat -->
+<div id="dash-warnings-wrap"></div>
+
+<!-- Rincian. <details> native: bisa dibuka keyboard, tanpa JS. -->
+<details class="dash-more">
+  <summary class="dash-more-sum">Rincian Hari Ini</summary>
+  <div class="dash-more-body">
+    <div class="dash-day-hero">
+      <div class="dash-day-num" id="dash-day-num">HARI KE-1 DARI 90</div>
+      <div class="dash-day-title" id="dash-day-title">Hari Pertama</div>
+      <div class="dash-day-phase" id="dash-day-phase">Fase: -</div>
+    </div>
+    <div id="ux-daily-focus-wrap"></div>
+    <div class="dash-intensity-card" id="dash-intensity-card" hidden>
+      <div class="dash-intensity-left">
+        <div class="dash-intensity-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="dash-intensity-info">
+          <div class="dash-intensity-label">Intensitas Hari Ini</div>
+          <div class="dash-intensity-val" id="dash-intensity-val">-</div>
+        </div>
+      </div>
+      <div class="dash-intensity-badge" id="dash-intensity-badge">-</div>
+    </div>
+    <div class="dash-water-card">
+      <div class="dash-water-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+      </div>
+      <div class="dash-water-info">
+        <div class="dash-water-title">Target Air Harian</div>
+        <div class="dash-water-val" id="dash-water-val">- ml</div>
+        <div class="dash-water-hint">30-35 ml x berat badanmu</div>
+      </div>
+    </div>
+    <div class="dash-adapt-notice" id="dash-adapt-notice" hidden>
+      <div class="dash-adapt-title">Minggu Adaptasi (Hari 1-7)</div>
+      <div class="dash-adapt-list">
+        <div class="dash-adapt-item">Kurangi porsi makan secara bertahap, tidak perlu langsung ketat</div>
+        <div class="dash-adapt-item">Kurangi gula, hindari minuman manis dan makanan bergula tinggi</div>
+        <div class="dash-adapt-item">Hindari makanan yang digoreng deep-fry</div>
+      </div>
+    </div>
+    <div class="dash-sub-label">Komposisi Menu</div>
+    <div class="dash-macro-row">
+      <div class="dash-macro-item"><div class="dash-macro-v" id="dash-cal-carb">-</div><div class="dash-macro-l">Karbo</div></div>
+      <div class="dash-macro-item"><div class="dash-macro-v txt-muted" id="dash-cal-fat">-</div><div class="dash-macro-l">Lemak</div></div>
+      <div class="dash-macro-item"><div class="dash-macro-v txt-accent" id="dash-cal-fiber">-</div><div class="dash-macro-l">Serat</div></div>
+    </div>
+    <div class="dash-progress-section">
+      <div class="dash-prog-item">
+        <div class="dash-prog-info"><div class="dash-prog-name">Latihan</div></div>
+        <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-workout-bar" style="width:0%"></div></div>
+      </div>
+      <div class="dash-prog-item">
+        <div class="dash-prog-info"><div class="dash-prog-name">Makan (<span id="prog-meal-count">0</span>/5)</div></div>
+        <div class="dash-prog-bar"><div class="dash-prog-bar-fill" id="prog-meal-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="dash-guide" id="dash-guide">
+      <div class="dash-guide-label" id="dash-guide-label">Panduan</div>
+      <div class="dash-guide-msg" id="dash-guide-msg">Memuat panduan...</div>
+    </div>
+    <div class="dash-sub-label">90 Hari Perjalananmu</div>
+    <div class="dash-90-section">
+      <div class="dash-90-dots" id="dash-90-dots"></div>
+    </div>
+  </div>
+</details>
+
         </div>
       </div>
 
@@ -505,13 +528,11 @@
         <div class="menu-pad">
           <div class="menu-cal-header">
             <div class="menu-cal-total" id="menu-cal-total">- kkal</div>
-            <div class="menu-cal-label">Total Interdisciplinary menu hari ini</div>
+            <div class="menu-cal-label">Total Kalori Menu Hari Ini</div>
             <div class="menu-target-line" id="menu-target-line"></div>
             <div class="menu-macro-pills" id="menu-macro-pills"></div>
-            <div class="menu-nutrition-notice" id="menu-nutrition-notice"></div>
           </div>
           <div id="ux-meal-guidance-wrap"></div>
-          <div id="menu-goal-notice" class="menu-goal-notice-box hidden"></div>
           <div id="menu-floor-notice" class="menu-floor-notice hidden"></div>
           <div id="menu-adapt-notice" class="menu-adapt-notice hidden">
             <strong>Minggu Adaptasi (Hari 1-7):</strong> Porsi bisa disesuaikan dengan kebiasaan makan sehari-hari. Kurangi gula dan gorengan secara bertahap, tidak perlu langsung drastis.
@@ -539,7 +560,7 @@
           <div class="prog-overview" id="prog-overview"></div>
 
           <div class="prog-tracking-card">
-            <div class="prog-tracking-title">Input Data Tubuh Hari Ini</div>
+            <div class="prog-tracking-title">Catat Data Tubuh Hari Ini</div>
             <div class="prog-tracking-row">
               <div class="prog-tracking-input-wrap">
                 <label class="prog-tracking-label">Berat Badan (kg)</label>
@@ -558,7 +579,7 @@
           <div class="prog-chart-card">
             <div class="prog-chart-title">Grafik Berat Badan</div>
             <div class="prog-chart-wrap" id="prog-chart-wrap">
-              <div class="prog-chart-empty" id="prog-chart-empty">Belum ada data. Isi di atas untuk mulai tracking.</div>
+              <div class="prog-chart-empty" id="prog-chart-empty">Belum ada data. Isi di atas untuk mulai merekam.</div>
               <canvas id="weight-chart" style="display:none;"></canvas>
             </div>
           </div>
@@ -591,7 +612,7 @@
         <span class="lp-tab-icon">
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         </span>
-        <span class="lp-tab-label">Dashboard</span>
+        <span class="lp-tab-label">Hari Ini</span>
       </button>
       <button class="lp-tab" onclick="switchTab(this,'latihan')">
         <span class="lp-tab-icon">
@@ -615,12 +636,11 @@
   </div>
 </div>
 
-
 <!-- ---------------------------------------- RESET MODAL -->
 <div class="modal-overlay" id="reset-modal">
   <div class="modal-box">
     <div class="modal-title">Mulai Ulang Program?</div>
-    <div class="modal-body">Semua data program, progress, streak, dan riwayat akan dihapus permanen. Kamu akan kembali ke halaman awal.<br><br>Yakin ingin melanjutkan?</div>
+    <div class="modal-body">Semua data program, progres, beruntun, dan riwayat akan dihapus permanen. Kamu akan kembali ke halaman awal.<br><br>Yakin ingin melanjutkan?</div>
     <div class="modal-actions">
       <button class="btn btn-outline btn-full" onclick="closeResetModal()">Batal</button>
       <button class="btn btn-danger btn-full" onclick="resetAll()">Ya, Hapus Semua</button>
@@ -628,14 +648,13 @@
   </div>
 </div>
 
-
 <!-- ---------------------------------------- ENERGY CHECK MODAL -->
 <div class="energy-modal-overlay" id="energy-modal">
   <div class="energy-modal-box" onclick="event.stopPropagation()">
     <div class="energy-modal-title">Cek Kondisimu Hari Ini</div>
     <div class="energy-modal-sub">Jawab sebentar biar latihan disesuaikan dengan kondisi tubuhmu.</div>
 
-    <div class="energy-label">Level Energimu Sekarang</div>
+    <div class="energy-label">Seberapa Energimu?</div>
     <div class="energy-stars" id="energy-stars">
       <div class="energy-star" onclick="selectEnergy(1)">1</div>
       <div class="energy-star" onclick="selectEnergy(2)">2</div>
@@ -643,7 +662,7 @@
       <div class="energy-star" onclick="selectEnergy(4)">4</div>
       <div class="energy-star" onclick="selectEnergy(5)">5</div>
     </div>
-    <div id="energy-star-err" class="field-err">Pilih level energimu dulu.</div>
+    <div id="energy-star-err" class="field-err">Pilih dulu tingkat energimu.</div>
 
     <div class="energy-label">Berapa jam kamu tidur tadi malam?</div>
     <div class="sleep-input-wrap">
@@ -667,15 +686,15 @@
 
 <script src="nutrition.js?v=1"></script>
 <script src="recipes.js?v=1"></script>
-<script src="script.js?v=5"></script>
+<script src="notif.js?v=1"></script>
+<script src="script.js?v=6"></script>
 <script>
-// Fallback: pastikan selalu ada 1 layar terlihat walau script.js gagal dimuat
+// Tanpa ini layar pertama tidak terlihat kalau script.js gagal dimuat.
 window.addEventListener('load', function () {
   if (!document.querySelector('.screen.active')) {
     document.getElementById('screen-la').classList.add('active');
   }
 });
 </script>
-<noscript><style>.screen{display:flex!important}</style></noscript>
-</body>
+<noscript><style>.screen{display:flex!important}</style></noscript></body>
 </html>

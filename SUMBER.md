@@ -149,11 +149,32 @@ Alasannya ditulis di baris yang sama, dan UI menandai hidangan yang memakainya.
 | `ketumbar_bubuk` | Spices, cumin seed | Biji, bukan bubuk |
 | `merica_bubuk` | Spices, pepper, black | Biji, bukan bubuk |
 | `kecap_manis` | Sauce, hoisin | Saus kecap manis terdekat |
+| `minyak_goreng` | Oil, palm | Minyak goreng kemasan |
 | `minyak_sawit` | Oil, palm | USDA cuma punya palm kernel oil |
 | `santan_kental` | Nuts, coconut milk, canned | Santan kaleng |
 | `salak` | Jackfruit, raw | USDA tak punya salak |
 | `kerupuk` | Crackers, saltines | USDA tak punya kerupuk |
 | `kerupuk_udang` | Crackers, flavored, fish-shaped | Cracker bentuk ikan |
+
+### Catatan `minyak_goreng`
+
+Minyak goreng ini **bukan** minyak kelapa. Dulu aplikasi memakai
+`minyak_kelapa` (`Oil, coconut`, FDC 171412), lalu diganti karena minyak
+kelapa susah dicari dan harganya tidak masuk akal buat anak kos, sementara
+minyak goreng ada di setiap toko.
+
+Angkanya tetap dari USDA, tidak dikarang: `Oil, palm` (FDC 171015), sama
+dengan yang dipakai `minyak_sawit`. Yang dibedakan cuma maknanya, yaitu
+minyak goreng dagangan, bukan minyak sawit murni.
+
+| | Minyak kelapa (lama) | Minyak goreng (sekarang) |
+|---|---|---|
+| Energi | 892 kkal/100 ml | 884 kkal/100 ml |
+| Lemak jenuh | 82,5 g | 49,3 g |
+
+Jadi hasilnya justru lebih rendah lemak jenuhnya. `minyak_kelapa` **tidak
+dihapus** dari `NUTRIENTS`, masih bisa dipilih lewat tombol Ganti kalau
+memang ada di rumah.
 
 ### Catatan `mie_instan`
 
