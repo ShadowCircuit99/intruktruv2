@@ -1,8 +1,9 @@
 # ================================================================
 # Berkas yang TIDAK ikut ter-push ke GitHub.
 #
-# Yang di-push hanya 11 berkas deploy. Semuanya di baris "Deploy"
-# di README.md, dan cek.js memverifikasi bahwa tidak ada berkas lain
+# Yang di-push hanya 13 berkas deploy: 9 berkas teks, 3 ikon PNG,
+# dan 1 manifest PWA. Semuanya ada di tabel "Isi Folder" di
+# README.md, dan cek.js memverifikasi bahwa tidak ada berkas lain
 # yang ikut ter-track.
 # ================================================================
 
@@ -28,6 +29,10 @@ _*.css
 *.tmp
 *.orig
 *.rej
+
+# Hasil uji dan log. Uji regresi menulis ke stdout, bukan ke berkas,
+# tapi kalau nanti ada yang menyimpan log-nya, jangan ikut ter-push.
+*.log
 
 # Dependensi. Aplikasi tidak butuh apa pun, tapi uji regresi
 # memakai jsdom yang dipasang lokal, bukan ikut disimpan.

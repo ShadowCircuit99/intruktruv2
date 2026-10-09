@@ -71,8 +71,8 @@ return true;
 /* Mengirim notifikasi */
 function notifTampilkan(){
 const day=getCurrentDay();
-const sd=loadDayData(day);
-const selesai=!sd||!sd.workout||!sd.workout.done;
+const td=loadToday();
+const selesai=!td.workoutDone;
 const judul=selesai?'Latihan hari ini belum dikerjakan':'Program hari ini';
 
 let isi;

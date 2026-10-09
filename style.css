@@ -75,6 +75,7 @@
 :root{
   --r:14px;
   --r-sm:9px;
+  --r-md:12px;
   
   --fs-2xs:.75rem;
   --fs-xs:.8125rem;
@@ -307,7 +308,6 @@ button{cursor:pointer}
 .lp-tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 4px;border:none;background:none;color:var(--text3);border-top:2px solid transparent;transition:color .15s}
 .lp-tab:hover{color:var(--text2)}
 .lp-tab.active{color:var(--accent);border-top-color:var(--accent)}
-.lp-tab.tab-locked{opacity:.45}
 .lp-tab-icon svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .lp-tab-label{font-size:0.75rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
 
@@ -523,7 +523,6 @@ button{cursor:pointer}
 .meal-cat-chip{flex-shrink:0;padding:7px 14px;border-radius:99px;font-size:0.8125rem;font-weight:600;background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-family:inherit}
 .meal-cat-chip.active{background:var(--text);border-color:var(--text);color:var(--bg)}
 .menu-rec-section{margin-top:14px}
-.menu-rec-sub{font-size:0.8125rem;color:var(--text2);margin:2px 0 9px}
 .menu-rec-list{display:flex;flex-direction:column;gap:8px}
 .menu-rec-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 13px}
 .menu-rec-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
@@ -549,7 +548,7 @@ button{cursor:pointer}
 .meal-card-body{display:none;padding:0 15px 15px;border-top:1px solid var(--border)}
 .meal-card.open .meal-card-body{display:block}
 
-.meal-macro-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--bg);border-radius:var(--r-sm);padding:11px;margin:13px 0}
+.meal-macro-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--bg);border-radius:var(--r-sm);padding:11px;margin:13px 0}
 .meal-macro-item{text-align:center}
 .meal-macro-val{font-weight:700;font-size:0.9375rem}
 .meal-macro-label{font-size:0.75rem;color:var(--text3);margin-top:2px}
@@ -650,6 +649,7 @@ button{cursor:pointer}
 .ux-energy-hint.mid{background:var(--yellow-dim);color:var(--yellow)}
 .ux-energy-hint.high{background:var(--accent-dim);color:var(--accent)}
 .energy-confirm{margin-top:16px}
+.energy-skip{margin-top:9px}
 
 .swap-current{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin-bottom:17px}
 .swap-current-label{font-size:0.8125rem;color:var(--text3);margin-bottom:3px}
@@ -699,7 +699,7 @@ button{cursor:pointer}
 body{font-size:var(--fs-md)}
 
 .dash-status-val,.menu-cal-total,.lp-topbar-streak,
-.ex-timer-disp,.ex-rep-label,.meal-macro-val,.meal-cal,
+.ex-timer-display,.ex-rep-label,.meal-macro-val,.meal-cal,
 .dev-tbl td.n,.dev-goal .dg-k,.dev-goal .dg-s{
   font-family:var(--font-m);
   font-variant-numeric:tabular-nums;
@@ -1095,7 +1095,7 @@ select.dev-in{padding-right:8px;appearance:none;cursor:pointer}
   font-size:.75rem;font-weight:700;text-transform:uppercase;
   letter-spacing:.06em;color:var(--text3);margin-bottom:5px;
 }
-.swap-altplore{
+.swap-alt-macros{
   display:flex;flex-wrap:wrap;gap:6px 10px;
   font-size:.75rem;color:var(--text3);margin-top:6px;
 }
@@ -1145,3 +1145,159 @@ select.dev-in{padding-right:8px;appearance:none;cursor:pointer}
   font-family:var(--font-h);font-size:var(--fs-sm);font-weight:700;
 }
 .maint-btn:hover{background:var(--blue);color:#fff}
+
+/* Aksesibilitas */
+.skip-link{
+  position:absolute;left:-9999px;top:0;z-index:200;
+  padding:11px 15px;background:var(--accent);color:var(--accent-ink);
+  border-radius:0 0 var(--r-sm) 0;font-family:var(--font-h);
+  font-weight:700;font-size:var(--fs-sm);
+}
+.skip-link:focus{left:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.exercise-header:focus-visible,.meal-card-header:focus-visible,.energy-star:focus-visible{
+  outline:2px solid var(--accent);outline-offset:-2px;border-radius:var(--r-sm);
+}
+.energy-star[aria-checked="true"]{box-shadow:0 0 0 2px var(--accent-line)}
+
+/* Pelacak air */
+.water-tracker{
+  flex:1 1 100%;margin-top:11px;padding-top:11px;
+  border-top:1px solid var(--border);
+}
+.water-done{display:flex;align-items:baseline;gap:7px;margin-bottom:8px}
+.water-done-val{
+  font-family:var(--font-m);font-variant-numeric:tabular-nums;
+  font-size:var(--fs-lg);font-weight:700;color:var(--text);
+}
+.water-done-label{font-size:var(--fs-xs);color:var(--text3)}
+.water-bar{
+  height:8px;border-radius:99px;background:var(--card2);
+  border:1px solid var(--border);overflow:hidden;margin-bottom:11px;
+}
+.water-bar-fill{
+  height:100%;border-radius:99px;
+  background:linear-gradient(90deg,var(--blue),var(--accent));
+  transition:width .25s ease;
+}
+.water-btns{display:flex;gap:8px;flex-wrap:wrap}
+.water-btn{
+  flex:1 1 auto;min-height:40px;padding:9px 12px;
+  border-radius:var(--r-sm);cursor:pointer;
+  border:1px solid var(--border2);background:var(--surface);color:var(--text);
+  font-family:var(--font-h);font-size:var(--fs-sm);font-weight:600;
+  transition:border-color .15s,background .15s;
+}
+.water-btn:hover{border-color:var(--accent);background:var(--accent-dim);color:var(--accent)}
+.water-btn-ghost{color:var(--text3);font-weight:500}
+.water-btn-ghost:hover{color:var(--red);border-color:var(--red);background:var(--red-dim)}
+
+/* Grafik cadangan tanpa pustaka luar */
+.prog-chart-svg{width:100%;height:100%;display:none}
+
+/* Daftar menu alternatif, bisa dilipat */
+.menu-rec-section{
+  margin-top:14px;border:1px solid var(--border);
+  border-radius:var(--r);background:var(--card);overflow:hidden;
+}
+.menu-rec-sum{
+  display:flex;flex-direction:column;gap:3px;
+  padding:13px 15px;cursor:pointer;list-style:none;
+}
+.menu-rec-sum::-webkit-details-marker{display:none}
+.menu-rec-sum::after{
+  content:'';position:absolute;right:16px;top:50%;margin-top:-4px;
+  width:8px;height:8px;transform:rotate(45deg);
+  border-right:2px solid var(--text3);border-bottom:2px solid var(--text3);
+}
+.menu-rec-section{position:relative}
+.menu-rec-sum-title{font-family:var(--font-h);font-weight:700;font-size:var(--fs-md);padding-right:22px}
+.menu-rec-sum-hint{font-size:var(--fs-xs);color:var(--text3);padding-right:22px;line-height:1.45}
+.menu-rec-list{padding:0 15px 15px}
+
+/* Data dan pengaturan */
+.data-card{
+  margin-top:14px;border:1px solid var(--border);
+  border-radius:var(--r);background:var(--card);overflow:hidden;
+}
+.data-card-sum{
+  padding:13px 15px;cursor:pointer;list-style:none;
+  font-family:var(--font-h);font-weight:700;font-size:var(--fs-md);
+}
+.data-card-sum::-webkit-details-marker{display:none}
+.data-card-body{padding:0 15px 15px}
+.data-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 0}
+.data-row+.data-row{border-top:1px solid var(--border)}
+.data-info{flex:1 1 auto;min-width:0}
+.data-label{font-size:var(--fs-sm);font-weight:600}
+.data-hint{font-size:var(--fs-xs);color:var(--text3);line-height:1.5;margin-top:3px}
+.data-divider{height:1px;background:var(--border);margin:12px 0}
+.data-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+.data-actions .btn{flex:1 1 130px}
+.data-msg{font-size:var(--fs-xs);line-height:1.5;margin-top:10px;color:var(--text3);min-height:1em}
+.data-msg.ok{color:var(--accent)}
+.data-msg.bad{color:var(--red)}
+
+.switch{position:relative;display:inline-flex;flex:0 0 auto;cursor:pointer}
+.switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.switch-box{
+  width:46px;height:27px;border-radius:99px;
+  background:var(--card2);border:1px solid var(--border2);
+  position:relative;transition:background .18s,border-color .18s;
+}
+.switch-box::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:19px;height:19px;border-radius:50%;
+  background:var(--text3);transition:transform .18s,background .18s;
+}
+.switch input:checked+.switch-box{background:var(--accent-dim);border-color:var(--accent)}
+.switch input:checked+.switch-box::after{transform:translateX(19px);background:var(--accent)}
+.switch input:focus-visible+.switch-box{outline:2px solid var(--accent);outline-offset:2px}
+
+.print-head{display:none}
+
+/* Layar lebar: dua kolom supaya tidak stretching */
+@media (min-width:900px){
+  .dash-pad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 22px;align-items:start}
+  .dash-pad>.dash-now,.dash-pad>.dash-status,.dash-pad>#dash-warnings-wrap,.dash-pad>.dash-more{grid-column:1/-1}
+
+  .dash-more-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 22px;align-items:start}
+  .dash-more-body>.dash-day-hero,.dash-more-body>#ux-daily-focus-wrap,
+  .dash-more-body>.dash-intensity-card,.dash-more-body>.dash-adapt-notice,
+  .dash-more-body>.dash-90-section{grid-column:1/-1}
+
+  .meal-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+  .workout-pad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 22px;align-items:start}
+  .workout-pad>.workout-header,.workout-pad>.workout-done-wrap,
+  .workout-pad>.workout-notes-section{grid-column:1/-1}
+
+  .prog-pad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 22px;align-items:start}
+  .prog-pad>.prog-overview,.prog-pad>.prog-weekly-section,
+  .prog-pad>.prog-goal-section,.prog-pad>.data-card,.prog-pad>.prog-footer{grid-column:1/-1}
+
+  .water-btns{flex-wrap:nowrap}
+}
+
+/* cetak: hanya menu hari ini */
+@media print{
+  @page{margin:12mm}
+  html,body{background:#fff!important;color:#000!important}
+  .la-bg,.la-grid,.screen:not(#screen-lp){display:none!important}
+  .lp-inner{display:block;max-width:none}
+  .lp-topbar-right,.lp-tabs,.workout-notes-section,.dev-launch{display:none!important}
+  .lp-tabs{display:none!important}
+  .print-head{
+    display:block;font-family:var(--font-h);font-weight:700;
+    font-size:15pt;margin-bottom:8mm;
+  }
+  .menu-pad{padding:0}
+  .menu-cal-header,.meal-card,.menu-rec-section{
+    border:1px solid #bbb!important;background:#fff!important;
+    box-shadow:none!important;break-inside:avoid;
+  }
+  .meal-card-body{display:block!important}
+  .meal-cat-row,.meal-done-btn,.btn-ganti,.meal-detail-row{display:none!important}
+  .tab-pane{display:none!important}
+  #tab-menu{display:block!important}
+  a[href]::after{content:''}
+}

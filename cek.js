@@ -22,7 +22,14 @@ const ROOT=__dirname;
    (notif.js) beberapa pemeriksaan diam-diam tidak ikut memindainya.
    Wajib menambah file baru ke sini, bukan menyalin daftar baru. */
 const DEPLOY=['index.html','style.css','nutrition.js','recipes.js','notif.js',
-'script.js','README.md','SUMBER.md','.gitignore'];
+'script.js','manifest.webmanifest','icon-192.png','icon-512.png','icon-180.png',
+'README.md','SUMBER.md','.gitignore'];
+
+/* Ikon dan manifest ikut DEPLOY, bukan sekadar dilacak diam-diam.
+   Halaman sudah merujuk mereka, jadi file-nya wajib ikut ter-push;
+   kalau lupa, breakage baru muncul di server. */
+const IKON=['icon-192.png','icon-512.png','icon-180.png'];
+const PNG_SIH=[0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a];
 
 /* File JavaScript yang dimuat halaman. Handler di markup, kelas CSS,
    dan banned words diperiksa terhadap gabungan semua file ini. */
@@ -34,6 +41,7 @@ const gabungJS=function(){ return JSDIR.map(baca).join('\n'); };
    langsung gagal. */
 const MIN_SIZE={'index.html':20000,'style.css':40000,'nutrition.js':30000,'notif.js':4000,
 'recipes.js':35000,'script.js':150000,'README.md':8000,'SUMBER.md':5000,
+'manifest.webmanifest':300,'icon-192.png':200,'icon-512.png':200,'icon-180.png':200,
 '.gitignore':200};
 
 let gagal=0;
@@ -167,8 +175,171 @@ cek('tidak ada fungsi yang dideklarasikan dua kali',function(){
   if(dup.length) return dup.join(', ');
   return null;
 });
+/* Panggilan fungsi yang tidak ada definisinya baru gagal saat baris itu
+   dieksekusi. Kalau baris itu jarang dijalankan, cacatnya bisa bertahan
+   lama tanpa terlihat. _applyTabLockState pernah seperti itu: fungsinya
+   dihapus, pemanggilnya tertinggal, dan tidak ada yang gagal sampai
+   program itu dibuka lagi.
+   Daftar deklarasi dikumpulkan dari semua bentuk penulisan nama:
+   deklarasi fungsi, deklarasi variabel, parameter fungsi, parameter
+   panah, tangkapan catch, dan for..of. Sisa yang dipanggil tapi tidak
+   ada namanya adalah kandidat bug. */
+const BUILTIN=new Set(('if for while switch catch return typeof new delete void in of instanceof class extends '+
+'this null true false undefined NaN Infinity function do else try await async yield throw case break continue '+
+'Array Object String Number Boolean Date Math JSON RegExp Error Promise Map Set WeakMap WeakSet Symbol BigInt '+
+'parseInt parseFloat isFinite isNaN encodeURIComponent decodeURIComponent setTimeout clearTimeout setInterval '+
+'clearInterval requestAnimationFrame cancelAnimationFrame fetch console window document localStorage navigator '+
+'location history screen alert confirm prompt Intl Blob File FileReader FormData URL URLSearchParams Headers '+
+'getComputedStyle resolve reject then catch all race status '+
+'Notification PushManager ServiceWorker caches indexOf fromCharCode of '+
+'notifAktifkan notifMatikan notifStatusTeks notifPeriksa notifMulai notifBaca NOTIFJamValid NOTIFTanggal '+
+'AbortController TextEncoder TextDecoder Uint8Array Int8Array Uint16Array Int16Array Uint32Array Int32Array '+
+'Float32Array Float64Array ArrayBuffer DataView CustomEvent Event EventTarget MutationObserver '+
+'ResizeObserver IntersectionObserver performance structuredClone queueMicrotask require module exports process '+
+'Buffer setImmediate clearImmediate globalThis Proxy Reflect WeakRef FinalizationRegistry global '+
+'close notify toString valueOf hasOwnProperty preventDefault stopPropagation')
+.split(' '));
 
-console.log('\n== 6. TIPOGRAFI ==');
+/* Penyamar string dan komentar. Karakter di dalam string dan komentar
+   diganti spasi, panjangnya tidak berubah, jadi posisi karakter tetap
+   utuh. Regex biasa tidak bisa dipakai di sini: kode aplikasi penuh
+   ungkapan bertingkat, string yang berisi tanda kutip escap, dan
+   regex; pola naif salah memotong, dan baris yang seharusnya utuh
+   justru lenyap karena sisanya ikut dianggap string. */
+function samarkan(src){
+  const out=src.split('');
+  let i=0;
+  const n=src.length;
+  const kosongkan=function(a,b){
+    for(let k=a;k<b;k++) if(out[k]!=='\n') out[k]=' ';
+  };
+  while(i<n){
+    const c=src[i], d=src[i+1];
+    if(c==='/'&&d==='/'){
+      const s=i; while(i<n&&src[i]!=='\n') i++;
+      kosongkan(s,i); continue;
+    }
+    if(c==='/'&&d==='*'){
+      const s=i; i+=2;
+      while(i<n&&!(src[i]==='*'&&src[i+1]==='/')) i++;
+      i=Math.min(n,i+2);
+      kosongkan(s,i); continue;
+    }
+    if(c==='"'||c==="'"||c==='`'){
+      const q=c, s=i;
+      i++;
+      while(i<n){
+        if(src[i]==='\\'){ i+=2; continue; }
+        if(src[i]===q){ i++; break; }
+        if(q!=='`'&&src[i]==='\n') break;
+        i++;
+      }
+      kosongkan(s,i); continue;
+    }
+    i++;
+  }
+  return out.join('');
+}
+
+cek('fungsi yang dipanggil selalu punya deklarasi',function(){
+  const js=JSDIR.map(function(f){ return samarkan(baca(f)); }).join('\n');
+  const nama=new Set();
+  let m;
+  const tambah=function(re){ let x; while((x=re.exec(js))!==null) nama.add(x[1]); };
+  tambah(/function\s+([A-Za-z_$][\w$]*)\s*\(/g);
+  tambah(/(?:const|let|var)\s+([A-Za-z_$][\w$]*)/g);
+  tambah(/function\s+[A-Za-z_$][\w$]*\s*\(([^)]*)\)/g);
+  tambah(/\(([^()]*)\)\s*=>/g);
+  tambah(/([A-Za-z_$][\w$]*)\s*=>/g);
+  tambah(/\bcatch\s*\(\s*([A-Za-z_$][\w$]*)/g);
+  tambah(/(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s+(?:of|in)\s/g);
+  tambah(/\bclass\s+([A-Za-z_$][\w$]*)/g);
+
+  /* Hanya pemanggilan yang muncul setelah tanda kode, bukan kata
+     di dalam kalimat. Teks resep dan komentar banyak berisi kata
+     diikuti tanda kurung, misalnya "dimasak (direbus)", dan itu
+     bukan pemanggilan fungsi. Membuang string dan komentar dengan
+     regex tidak aman di sini: kode ini penuh ungkapan bertingkat
+     dan regex, sehingga pola naif salah memotong dan justru
+     menghilangkan baris yang benar. */
+  const sebelum=/(?:^|[=({[,;:!&|?+\-*<>~%]|\breturn\b|\btypeof\b|\bawait\b|\bnew\b|\bvoid\b|\bcase\b|\bin\b|\bof\b)\s*$/;
+  const dipanggil=new Set();
+  const rx=/([A-Za-z_$][\w$]*)\s*\(/g;
+  while((m=rx.exec(js))!==null){
+    const n=m[1];
+    if(!/^[a-z_$]/.test(n)) continue;
+    if(BUILTIN.has(n)||nama.has(n)) continue;
+    const sebelumIni=js.slice(Math.max(0,m.index-12),m.index);
+    if(!sebelum.test(sebelumIni)) continue;
+    dipanggil.add(n);
+  }
+  return dipanggil.size? [...dipanggil].join(', ') : null;
+});
+
+console.log('\n== 6. ASET LOKAL DAN PWA ==');
+cek('semua src/href menunjuk file yang ada',function(){
+  const html=baca('index.html');
+  const refs=[...html.matchAll(/(?:src|href)="([^"]+)"/g)].map(function(m){ return m[1]; });
+  const rusak=refs.filter(function(r){
+    if(/^(https?:)?\/\//.test(r)) return false;
+    if(r.startsWith('#')||r.startsWith('data:')||r.startsWith('mailto:')) return false;
+    const nama=r.split('?')[0].split('#')[0];
+    if(!nama) return false;
+    return !fs.existsSync(path.join(ROOT,nama));
+  });
+  return rusak.length?rusak.join(', '):null;
+});
+cek('manifest.webmanifest adalah JSON yang wajar',function(){
+  let m;
+  try{ m=JSON.parse(baca('manifest.webmanifest')); }
+  catch(e){ return 'JSON rusak: '+e.message; }
+  const kurang=[];
+  if(!m.name) kurang.push('name');
+  if(!m.start_url) kurang.push('start_url');
+  if(!Array.isArray(m.icons)||!m.icons.length) kurang.push('icons');
+  if(kurang.length) return 'kurang: '+kurang.join(', ');
+  const tanpaFile=m.icons.filter(function(i){
+    return typeof i.src==='string' && !/^(https?:)?\/\//.test(i.src)
+      && !fs.existsSync(path.join(ROOT,i.src));
+  }).map(function(i){ return i.src; });
+  if(tanpaFile.length) return 'ikon tidak ada: '+tanpaFile.join(', ');
+  return null;
+});
+cek('ikon PNG punya tanda tangan yang benar',function(){
+  const rusak=[];
+  IKON.forEach(function(f){
+    const buf=fs.readFileSync(path.join(ROOT,f));
+    if(buf.length<8) return rusak.push(f+' (terlalu kecil)');
+    for(let i=0;i<PNG_SIH.length;i++){
+      if(buf[i]!==PNG_SIH[i]) return rusak.push(f+' (bukan PNG)');
+    }
+    if(buf.toString('latin1',12,16)!=='IHDR') return rusak.push(f+' (tanpa blok IHDR)');
+  });
+  return rusak.length?rusak.join(', '):null;
+});
+/* SVG inline bisa ditunjuk lewat url(#id) di atribut, atau diambil
+   dari JS lalu diisi. Keduanya sah, jadi keduanya dihitung terpakai. */
+cek('id SVG inline tidak menggantung',function(){
+  const html=baca('index.html');
+  const svg=html.match(/<svg[\s\S]*?<\/svg>/g)||[];
+  if(!svg.length) return 'tidak ada SVG inline, grafik cadangan hilang';
+  const semua=html+'\n'+gabungJS();
+  const idSvg=[...new Set(svg.flatMap(function(s){
+    return [...s.matchAll(/\sid="([\w-]+)"/g)].map(function(m){ return m[1]; });
+  }))];
+  const yatim=idSvg.filter(function(i){
+    return semua.indexOf('url(#'+i+')')<0
+      && !new RegExp('getElementById\\(\''+i+'\'\\)').test(gabungJS());
+  });
+  return yatim.length?'id SVG tidak dipakai: '+yatim.join(', '):null;
+});
+cek('SVG inline punya viewBox',function(){
+  const svg=baca('index.html').match(/<svg[\s\S]*?>/g)||[];
+  const rusak=svg.filter(function(s){ return !/viewBox=/.test(s); });
+  return rusak.length?rusak.length+' SVG tanpa viewBox (tidak responsif)':null;
+});
+
+console.log('\n== 7. TIPOGRAFI ==');
 cek('root 16px dan tidak ada teks di bawah 12px',function(){
   const css=baca('style.css');
   if(!/html\{font-size:16px/.test(css)) return 'root bukan 16px, token akan bergeser';
@@ -186,7 +357,7 @@ cek('token skala lengkap',function(){
   return null;
 });
 
-console.log('\n== 7. KODE BERSIH ==');
+console.log('\n== 8. KODE BERSIH ==');
 cek('tidak ada console.log atau debug',function(){
   const n=JSDIR
   .reduce(function(a,f){ return a+baca(f).split('\n').filter(function(l){ return /console\.(log|debug)\(/.test(l); }).length; },0);
@@ -198,7 +369,11 @@ cek('tidak ada console.log atau debug',function(){
    dari fungsi induknya, jadi hasilnya selalu null dan pemeriksaannya
    selalu lolos. Dua-duanya sudah ketahuan karena script.js sempat
    memuat tiga huruf Korea di dalam komentar tanpa pernah dilaporkan. */
-const TEKS=DEPLOY.concat(['AUDIT.md','cek.js','uji.js']);
+/* PNG ikut DEPLOY untuk pemeriksaan keberadaan dan ukuran, tapi bukan
+   file teks: dibaca sebagai utf8 akan menghasilkan deretan karakter
+   asing palsu dan membuat pemeriksaan karakter gagal terus. */
+const TEKS=DEPLOY.filter(function(f){ return !/\.png$/.test(f); })
+.concat(['AUDIT.md','cek.js','uji.js']);
 
 cek('tidak ada karakter asing di file teks',function(){
   const asing=/[\u0400-\u04ff\u4e00-\u9fff\uac00-\ud7af\ufffd]/;
@@ -221,7 +396,7 @@ cek('semua file pakai LF saja',function(){
   return rusak.length?rusak.join(', ')+' (ada CRLF)':null;
 });
 
-console.log('\n== 8. GIT ==');
+console.log('\n== 9. GIT ==');
 cek('ada commit',function(){
   const {execSync}=require('child_process');
   try{ execSync('git rev-parse HEAD',{cwd:ROOT,stdio:'pipe'}); }
@@ -252,7 +427,7 @@ function see(){
   return JSDIR.map(baca).join('\n');
 }
 
-console.log('\n== 9. ATURAN SEBELUM MENJALANKAN UJI YANG MERUSAK FILE ==');
+console.log('\n== 10. ATURAN SEBELUM MENJALANKAN UJI YANG MERUSAK FILE ==');
 /* Dua kali dalam sesi ini, `git checkout -- <file>` mengembalikan
    pekerjaan yang belum di-commit, bukan hanya kerusakan uji. Skrip
    penguji mengembalikan file ke commit terakhir, dan karena perubahan

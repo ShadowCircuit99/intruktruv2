@@ -11,6 +11,9 @@ Buka `index.html`, isi formulir, selesai.
 
 - [Fitur](#fitur)
 - [Cara Memakai](#cara-memakai)
+- [Pelacak Air](#pelacak-air)
+- [Cadangan Data](#cadangan-data)
+- [Cetak Menu](#cetak-menu)
 - [Dari Mana Angka Gizinya](#dari-mana-angka-gizinya)
 - [Cara Target Energi Dihitung](#cara-target-energi-dihitung)
 - [Cara Memilih Menu](#cara-memilih-menu)
@@ -18,7 +21,9 @@ Buka `index.html`, isi formulir, selesai.
 - [Setelah Hari ke-90](#setelah-hari-ke-90)
 - [Pengingat Harian](#pengingat-harian)
 - [Tampilan](#tampilan)
+- [Aksesibilitas](#aksesibilitas)
 - [Isi Folder](#isi-folder)
+- [Cara Deploy](#cara-deploy)
 - [Yang Perlu Diketahui](#yang-perlu-diketahui)
 
 ---
@@ -57,16 +62,25 @@ diturunkan.
 **Beruntun hari.** Dihitung dari catatan harian, bukan dari ada tidaknya
 aplikasi yang dibuka.
 
-**Grafik berat.** Domba, sarapan, dan makan malam dicatat, lalu ditampilkan
+**Pelacak air.** Target harian ikut berat badan, diisi lewat tombol cepat,
+disimpan terpisah per tanggal.
+
+**Grafik berat.** Berat, lingkar pinggang, dan air dicatat, lalu ditampilkan
 sebagai grafik.
+
+**Cadangan data.** Unduh seluruh data ke satu berkas, lalu muat kembali di
+peramban atau perangkat mana pun.
+
+**Cetak menu.** Cetak menu hari ini ke kertas, lengkap dengan tanggal dan
+nomor hari.
 
 **Catatan jurnal.** Tiap hari bisa menulis catatan bebas.
 
 **Pengingat harian.** Notifikasi kalau latihan hari itu belum dikerjakan.
 
-**Mode gelap dan terang.**
+**Mode gelap dan terang**, termasuk ikut tema perangkat secara otomatis.
 
-**Berjalan di HP maupun di laptop.** Satu kolom di layar kecil, sidebar di
+**Berjalan di HP maupun di laptop.** Satu kolom di layar kecil, dua kolom di
 layar lebar.
 
 ---
@@ -87,6 +101,9 @@ agresif, dan lebih baik dicicil.
 Butuh 30 detik: tingkat energi 1 sampai 5, jam tidur. Ini yang menentukan
 latihan hari itu berat atau ringan.
 
+Pemeriksaan ini hanya mengunci **mulai latihan**. Menu, Progres, dan Hari Ini
+tetap bisa dibuka dan dibaca tanpa_fill it.
+
 ### 3. Kerjakan latihan
 
 Urut dan tidak bisa dilompati. Warm-up, lalu latihan utama, lalu cool-down.
@@ -98,13 +115,69 @@ berbasis repetisi.
 Lima slot, porsi sudah dihitung. Kalau ada bahan yang ingin diganti, tekan
 **Ganti** di baris bahannya.
 
-Kartu makanan menampilkan jumlah calories, protein,
-karbohidrat, lemak, serat, gula, natrium, dan lemak jenuh. Vitamin masih
-dihitung per bahan, cuma tidak ditampilkan di kartu.
+Kartu makanan menampilkan jumlah energi, protein, karbohidrat, lemak, serat,
+gula, natrium, dan lemak jenuh. Vitamin masih dihitung per bahan, cuma tidak
+ditampilkan di kartu.
+
+Tandai setiap slot yang sudah dimakan. Sisa jadwal yang belum ditandai
+ditulis terbuka di dashboard.
 
 ### 5. Catat berat dan progress
 
-Tab **Progres** berisi grafik berat, titik 90 hari, dan catatan jurnal.
+Tab **Progres** berisi grafik berat, titik 90 hari, catatan jurnal, dan
+panel **Data & Pengaturan**.
+
+---
+
+## Pelacak Air
+
+Kartu air ada di tab **Hari Ini**, tepat di bawah kondisi tubuh.
+
+Target dihitung dari berat badan terakhir yang tercatat: **30 sampai 35 ml per
+kilogram**. Berat 70 kg berarti 2.100 sampai 2.450 ml per hari. Kalau berat
+baru diisi, target ikut berubah di hari yang sama.
+
+Tombol yang tersedia: **+ 250 ml**, **+ 500 ml**, dan **Ulangi** untuk
+mengembalikan ke nol. Baris di bawah menunjukkan berapa yang sudah tercapai.
+
+Angka disimpan per tanggal. Kalau kamu lupa mengoreksi, hari berikutnya mulai
+dari nol, bukan melanjutkan angka kemarin.
+
+---
+
+## Cadangan Data
+
+Semua data ada di peramban itu sendiri: tidak dikirim ke mana pun, tapi juga
+tidak punya cadangan sendiri. Panel **Data & Pengaturan** di tab **Progres**
+menyediakan cara mengatasinya.
+
+**Unduh Data** menulis satu berkas `.json` berisi seluruh data program.
+**Impor Data** membacanya kembali.
+
+Aturan mainnya:
+
+- Hanya berkas yang benar-benar berasal dari aplikasi ini yang diterima.
+- Berkas rusak, bukan JSON, atau dari aplikasi lain ditolak dengan pesan,
+  dan data lama tidak berubah sama sekali.
+- Kalau penulisan gagal di tengah jalan, semua data dikembalikan seperti
+  semula. Tidak ada keadaan setengah jadi.
+- Setelah impor berhasil, hari pemulihan yang sudah lewat dibersihkan dan
+  kamu dikembalikan ke layar awal.
+
+Semakin sering mengunduh, semakin kecil risiko kehilangan. Berkas ini bisa
+disimpan ke penyimpanan awan, dikirim ke email sendiri, atau dipindahkan ke
+perangkat lain.
+
+---
+
+## Cetak Menu
+
+Tombol **Cetak Menu** mencetak isi tab Menu saja: judul hari, tanggal, semua
+slot makan, rincian gizi, dan daftar bahan. Navigasi bawah dan tombol tidak
+ikut tercetak, jadi hasilnya rapi dan tidak banyak ruang kosong.
+
+Kalau printer atau dialog cetak tidak tersedia, tombolnya memberi tahu,
+bukan diam-diam gagal.
 
 ---
 
@@ -118,7 +191,7 @@ gizi hidangan = jumlah (gizi bahan x gram dipakai / 100) + minyak terserap
 energi        = protein x 4 + karbo x 4 + lemak x 9 + serat x 2   (Atwater)
 ```
 
-Energi **dihitung ulang** dari makronutrien, bukan diambil dari kolom calories
+Energi **dihitung ulang** dari makronutrien, bukan diambil dari kolom energi
 USDA. Alasannya USDA memakai faktor Atwater sendiri yang berbeda-beda, jadi
 hasilnya sedikit berbeda. Itu bukan salah data, cuma beda metode.
 
@@ -162,7 +235,7 @@ Batas atas gula 10% energi, natrium 2000 mg.
 Target dijaga dengan mengubah porsi bahan utama. Bumbu, minyak, dan rempah
 tidak ikut dikecilkan supaya rasanya tidak berubah. Angka yang ditampilkan
 selalu hasil hitungan ulang dari gram akhir, jadi kalau meleset, selisihnya
-diterampilkan terbuka di kartu.
+diterbitkan terbuka di kartu.
 
 ---
 
@@ -179,7 +252,7 @@ tetap pas target:
 5. Dipilih bergiliran, jadi tiap resep tetap punya giliran
 ```
 
-Hasilnya: 51 hidangan berbeda muncul dalam 90 hari, bukan lima menu yang
+Hasilnya: 53 hidangan berbeda muncul dalam 90 hari, bukan lima menu yang
 berputar.
 
 ---
@@ -226,12 +299,12 @@ riwayat tetap tersimpan.
 ## Pengingat Harian
 
 Ada ikon lonceng di baris atas. Nyalakan, pilih jamnya, dan tiap hari
-mendapat notifikasi: kalau latihan hari itu belum selesai,\notifikasinya
+mendapat notifikasi: kalau latihan hari itu belum selesai, notifikasinya
 bilang begitu.
 
-Izin notifikasi diminta otomatis begitu formulir selesai diisi, karena
-saat itu kamu sedang menekan tombol. Kalau tidak muncul, buka panel
-lonceng dan tekan **Aktifkan** lagi.
+Izin notifikasi diminta otomatis begitu formulir selesai diisi, karena saat
+itu kamu sedang menekan tombol. Kalau tidak muncul, buka panel lonceng dan
+tekan **Aktifkan** lagi.
 
 ### Batasnya, apa adanya
 
@@ -255,7 +328,7 @@ mengaktifkannya kembali lewat pengaturan situs.
 |-------|----------|
 | < 620px | Satu kolom, tab di bawah |
 | 620-899px | Kartu lebih rapat |
-| >= 900px | Konten 1080px, tab pindah ke sisi kiri |
+| >= 900px | Dua kolom, tab tetap di bawah, konten sampai 1080px |
 
 Ukuran teks punya enam tingkat, dengan lantai 12px supaya tetap terbaca di
 layar kecil. Semua tombol minimal 40px, jadi nyaman ditekan dengan jari.
@@ -267,6 +340,27 @@ apa maksudnya tingkatan program atau tingkat tenaga.
 Tab **Hari Ini** menampilkan satu kartu besar yang berubah sendiri mengikuti
 status, tiga angka utama, lalu sisanya dilipat. Peringatan keselamatan tidak
 perlu dibuka dulu untuk dibaca.
+
+Grafik berat punya dua jalur. Kalau pustaka grafik dari internet gagal
+dimuat, halaman menggambar grafiknya sendiri sebagai SVG, jadi grafik tidak
+pernah hilang karena koneksi.
+
+---
+
+## Aksesibilitas
+
+- Tab punya peran `tablist` dan `tab`, dengan penanda pilihan yang terbaca
+  pembaca layar.
+- Bintang energi punya peran `radiogroup`, dan keadaan terpilih dilaporkan
+  lewat `aria-checked`.
+- Kartu yang bisa dilipat dilaporkan lewat `aria-expanded` yang selalu sinkron
+  dengan keadaan sebenarnya.
+- Semua bisa dioperasikan dari keyboard: Enter dan Spasi membuka kartu latihan,
+  kartu makan, dan bintang energi. Panah kiri dan kanan berpindah antar
+  tab, Esc menutup jendela.
+- Ada tombol lompat ke konten utama di paling atas halaman.
+- Fokus keyboard selalu terlihat, dan kontras warna teks sudah memenuhi
+  standar keterbacaan.
 
 ---
 
@@ -280,15 +374,27 @@ perlu dibuka dulu untuk dibaca.
 | `recipes.js` | 53 resep |
 | `notif.js` | Pengingat harian |
 | `script.js` | Logika aplikasi |
+| `manifest.webmanifest` | Metadata PWA, nama, warna, ikon |
+| `icon-192.png` | Ikon untuk layar utama Android |
+| `icon-512.png` | Ikon untuk layar utama dan splash |
+| `icon-180.png` | Ikon untuk homescreen iPhone |
 | `SUMBER.md` | Sumber USDA per bahan |
 | `cek.js` | Pemeriksaan integritas berkas |
 | `uji.js` | Uji regresi |
 
-Untuk deploy ke GitHub Pages: unggah berkas-berkas di atas ke repository,
-lalu aktifkan Pages dari branch utama.
+Aplikasi tidak butuh `npm install`. Yang butuh hanya satu: pustaka grafik
+dimuat dari internet, dan kalau gagal, halaman tetap punya grafik sendiri.
 
-Tidak ada `npm install` untuk menjalankan aplikasinya. Chart berat dimuat
-dari internet; kalau gagal dimuat, halaman tetap tampil normal.
+---
+
+## Cara Deploy
+
+1. Unggah seluruh berkas di tabel di atas ke repository GitHub.
+2. Buka **Settings > Pages**, pilih branch utama dan folder root.
+3. Tunggu satu menit, lalu alamatnya siap dipakai.
+
+Tidak ada yang perlu dikonfigurasi di server. Halaman bisa juga langsung
+dibuka dari berkas lokal tanpa server apa pun.
 
 ---
 
@@ -297,18 +403,17 @@ dari internet; kalau gagal dimuat, halaman tetap tampil normal.
 ### Data kamu ada di peramban
 
 Berat, catatan, dan progres disimpan di peramban itu sendiri. Tidak dikirim
-ke mana pun, tapi juga tidak cadangan.
+ke mana pun.
 
 Kalau data peramban dibersihkan, atau kamu ganti perangkat, atau memakai
-mode penyamaran, **seluruh 90 hari progres hilang tanpa sisa**.
-
-**Belum ada cara mengekspor atau mengimpor data.** Ini yang paling perlu
-dilengkapi di kemudian hari.
+mode penyamaran, seluruh 90 hari progres hilang tanpa sisa. Karena itu
+**Unduh Data** ada di panel Data & Pengaturan, dan sebaiknya dipakai
+secara berkala.
 
 ### Angka gizi ada yang belum persis
 
 Dari 97 bahan, **22 memakai padanan USDA** dan **1 belum bersumber sama
-sekali** (`serai`,bernilai 0).
+sekali** (`serai`, bernilai 0).
 
 Semuanya punya alasan tertulis di [SUMBER.md](SUMBER.md). Bukan
 kebohongan, tapi ini batasnya.
@@ -321,7 +426,8 @@ dipahami, kadang lebih sulit diceritakan daripada ditunjukkan.
 ### Tanpa akun, tanpa server
 
 Tidak ada yang bisa bocor, tidak ada biaya bulanan, tidak ada yang harus
-dijaga. Tapi juga tidak ada sinkronisasi antar perangkat.
+dijaga. Tapi juga tidak ada sinkronisasi antar perangkat: pindah data harus
+lewat berkas cadangan.
 
 ---
 

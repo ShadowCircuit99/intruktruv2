@@ -42,6 +42,7 @@
     notes:   'ip90_notes_',
     journal: 'ip90_journal_',
     energy:  'ip90_energy_',
+    water:   'ip90_water_',
     };
 
     /* BANTUAN PENYIMPANAN */
@@ -60,8 +61,33 @@
     if(devOn()) return KEYS.energy+'dev'+getCurrentDay();
     return KEYS.energy+new Date().toISOString().split('T')[0];
     }
+    function tanggalISO(d){return d.toISOString().split('T')[0];}
+    function tanggal(offsetHari){
+    const d=new Date();
+    if(offsetHari) d.setDate(d.getDate()+offsetHari);
+    return tanggalISO(d);
+    }
+    function recoveryKey(offsetHari){return 'ip90_recovery_next_'+tanggal(offsetHari);}
+    function bersihkanRecoveryKeys(){
+    try{
+        const batas=tanggal(0);
+        Object.keys(localStorage)
+        .filter(k=>k.startsWith('ip90_recovery_next_')&&k.slice(19)<batas)
+        .forEach(k=>localStorage.removeItem(k));
+        localStorage.removeItem('ip90_recovery_flag');
+    }catch(e){}
+    }
+    function mealsDoneCount(td){
+    const arr=(td&&Array.isArray(td.mealsCompleted))?td.mealsCompleted:[];
+    return arr.filter(Boolean).length;
+    }
+    function dayFullyDone(td){
+    if(!td||!td.workoutDone) return false;
+    return mealsDoneCount(td)===MEAL_SLOTS.length;
+    }
     function loadToday(){
-    const d=loadState(todayKey())||{workoutDone:false,mealsCompleted:[false,false,false,false,false]};
+    const d=loadState(todayKey())||{workoutDone:false,mealsCompleted:[]};
+    if(!Array.isArray(d.mealsCompleted)) d.mealsCompleted=[];
     if(devCheat()&&!d.energyChecked){
     return Object.assign({},d,{energyChecked:true,energy:d.energy||4,sleep:d.sleep||8,energyDev:true});
     }
@@ -106,7 +132,7 @@
     }
 
     
-    function getLevelForDay(day){
+    function getLevelForDay(day,noCap){
     const d=Math.max(0,Math.min(PROGRAM_DAYS-1,day));
     const week=Math.floor(d/7);
     const block=Math.floor(week/4);
@@ -120,6 +146,7 @@
         const base=1+block*2;
         lv=(slot===3)?base:Math.min(8,base+slot);
     }
+    if(noCap) return Math.max(1,Math.min(8,lv));
     return Math.max(1,Math.min(lv,getLevelCap()));
     }
 
@@ -130,8 +157,8 @@
     return (week%4)===3;
     }
 
-    function getLevelInfo(day){
-    const lv=getLevelForDay(day);
+    function getLevelInfo(day,noCap){
+    const lv=getLevelForDay(day,noCap);
     return Object.assign({level:lv,deload:isDeloadDay(day)},LEVELS[lv-1]);
     }
 
@@ -415,10 +442,7 @@
     if(sleep<5) mult=Math.max(0.5, mult-0.15);
 
     try{
-        const directFlag=localStorage.getItem('ip90_recovery_flag');
-        if(directFlag) mult=Math.min(mult, parseFloat(directFlag)||0.8);
-        const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
-        const flag=localStorage.getItem('ip90_recovery_next_'+yesterday.toISOString().split('T')[0]);
+        const flag=localStorage.getItem(recoveryKey(0));
         if(flag) mult=Math.min(mult, parseFloat(flag)||0.8);
     }catch(e){}
 
@@ -505,8 +529,9 @@
 
     function selectEnergy(level){
     selectedEnergy = level;
-    document.querySelectorAll('.energy-star').forEach((el,i)=>{
+    document.querySelectorAll('.energy-star').forEach(function(el,i){
         el.classList.toggle('selected', i < level);
+        el.setAttribute('aria-checked', i < level ? 'true' : 'false');
     });
     updateIntensityPreview();
     updateEnergyConfirmBtn();
@@ -542,6 +567,12 @@
     }
     }
 
+    function setScrollLock(on){
+    if(on) document.body.style.overflow='hidden';
+    else if(document.body.style.overflow==='hidden') document.body.style.overflow='';
+    }
+    function releaseScrollLock(){setScrollLock(false);}
+
     function showEnergyModal(){
     const td=loadToday();
     if(td.energyChecked) return;
@@ -554,7 +585,7 @@
         if(w && w._interval) { clearInterval(w._interval); w._interval = undefined; }
     }
     
-    document.body.style.overflow='hidden';
+    setScrollLock(true);
     window.scrollTo(0,0);
     const pad=document.querySelector('#tab-latihan .workout-pad');
     if(pad) pad.classList.add('workout-locked');
@@ -568,7 +599,7 @@
         sleepEl.removeEventListener('input',updateEnergyConfirmBtn);
         sleepEl.addEventListener('input',updateEnergyConfirmBtn);
     }
-    document.querySelectorAll('.energy-star').forEach(el=>el.classList.remove('selected'));
+    document.querySelectorAll('.energy-star').forEach(function(el){el.classList.remove('selected');el.setAttribute('aria-checked','false');});
     const starsEl=document.querySelector('.energy-stars');
     if(starsEl) starsEl.style.outline='';
     const prev=document.getElementById('intensity-preview');
@@ -581,6 +612,20 @@
     if(sleepErr) sleepErr.style.display='none';
     const modalEl=document.getElementById('energy-modal');
     if(modalEl) modalEl.classList.add('active');
+    }
+
+    function closeEnergyModal(){
+    const em=document.getElementById('energy-modal');
+    if(!em||!em.classList.contains('active')) return;
+    em.classList.remove('active');
+    releaseScrollLock();
+    const td=loadToday();
+    if(!td.energyChecked){
+    const pad=document.querySelector('#tab-latihan .workout-pad');
+    const lo=document.getElementById('workout-lock-overlay');
+    if(pad) pad.classList.add('workout-locked');
+    if(lo) lo.classList.remove('hidden');
+    }
     }
 
     function confirmEnergyCheck(){
@@ -608,14 +653,12 @@
     checkLowEnergyProtection();
     const em=document.getElementById('energy-modal');
     if(em) em.classList.remove('active');
-    document.body.style.overflow='';
+    releaseScrollLock();
     const pad=document.querySelector('#tab-latihan .workout-pad');
     if(pad) pad.classList.remove('workout-locked');
     // Sembunyikan lapisan kunci
     const lo=document.getElementById('workout-lock-overlay');
     if(lo) lo.classList.add('hidden');
-    // Buka semua tab
-    _applyTabLockState();
     const userData = loadState(KEYS.user);
     const programData = loadState(KEYS.program);
     if(!userData || !programData) return;
@@ -852,6 +895,7 @@
 
     
     function _exRunRest(idx, totalEx) {
+    getar([220,80,220]);
     const wrap = _exWrap(idx);
     if(!wrap) return;
 
@@ -908,6 +952,7 @@
 
     
     function _exFinish(idx, totalEx) {
+    getar([160,60,160,60,320]);
     const wrap = _exWrap(idx);
     if(wrap) {
         _exClearWrap(wrap);
@@ -1116,6 +1161,13 @@
         console.error('watch day rollover error:',e);
     }
     try{
+        bersihkanRecoveryKeys();
+        initKeyboard();
+        initSettingsPanel();
+    }catch(e){
+        console.error('init error:',e);
+    }
+    try{
         rebindHiddenEntry();
         initDevFromUrl();
         mountDevButton();
@@ -1167,9 +1219,16 @@
     const next=getTheme()==='dark'?'light':'dark';
     applyTheme(next);
     try{localStorage.setItem(THEME_KEY,next);}catch(e){}
+    if(loadSettings().followTheme) saveSettings({followTheme:false});
+    initSettingsPanel();
     }
 
     function initTheme(){
+    if(loadSettings().followTheme){
+    const dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(dark?'dark':'light');
+    return;
+    }
     let theme=null;
     try{theme=localStorage.getItem(THEME_KEY);}catch(e){}
     if(theme!=='light'&&theme!=='dark') theme=getTheme();
@@ -1911,12 +1970,11 @@ function getWorkoutForDay(day, energyOverride){
     /* BERUNTUN */
     function updateStreak(){
     const prog=loadState(KEYS.program);if(!prog) return;
-    const today=new Date().toISOString().split('T')[0];
+    const today=tanggal(0);
     const todayData=loadToday();
-    const allDone=todayData.workoutDone&&todayData.mealsCompleted.every(Boolean);
+    const allDone=dayFullyDone(todayData);
     if(allDone&&prog.lastActiveDate!==today){
-        const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
-        const yd=yesterday.toISOString().split('T')[0];
+        const yd=tanggal(-1);
         prog.streak=(prog.lastActiveDate===yd)?(prog.streak||0)+1:1;
         prog.lastActiveDate=today;
         saveState(KEYS.program,prog);
@@ -1930,22 +1988,31 @@ function getWorkoutForDay(day, energyOverride){
     const w=document.getElementById('track-weight').value;
     const waist=document.getElementById('track-waist').value;
     if(!w&&!waist) return;
+    const wNum=parseFloat(w), waistNum=parseFloat(waist);
+    const wBad=(w!==''&&(!isFinite(wNum)||wNum<25||wNum>250));
+    const waistBad=(waist!==''&&(!isFinite(waistNum)||waistNum<40||waistNum>200));
+    if(wBad||waistBad){
+        _toastMsg('tracking-toast',ICONS.alert+' Nilai di luar wajar. Berat 25-250 kg, lingkar pinggang 40-200 cm.');
+        return;
+    }
     const tracking=loadState(KEYS.tracking)||{weights:[],waists:[]};
-    const today=new Date().toISOString().split('T')[0];
+    if(!Array.isArray(tracking.weights)) tracking.weights=[];
+    if(!Array.isArray(tracking.waists)) tracking.waists=[];
+    const today=tanggal(0);
     const day=getCurrentDay();
-    if(w){
+    if(w!==''){
         const existing=tracking.weights.findIndex(e=>e.date===today);
-        const entry={date:today,day:day+1,value:parseFloat(w)};
+        const entry={date:today,day:day+1,value:wNum};
         if(existing>=0) tracking.weights[existing]=entry;else tracking.weights.push(entry);
     }
-    if(waist){
+    if(waist!==''){
         const existing=tracking.waists.findIndex(e=>e.date===today);
-        const entry={date:today,day:day+1,value:parseFloat(waist)};
+        const entry={date:today,day:day+1,value:waistNum};
         if(existing>=0) tracking.waists[existing]=entry;else tracking.waists.push(entry);
     }
     saveState(KEYS.tracking,tracking);
     const saved=document.getElementById('tracking-saved-msg');
-    saved.classList.add('show');setTimeout(()=>saved.classList.remove('show'),2000);
+    if(saved){saved.classList.add('show');setTimeout(function(){saved.classList.remove('show');},2000);}
     validateWeightDrop(tracking.weights);
     renderWeightChart();
     }
@@ -1993,22 +2060,85 @@ function getWorkoutForDay(day, energyOverride){
     const tracking=loadState(KEYS.tracking);
     const empty=document.getElementById('prog-chart-empty');
     const canvas=document.getElementById('weight-chart');
+    const svg=document.getElementById('weight-chart-fallback');
     if(!empty||!canvas) return;
     if(!tracking||!tracking.weights||tracking.weights.length<1){
-        empty.style.display='block';canvas.style.display='none';return;
+        empty.style.display='block';canvas.style.display='none';
+        if(svg) svg.style.display='none';
+        return;
     }
     _ensureChartJS(function(ok){
-        if(!ok){
-        empty.textContent='Grafik tidak tersedia (Chart.js belum dimuat).';
-        empty.style.display='block';canvas.style.display='none';return;
-        }
+        if(!ok){ drawWeightChartFallback(tracking); return; }
         drawWeightChart(tracking);
     });
+    }
+
+    function drawWeightChartFallback(tracking){
+    const empty=document.getElementById('prog-chart-empty');
+    const canvas=document.getElementById('weight-chart');
+    const svg=document.getElementById('weight-chart-fallback');
+    if(!svg) return;
+    const sorted=[...tracking.weights].filter(e=>isFinite(e.value)).sort((a,b)=>a.day-b.day);
+    if(!sorted.length){ if(empty) empty.style.display='block'; if(canvas) canvas.style.display='none'; svg.style.display='none'; return; }
+    if(empty) empty.style.display='none';
+    if(canvas) canvas.style.display='none';
+    svg.style.display='block';
+
+    const cs=getComputedStyle(document.documentElement);
+    const cssVar=(n)=>(cs.getPropertyValue(n)||'').trim();
+    const accent=cssVar('--accent')||'#0f7a44';
+    const grid=cssVar('--border')||'#e1e5de';
+    const text3=cssVar('--text3')||'#6d766e';
+    const targetLine=cssVar('--orange')||'#ad5a1a';
+    const user=loadState(KEYS.user);
+    const targetWeight=(user&&isFinite(user.targetWeight))?user.targetWeight:null;
+
+    const W=640,H=240,PL=44,PR=12,PT=14,PB=26;
+    const vals=sorted.map(e=>e.value);
+    const all=targetWeight?vals.concat([targetWeight]):vals;
+    let min=Math.min.apply(null,all), max=Math.max.apply(null,all);
+    if(max-min<2){ const mid=(max+min)/2; min=mid-1.5; max=mid+1.5; }
+    const pad=(max-min)*0.12; min-=pad; max+=pad;
+    const x=i=>PL+(i*(W-PL-PR))/Math.max(1,sorted.length-1);
+    const y=v=>PT+(1-(v-min)/(max-min))*(H-PT-PB);
+    const tickCount=4;
+    let gridLines='';
+    for(let t=0;t<=tickCount;t++){
+        const v=min+((max-min)*t)/tickCount;
+        const yy=y(v).toFixed(1);
+        gridLines+='<line stroke="'+grid+'" x1="'+PL+'" y1="'+yy+'" x2="'+(W-PR)+'" y2="'+yy+'"/>';
+        gridLines+='<text fill="'+text3+'" font-size="10" x="'+(PL-8)+'" y="'+(yy+4)+'" text-anchor="end">'+v.toFixed(1)+'</text>';
+    }
+    const pts=vals.map((v,i)=>x(i).toFixed(1)+','+y(v).toFixed(1));
+    const linePath=pts.length?('M'+pts.join(' L')):'';
+    const areaPath=linePath?linePath+' L'+x(vals.length-1).toFixed(1)+','+(H-PB)+' L'+x(0).toFixed(1)+','+(H-PB)+' Z':'';
+    let dots='';
+    sorted.forEach((e,i)=>{
+        dots+='<circle fill="'+accent+'" cx="'+x(i).toFixed(1)+'" cy="'+y(e.value).toFixed(1)+'" r="3"><title>Hari '+e.day+': '+e.value+' kg</title></circle>';
+    });
+    let xLabels='';
+    sorted.forEach((e,i)=>{
+        if(sorted.length>8&&i%2) return;
+        xLabels+='<text fill="'+text3+'" font-size="10" x="'+x(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+e.day+'</text>';
+    });
+    let targetSvg='';
+    if(targetWeight!==null){
+        const ty=y(targetWeight).toFixed(1);
+        targetSvg='<line stroke="'+targetLine+'" stroke-dasharray="6 4" x1="'+PL+'" y1="'+ty+'" x2="'+(W-PR)+'" y2="'+ty+'"/>'+
+        '<text fill="'+text3+'" font-size="10" x="'+(W-PR)+'" y="'+(Number(ty)-6)+'" text-anchor="end">target '+targetWeight+' kg</text>';
+    }
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.innerHTML=gridLines+targetSvg+
+    (areaPath?'<path fill="'+accent+'" fill-opacity="0.14" stroke="none" d="'+areaPath+'"/>':'')+
+    (linePath?'<path fill="none" stroke="'+accent+'" stroke-width="2" stroke-linejoin="round" d="'+linePath+'"/>':'')+
+    dots+xLabels;
     }
 
     function drawWeightChart(tracking){
     const empty=document.getElementById('prog-chart-empty');
     const canvas=document.getElementById('weight-chart');
+    const fb=document.getElementById('weight-chart-fallback');
+    if(fb) fb.style.display='none';
     if(!empty||!canvas||typeof Chart==='undefined') return;
     empty.style.display='none';canvas.style.display='block';
     const sorted=[...tracking.weights].sort((a,b)=>a.day-b.day);
@@ -2060,25 +2190,16 @@ function getWorkoutForDay(day, energyOverride){
 
     /* CATATAN LATIHAN */
     function applyRecoveryFromNotes(notes){
-    const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);
-    const tk='ip90_recovery_next_'+tomorrow.toISOString().split('T')[0];
-    if(!notes){try{localStorage.removeItem(tk);localStorage.removeItem('ip90_recovery_flag');}catch(e){}return;}
+    const tk=recoveryKey(1);
+    if(!notes){try{localStorage.removeItem(tk);}catch(e){}return;}
     const lower=notes.toLowerCase();
-    const isBerat=['capek berat'].some(k=>lower.includes(k));
-    const isSedang=['nyeri','sakit'].some(k=>lower.includes(k));
-    const isRingan=['sedikit capek'].some(k=>lower.includes(k));
-    let flag=null;
-    if(isBerat) flag='0.6';         // capek berat → 0.6
-    else if(isSedang) flag='0.8';   // nyeri / sakit → 0.8
-    else if(isRingan) flag='0.9';   // sedikit capek → 0.9
+    const flag=['capek berat','nyeri','sakit','sedikit capek'].map(function(k){
+    if(lower.includes(k)) return k==='capek berat'?'0.6':(k==='sedikit capek'?'0.9':'0.8');
+    return null;
+    }).find(Boolean)||null;
     try{
-        if(flag){
-        localStorage.setItem(tk,flag);
-        localStorage.setItem('ip90_recovery_flag',flag); // save for dashboard warning
-        } else {
-        localStorage.removeItem(tk);
-        localStorage.removeItem('ip90_recovery_flag');
-        }
+        if(flag) localStorage.setItem(tk,flag);
+        else localStorage.removeItem(tk);
     }catch(e){}
     }
 
@@ -2109,7 +2230,7 @@ function getWorkoutForDay(day, energyOverride){
     ? `<span>Hari ${day-MAINT_CAP}</span> mode perawatan`
     : `<span>Hari ke-${day+1}</span> dari 90 hari program`;
     const todayData=loadToday();
-    const dayDone=todayData.workoutDone&&todayData.mealsCompleted.every(Boolean);
+    const dayDone=dayFullyDone(todayData);
     const btnEl=document.getElementById('lh-main-btn');
     if(btnEl) btnEl.textContent=dayDone?'Hari ini selesai':(day>0?'Lanjut program hari ini':'Mulai hari pertama');
     }
@@ -2152,12 +2273,9 @@ function getWorkoutForDay(day, energyOverride){
     : 'Hari ke-'+(day+1)+' dari 90';
     const lpStreakEl=document.getElementById('lp-streak');if(lpStreakEl) lpStreakEl.innerHTML=`${ICONS.flame} Beruntun ${streak}`;
     loadEnergyForToday();
-    try{
-        _applyTabLockState();
-        if(!loadToday().energyChecked){
-        setTimeout(showEnergyModal,350);
-        }
-    }catch(e){}
+    /* Pemeriksaan energi tidak dipaksa otomatis. Lapisan kunci di tab
+       Latihan sudah menjelaskan caranya, dan bisa ditutup kapan saja
+       tanpa mengunci gulir halaman. */
     renderDashboard(day,dayData,targets,programData,userData);
     renderWorkoutTab(day,dayData.workout);
     renderMenuTab(dayData.meals,targets,day,currentGoal(userData));
@@ -2179,7 +2297,7 @@ function getWorkoutForDay(day, energyOverride){
     if(!el) return;
     const workout=dayData&&dayData.workout;
     const total=dayData?dayData.meals.length:0;
-    const done=total?todayData.mealsCompleted.filter(Boolean).length:0;
+    const done=total?mealsDoneCount(todayData):0;
     const workoutDone=!!todayData.workoutDone;
     const semuaSelesai=workoutDone&&total>0&&done===total;
 
@@ -2226,7 +2344,7 @@ function getWorkoutForDay(day, energyOverride){
 
 function renderDashboard(day,dayData,targets,programData,userData){
     const phase=getPhaseForDay(day);const ph=PHASES[phase];
-    const todayData=loadToday();const mealsCount=todayData.mealsCompleted.filter(Boolean).length;
+    const todayData=loadToday();const mealsCount=mealsDoneCount(todayData);
     const adapt=isAdaptationPhase(day);
     const dnEl=document.getElementById('dash-day-num');
     if(dnEl) dnEl.textContent=isMaintenanceDay(day)
@@ -2244,6 +2362,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     try{const tr=loadState(KEYS.tracking);if(tr&&tr.weights&&tr.weights.length>0){const sorted=[...tr.weights].sort((a,b)=>b.day-a.day);if(sorted[0]&&sorted[0].value) waterWeight=sorted[0].value;}}catch(e){}
     const water=calculateWater(waterWeight);
     const wvEl=document.getElementById('dash-water-val');if(wvEl) wvEl.textContent=water.display;
+    try{ renderAirCard(); }catch(e){}
     const adEl=document.getElementById('dash-adapt-notice');
     if(adEl){if(adapt) adEl.classList.remove('hidden');else adEl.classList.add('hidden');}
     const meals=dayData.meals;
@@ -2259,7 +2378,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     const cflEl=document.getElementById('dash-cal-fat');
     if(cflEl) cflEl.textContent=total.lemak+'g';
     const workoutPct=Math.max(getSavedFlowPct(),todayData.workoutDone?100:0);
-    const mealPct=Math.round((mealsCount/MEAL_SLOTS.length)*100);
+    const mealPct=Math.min(100,Math.round((mealsCount/MEAL_SLOTS.length)*100));
     const totalPct=Math.round((workoutPct*0.5)+(mealPct*0.5));
     const dpPct=document.getElementById('dash-day-pct');if(dpPct) dpPct.textContent=totalPct+'%';
     const wBar=document.getElementById('prog-workout-bar');if(wBar) wBar.style.width=workoutPct+'%';
@@ -2276,11 +2395,11 @@ function renderDashboard(day,dayData,targets,programData,userData){
     if(warnWrap) warnWrap.innerHTML='';
     checkLowEnergyProtection();
     try{
-        const rflag=localStorage.getItem('ip90_recovery_flag');
+        const rflag=localStorage.getItem(recoveryKey(0));
         if(rflag){
         const pct=Math.round(parseFloat(rflag)*100);
         const w=document.getElementById('dash-warnings-wrap');
-        if(w) w.innerHTML+=`<div class="dash-warning"><div class="dash-warning-title">Mode pemulihan aktif (${pct}%)</div>Catatan kemarin menunjukkan tubuh butuh pemulihan. Intensitas latihan hari ini disesuaikan ke ${pct}%.</div>`;
+        if(w) w.innerHTML+=`<div class="dash-warning"><div class="dash-warning-title">Mode pemulihan aktif (${pct}%)</div>Catatan sebelumnya menunjukkan tubuh butuh pemulihan. Intensitas latihan hari ini disesuaikan ke ${pct}%.</div>`;
         }
     }catch(e){}
     // titik 90 hari
@@ -2307,8 +2426,8 @@ function renderDashboard(day,dayData,targets,programData,userData){
     const label=document.getElementById('dash-guide-label');
     const msg=document.getElementById('dash-guide-msg');
     if(!guide||!label||!msg) return;
-    const mealsCount=todayData.mealsCompleted.filter(Boolean).length;
-    const allDone=todayData.workoutDone&&mealsCount===MEAL_SLOTS.length;
+    const mealsCount=mealsDoneCount(todayData);
+    const allDone=dayFullyDone(todayData);
     if(allDone){
         guide.className='dash-guide type-done';label.textContent='Selesai';
         msg.textContent='Latihan dan makan hari ini sudah beres. Istirahat cukup supaya pemulihan otot berjalan maksimal.';
@@ -2316,7 +2435,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
         guide.className='dash-guide type-workout';label.textContent='Selanjutnya: latihan';
         msg.textContent='Buka tab Latihan dan selesaikan sesi hari ini. Makan menyusul setelahnya.';
     } else {
-        const remaining=3-mealsCount;
+        const remaining=Math.max(0,MEAL_SLOTS.length-mealsCount);
         guide.className='dash-guide type-meal';label.textContent='Latihan selesai';
         msg.textContent=`Masih ada ${remaining} jadwal makan yang belum ditandai. Buka tab Menu untuk mencatatnya.`;
     }
@@ -2401,7 +2520,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
             : '';
 
         card.innerHTML=
-        `<div class="exercise-header" onclick="toggleExercise(this)">`+
+        `<div class="exercise-header" role="button" tabindex="0" aria-expanded="${i===0}" onclick="toggleExercise(this)">`+
             `<div class="exercise-left">`+
                 `<div class="exercise-num">${i+1}</div>`+
                 `<div>`+
@@ -2458,25 +2577,26 @@ function renderDashboard(day,dayData,targets,programData,userData){
     if(pad){
         if(isLocked){
         pad.classList.add('workout-locked');
-        document.body.style.overflow='hidden';
         if(lockOverlay) lockOverlay.classList.remove('hidden');
         } else {
         pad.classList.remove('workout-locked');
-        document.body.style.overflow='';
         if(lockOverlay) lockOverlay.classList.add('hidden');
         }
     }
     }
 
     function toggleExercise(header){
-    const _td=loadToday();
-    if(!_td.energyChecked){showEnergyModal();return;}
+    const td=loadToday();
+    if(!td.energyChecked){showEnergyModal();return;}
     const card=header.parentElement;
-    if(card.classList.contains('locked')&&!card.classList.contains('open')){
+    const nextOpen=!card.classList.contains('open');
+    if(card.classList.contains('locked')&&!nextOpen){
     card.classList.add('open');
+    header.setAttribute('aria-expanded','true');
     return;
     }
     card.classList.toggle('open');
+    header.setAttribute('aria-expanded',nextOpen?'true':'false');
     }
 
     /* Teks penyelesai, varies by energy */
@@ -2560,7 +2680,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     }).join('');
 
     card.innerHTML=''
-    +'<div class="meal-card-header" onclick="toggleMeal('+idx+')">'
+    +'<div class="meal-card-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleMeal('+idx+')">'
     +'  <div class="meal-time-badge">'
     +'    <div class="meal-time-icon">'+(meal.icon||ICONS.bowl)+'</div>'
     +'    <div>'
@@ -2739,12 +2859,16 @@ function renderDashboard(day,dayData,targets,programData,userData){
 
     function toggleMeal(idx){
     const card=document.getElementById('meal-card-'+idx);
-    if(card) card.classList.toggle('open');
+    if(!card) return;
+    card.classList.toggle('open');
+    const head=card.querySelector('.meal-card-header');
+    if(head) head.setAttribute('aria-expanded',card.classList.contains('open')?'true':'false');
     }
 
     function toggleMealDone(idx){
     const todayData=loadToday();
     if(!Array.isArray(todayData.mealsCompleted)) todayData.mealsCompleted=[];
+    while(todayData.mealsCompleted.length<MEAL_SLOTS.length) todayData.mealsCompleted.push(false);
     todayData.mealsCompleted[idx]=!todayData.mealsCompleted[idx];
     saveToday(todayData);
     updateStreak();
@@ -2783,6 +2907,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
         <div class="prog-stat-card"><div class="prog-stat-icon">${ICONS.bolt}</div><div class="prog-stat-val txt-blue">${week+1}</div><div class="prog-stat-label">Minggu ke-</div></div>`;
 
     renderWeightChart();
+    try{ initSettingsPanel(); }catch(e){}
 
     // isian awal catatan berat
     const tracking=loadState(KEYS.tracking);
@@ -2850,7 +2975,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
         const rec = loadState(key);
         if(!rec) return 0;
         const meals = Array.isArray(rec.mealsCompleted) ? rec.mealsCompleted.filter(Boolean).length : 0;
-        return Math.round((rec.workoutDone ? 50 : 0) + (meals / 3) * 50);
+        return Math.min(100, Math.round((rec.workoutDone ? 50 : 0) + (meals / MEAL_SLOTS.length) * 50));
     });
     const adjustedToday = (dow === 0) ? 6 : dow - 1;
 
@@ -2898,57 +3023,34 @@ function renderDashboard(day,dayData,targets,programData,userData){
         </div>`;
     }
 
-    /* BANTUAN KUNCI TAB */
-    function _applyTabLockState(){
-    const td=loadToday();
-    document.querySelectorAll('.lp-tab').forEach(t=>{
-        const onclick=t.getAttribute('onclick')||'';
-        const match=onclick.match(/'(\w+)'/);
-        const tname=match?match[1]:'';
-        if(!td.energyChecked&&tname&&tname!=='latihan'){
-        t.classList.add('tab-locked');
-        } else {
-        t.classList.remove('tab-locked');
-        }
-    });
-    }
-
     
     function switchTab(btn,tabName){
-    
-    const _tdLock=loadToday();
-    if(!_tdLock.energyChecked&&tabName!=='latihan'){
-        showEnergyModal();
-        return; // Do NOT switch tab, user must fill energy first
-    }
-
-    document.querySelectorAll('.lp-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.lp-tab').forEach(function(t){t.classList.remove('active');t.setAttribute('aria-selected','false');});
     document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
     const pane=document.getElementById('tab-'+tabName);
     if(pane) pane.classList.add('active');
     const lpc=document.getElementById('lp-content');
     if(lpc) lpc.scrollTop=0;
     try{localStorage.setItem('ip90_active_tab',tabName);}catch(e){}
+    /* Pindah tab selalu menutup pemeriksaan energi yang masih terbuka.
+       Kalau tidak, BODY tetap terkunci dan halaman tidak bisa digulir,
+       padahal pengguna sudah pindah ke tab lain. */
+    if(tabName!=='latihan') closeEnergyModal();
     if(tabName==='progress') setTimeout(renderWeightChart,100);
-    _applyTabLockState();
     if(tabName==='latihan'){
-        const _td=loadToday();
-        if(!_td.energyChecked){
+        const td=loadToday();
+        const pad=document.querySelector('#tab-latihan .workout-pad');
+        const lo=document.getElementById('workout-lock-overlay');
+        if(!td.energyChecked){
         clearInterval(window._exTimerInterval);
         clearTimeout(window._exTimerTimeout);
-        const pad=document.querySelector('#tab-latihan .workout-pad');
         if(pad) pad.classList.add('workout-locked');
-        const lo=document.getElementById('workout-lock-overlay');
         if(lo) lo.classList.remove('hidden');
-        document.body.style.overflow='hidden';
-        showEnergyModal();
         } else {
-        const pad=document.querySelector('#tab-latihan .workout-pad');
         if(pad) pad.classList.remove('workout-locked');
-        const lo=document.getElementById('workout-lock-overlay');
         if(lo) lo.classList.add('hidden');
-        document.body.style.overflow='';
         }
     }
     }
@@ -2963,9 +3065,9 @@ function renderDashboard(day,dayData,targets,programData,userData){
     renderGuidance(todayData);
     _renderDailyFocus(currentGoal(userData), day);
     _renderDashNow(day,dayData,activeTargets(),todayData);
-    const mealsCount=todayData.mealsCompleted.filter(Boolean).length;
+    const mealsCount=mealsDoneCount(todayData);
     const workoutPct=todayData.workoutDone?100:0;
-    const mealPct=Math.round((mealsCount/MEAL_SLOTS.length)*100);
+    const mealPct=Math.min(100,Math.round((mealsCount/MEAL_SLOTS.length)*100));
     const totalPct=Math.round((workoutPct*0.5)+(mealPct*0.5));
     const dayPctEl=document.getElementById('dash-day-pct');
     if(dayPctEl) dayPctEl.textContent=totalPct+'%';
@@ -3011,11 +3113,8 @@ function renderDashboard(day,dayData,targets,programData,userData){
     // Periksa tanda pemulihan
     let recoveryHtml='';
     try{
-        const rflag=localStorage.getItem('ip90_recovery_flag');
-        const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
-        const yk='ip90_recovery_next_'+yesterday.toISOString().split('T')[0];
-        const yflag=localStorage.getItem(yk);
-        if(rflag||yflag) recoveryHtml=`<div class="ux-recovery-notice">${ICONS.bandage} Latihan hari ini disesuaikan karena kondisi sebelumnya, tubuhmu sedang pemulihan.</div>`;
+        if(localStorage.getItem(recoveryKey(0)))
+        recoveryHtml=`<div class="ux-recovery-notice">${ICONS.bandage} Latihan hari ini disesuaikan karena kondisi sebelumnya, tubuhmu sedang pemulihan.</div>`;
     }catch(e){}
     wrap.innerHTML=`${adaptHtml}${recoveryHtml}<div class="ux-daily-focus"><strong>Panduan harian</strong>${focusText}</div>`;
     }
@@ -3111,7 +3210,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     +'  <div class="swap-alt-name">'+alt.nama+'</div>'
     +'  <div class="swap-alt-cal">'+n.kalori+' kkal</div>'
     +'  </div>'
-    +'  <div class="swap-altplore">'
+    +'  <div class="swap-alt-macros">'
     +'    <span>'+n.protein+'g protein</span><span>'+n.karbo+'g karbo</span>'
     +'    <span>'+n.lemak+'g lemak</span><span>'+n.serat+'g serat</span>'
     +'  </div>'
@@ -3617,7 +3716,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     let prevLv=0, maxLv=0, deloadHari=0;
     let blokDeload=0, dalamDeload=false;
     for(let d=0;d<90;d++){
-    const info=getLevelInfo(d);
+    const info=getLevelInfo(d,true);
     if(info.level<prevLv&&!info.deload)
     r.push('hari '+(d+1)+': level turun dari '+prevLv+' ke '+info.level+' di luar hari deload');
     if(info.level>8) r.push('hari '+(d+1)+': level '+info.level+' melebihi puncak 8');
@@ -3636,6 +3735,11 @@ function renderDashboard(day,dayData,targets,programData,userData){
     if(blokDeload<3||blokDeload>5)
     r.push('blok deload '+blokDeload+', nirinya 3 sampai 5 dalam 90 hari');
     if(deloadHari<14) r.push('total hari deload cuma '+deloadHari);
+    const cap=getLevelCap();
+    for(let d=0;d<90;d++){
+    if(getLevelForDay(d,true)<getLevelForDay(d))
+    r.push('hari '+(d+1)+': batas level '+cap+' lebih besar dari level program');
+    }
     return r;
     },'latihan');
 
@@ -4641,6 +4745,205 @@ function renderDashboard(day,dayData,targets,programData,userData){
     right.insertBefore(b,right.firstChild);
     }
 
+
+    /* PENGATURAN, AIR, CADANGAN DATA */
+    const SETTINGS_KEY='ip90_settings';
+    const EXPORT_TAG='ip90-export-1';
+
+    function loadSettings(){
+    const s=loadState(SETTINGS_KEY);
+    return {
+    vibrate: !s||s.vibrate!==false,
+    followTheme: !!(s&&s.followTheme)
+    };
+    }
+    function saveSettings(patch){
+    const s=loadSettings();
+    Object.assign(s,patch);
+    saveState(SETTINGS_KEY,s);
+    }
+    function setVibrate(on){
+    saveSettings({vibrate:!!on});
+    _toastMsg('set-toast',(on?ICONS.check+' Getar aktif':'Getar dimatikan'));
+    }
+    function setFollowSystemTheme(on){
+    saveSettings({followTheme:!!on});
+    if(on){
+    try{localStorage.removeItem(THEME_KEY);}catch(e){}
+    const dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(dark?'dark':'light');
+    _toastMsg('set-toast',ICONS.check+' Tema mengikuti perangkat');
+    } else {
+    applyTheme(getTheme());
+    }
+    }
+    function initSettingsPanel(){
+    const s=loadSettings();
+    const v=document.getElementById('set-vibrate');if(v) v.checked=s.vibrate;
+    const f=document.getElementById('set-follow-theme');if(f) f.checked=s.followTheme;
+    }
+    function getar(pola){
+    if(!loadSettings().vibrate) return;
+    try{
+    if(typeof navigator!=='undefined'&&navigator.vibrate) navigator.vibrate(pola||[180,60,180]);
+    }catch(e){}
+    }
+
+    /* PELACAK AIR */
+    function getAir(){
+    const v=loadState(KEYS.water+tanggal(0));
+    const n=v&&typeof v.ml==='number'?v.ml:0;
+    return (isFinite(n)&&n>0)?Math.round(n):0;
+    }
+    function setAir(ml){
+    const n=Math.max(0,Math.round(ml));
+    saveState(KEYS.water+tanggal(0),{ml:n});
+    renderAirCard();
+    }
+    function tambahAir(ml){ setAir(getAir()+ml); }
+    function resetAir(){ setAir(0); }
+    function renderAirCard(){
+    const doneEl=document.getElementById('water-done-val');
+    const labelEl=document.getElementById('water-done-label');
+    const barEl=document.getElementById('water-bar-fill');
+    if(!doneEl||!labelEl||!barEl) return;
+    const tracker=loadState(KEYS.tracking);
+    let berat=70;
+    const u=loadState(KEYS.user);
+    if(u&&u.weight) berat=u.weight;
+    try{
+    const w=tracker&&Array.isArray(tracker.weights)?[...tracker.weights].sort((a,b)=>b.day-a.day):[];
+    if(w.length&&isFinite(w[0].value)) berat=w[0].value;
+    }catch(e){}
+    const target=calculateWater(berat);
+    const ml=getAir();
+    doneEl.textContent=ml.toLocaleString('id-ID')+' ml';
+    labelEl.textContent='dari '+target.display;
+    const pct=Math.max(0,Math.min(100,Math.round((ml/target.low)*100)));
+    barEl.style.width=pct+'%';
+    }
+
+    /* CADANGAN DATA */
+    function dataMsg(pesan,baik){
+    const el=document.getElementById('data-msg');
+    if(!el) return;
+    el.textContent=pesan;
+    el.className='data-msg'+(baik?' ok':' bad');
+    if(!pesan) el.className='data-msg';
+    }
+    function exportData(){
+    const isi={};
+    try{
+    Object.keys(localStorage).filter(k=>k.startsWith('ip90')).sort().forEach(k=>{
+    const v=localStorage.getItem(k);
+    try{isi[k]=JSON.parse(v);}catch(e2){isi[k]=v;}
+    });
+    }catch(e){ dataMsg('Data tidak bisa dibaca. Coba lagi.',false); return; }
+    const paket={app:'Instruktur Pribadi 90 Hari',versi:EXPORT_TAG,diekspor:new Date().toISOString(),data:isi};
+    let teks='';
+    try{ teks=JSON.stringify(paket,null,2); }catch(e){ dataMsg('Data tidak bisa disiapkan.',false); return; }
+    const blob=new Blob([teks],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='instruktur-90-hari-'+tanggal(0)+'.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>{try{URL.revokeObjectURL(url);}catch(e){}},2000);
+    dataMsg('Berkas data berhasil diunduh.',true);
+    }
+    function importData(input){
+    const file=input&&input.files?input.files[0]:null;
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=function(){
+    input.value='';
+    let paket=null;
+    try{ paket=JSON.parse(String(reader.result||'')); }catch(e){ dataMsg('Berkas bukan data yang sah.',false); return; }
+    if(!paket||paket.app!=='Instruktur Pribadi 90 Hari'||!paket.data||typeof paket.data!=='object'){
+        dataMsg('Berkas ini bukan cadangan data Instruktur Pribadi 90 Hari.',false);
+        return;
+    }
+    const backup=exportIsi();
+    try{
+    Object.keys(paket.data).forEach(k=>{ if(k.startsWith('ip90')) localStorage.setItem(k,JSON.stringify(paket.data[k])); });
+    }catch(e){ restoreIsi(backup); dataMsg('Data gagal ditulis. Semua data dikembalikan seperti semula.',false); return; }
+    bersihkanRecoveryKeys();
+    devInvalidate();
+    initTheme();
+    renderHome();
+    showScreen('lh');
+    dataMsg('Data berhasil dimuat. Kamu kembali ke layar awal.',true);
+    };
+    reader.onerror=function(){ input.value=''; dataMsg('Berkas gagal dibaca.',false); };
+    reader.readAsText(file);
+    }
+    function exportIsi(){
+    const isi={};
+    Object.keys(localStorage).filter(k=>k.startsWith('ip90')).forEach(k=>{isi[k]=localStorage.getItem(k);});
+    return isi;
+    }
+    function restoreIsi(isi){
+    Object.keys(localStorage).filter(k=>k.startsWith('ip90')).forEach(k=>localStorage.removeItem(k));
+    Object.keys(isi).forEach(k=>localStorage.setItem(k,isi[k]));
+    }
+    function printMenu(){
+    try{
+    switchTab(document.querySelector(".lp-tab[onclick*='menu']"),'menu');
+    }catch(e){}
+    const head=document.createElement('div');
+    head.className='print-head';
+    head.textContent='Menu Hari '+Math.min(getCurrentDay()+1,90)+' · '+tanggal(0);
+    const target=document.getElementById('tab-menu');
+    if(target) target.appendChild(head);
+    const after=function(){
+    if(head.parentElement) head.remove();
+    window.removeEventListener('afterprint',after);
+    };
+    window.addEventListener('afterprint',after);
+    setTimeout(()=>{
+    try{window.print();}catch(e){ dataMsg('Cetak tidak tersedia di peramban ini.',false); after();}
+    },60);
+    }
+
+    /* AKSESIBILITAS: KEYBOARD */
+    function initKeyboard(){
+    document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+    const em=document.getElementById('energy-modal');
+    if(em&&em.classList.contains('active')){ closeEnergyModal(); return; }
+    const rm=document.getElementById('reset-modal');
+    if(rm&&rm.classList.contains('active')){ closeResetModal(); return; }
+    if(typeof closeDevPanel==='function') closeDevPanel();
+    return;
+    }
+    if(e.key!=='Enter'&&e.key!==' ') return;
+    const t=e.target;
+    if(!t||!t.classList) return;
+    if(t.classList.contains('exercise-header')){ e.preventDefault(); toggleExercise(t); return; }
+    if(t.classList.contains('meal-card-header')){
+    e.preventDefault();
+    const m=/toggleMeal\((\d+)\)/.exec(t.getAttribute('onclick')||'');
+    if(m) toggleMeal(Number(m[1]));
+    return;
+    }
+    if(t.classList.contains('energy-star')){
+    e.preventDefault();
+    const n=Number(t.textContent);
+    if(n>=1&&n<=5) selectEnergy(n);
+    return;
+    }
+    if(t.classList.contains('lp-tab')){
+    e.preventDefault();
+    const tabs=Array.prototype.slice.call(document.querySelectorAll('.lp-tab'));
+    const i=tabs.indexOf(t);
+    const next=tabs[(i+1)%tabs.length];
+    if(next){ next.focus(); switchTab(next,next.getAttribute('onclick').match(/'([^']+)'/)[1]); }
+    return;
+    }
+    });
+    }
     /* HAPUS DATA */
     function showResetModal(){document.getElementById('reset-modal').classList.add('active');}
     function closeResetModal(){document.getElementById('reset-modal').classList.remove('active');}
@@ -4668,6 +4971,9 @@ function renderDashboard(day,dayData,targets,programData,userData){
         wrap._transitioning = false;
         }
     }
+    applyTheme(getTheme());
+    initSettingsPanel();
+    renderHome();
     showScreen('la');
     }
 
