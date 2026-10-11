@@ -1,9 +1,6 @@
 # Instruktur Pribadi 90 Hari
 
 Program latihan dan makan 90 hari yang berjalan di peramban — tanpa akun, tanpa server, tanpa pemasangan.
-
-**[Instruktur Pribadi 90 Hari](https://shadowcircuit99.github.io/instruktruv2/)**
-
 ---
 
 ## Cara Pakai
