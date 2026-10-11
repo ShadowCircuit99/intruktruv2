@@ -46,6 +46,9 @@ pnpm-lock.yaml
 # Berkas audit dan tool internal — tidak di-push
 INSTRUKTRU2_SECURITY_UX.md
 
+# Uji regresi — butuh jsdom, hanya dipakai lokal, bukan bagian aplikasi
+uji.js
+
 # Berkas yang dibuat editor dan sistem operasi.
 .DS_Store
 Thumbs.db
