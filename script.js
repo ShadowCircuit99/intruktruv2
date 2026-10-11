@@ -2485,6 +2485,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     loadEnergyForToday();
     const isLocked=!todayData.energyChecked;
     const mult=getEnergyMultiplier(selectedEnergy,todaySleep);
+    showLoading('exercise-list');
 
     const flow=fitFlowDuration(buildSessionFlow(workout,mult));
     const totalEx=flow.length;
@@ -2587,6 +2588,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
         }
     });
 
+    hideLoading('exercise-list');
     _applyFlowLocks();
     flow.forEach((_,i)=>renderExTimer(i,totalEx));
 

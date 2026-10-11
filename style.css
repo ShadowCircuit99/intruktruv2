@@ -232,7 +232,6 @@ button{cursor:pointer}
 .input-error{border-color:#ef4444!important;box-shadow:0 0 0 3px rgba(239,68,68,.15);transition:all .2s ease}
 .error-msg{color:#ef4444;font-size:.75rem;margin-top:4px;display:flex;align-items:center;gap:4px}
 .error-msg::before{content:'⚠';font-size:.8rem}
-.success-msg{color:#22c55e;font-size:.75rem;margin-top:4px}
 .form-row,.prog-tracking-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .form-select{
   appearance:none;

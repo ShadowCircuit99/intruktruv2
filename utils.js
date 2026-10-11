@@ -94,21 +94,19 @@ function clearFieldError(inputEl, msgEl) {
   }
 }
 
-/* ---- Skeleton Loading ---- */
-function showLoading(containerId, label) {
-  label = label || 'Memuat...';
+/* BANTUAN: Loading state */
+function showLoading(containerId) {
   var container = document.getElementById(containerId);
   if (!container) return;
   var existing = container.querySelector('.skeleton-loader');
-  if (!existing) {
-    var loader = document.createElement('div');
-    loader.className = 'skeleton-loader';
-    loader.innerHTML =
-      '<div class="skeleton-line" style="width:80%"></div>' +
-      '<div class="skeleton-line" style="width:60%"></div>' +
-      '<div class="skeleton-line" style="width:90%"></div>';
-    container.appendChild(loader);
-  }
+  if (existing) return;
+  var loader = document.createElement('div');
+  loader.className = 'skeleton-loader';
+  loader.innerHTML =
+    '<div class="skeleton-line" style="width:80%"></div>' +
+    '<div class="skeleton-line" style="width:60%"></div>' +
+    '<div class="skeleton-line" style="width:90%"></div>';
+  container.appendChild(loader);
   container.style.display = 'block';
 }
 

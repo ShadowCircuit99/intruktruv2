@@ -23,7 +23,7 @@ const ROOT=__dirname;
    Wajib menambah file baru ke sini, bukan menyalin daftar baru. */
 const DEPLOY=['index.html','style.css','nutrition.js','recipes.js','notif.js',
 'script.js','manifest.webmanifest','icon-192.png','icon-512.png','icon-180.png',
-'README.md','SUMBER.md','.gitignore'];
+'README.md','SUMBER.md','.gitignore','utils.js'];
 
 /* Ikon dan manifest ikut DEPLOY, bukan sekadar dilacak diam-diam.
    Halaman sudah merujuk mereka, jadi file-nya wajib ikut ter-push;
@@ -33,7 +33,7 @@ const PNG_SIH=[0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a];
 
 /* File JavaScript yang dimuat halaman. Handler di markup, kelas CSS,
    dan banned words diperiksa terhadap gabungan semua file ini. */
-const JSDIR=['nutrition.js','recipes.js','notif.js','script.js'];
+const JSDIR=['nutrition.js','recipes.js','notif.js','script.js','utils.js'];
 const gabungJS=function(){ return JSDIR.map(baca).join('\n'); };
 
 /* Batas bawah ukuran file. Angka-angka ini lebih rendah dari file
@@ -42,7 +42,7 @@ const gabungJS=function(){ return JSDIR.map(baca).join('\n'); };
 const MIN_SIZE={'index.html':20000,'style.css':40000,'nutrition.js':30000,'notif.js':4000,
 'recipes.js':35000,'script.js':150000,'README.md':8000,'SUMBER.md':5000,
 'manifest.webmanifest':300,'icon-192.png':200,'icon-512.png':200,'icon-180.png':200,
-'.gitignore':200};
+'.gitignore':200,'utils.js':500};
 
 let gagal=0;
 const problems=[];
@@ -197,7 +197,7 @@ const BUILTIN=new Set(('if for while switch catch return typeof new delete void 
 'Float32Array Float64Array ArrayBuffer DataView CustomEvent Event EventTarget MutationObserver '+
 'ResizeObserver IntersectionObserver performance structuredClone queueMicrotask require module exports process '+
 'Buffer setImmediate clearImmediate globalThis Proxy Reflect WeakRef FinalizationRegistry global '+
-'close notify toString valueOf hasOwnProperty preventDefault stopPropagation')
+'close notify toString valueOf hasOwnProperty preventDefault stopPropagation btoa atob')
 .split(' '));
 
 /* Penyamar string dan komentar. Karakter di dalam string dan komentar
