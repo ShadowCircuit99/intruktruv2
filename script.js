@@ -45,9 +45,26 @@
     water:   'ip90_water_',
     };
 
-    /* BANTUAN PENYIMPANAN */
-    function loadState(key){try{return JSON.parse(localStorage.getItem(key));}catch(e){return null;}}
-    function saveState(key,data){try{localStorage.setItem(key,JSON.stringify(data));}catch(e){}}
+    /* BANTUAN PENYIMPANAN — terenkripsi */
+    function loadState(key){
+      try{
+        const raw = localStorage.getItem(key);
+        if(!raw) return null;
+        /* coba decrypt dulu, fallback ke JSON langsung (migrasi data lama) */
+        try{
+          const dec = _decBase(raw);
+          if(dec !== null) return JSON.parse(dec);
+        }catch(e){}
+        return JSON.parse(raw);
+      }catch(e){ return null; }
+    }
+    function saveState(key,data){
+      try{
+        const json = JSON.stringify(data);
+        const enc = _encBase(json);
+        localStorage.setItem(key, enc || json);
+      }catch(e){}
+    }
     function todayKey(){
     if(devOn()) return KEYS.today+'dev'+getCurrentDay();
     return KEYS.today+new Date().toISOString().split('T')[0];
@@ -442,8 +459,8 @@
     if(sleep<5) mult=Math.max(0.5, mult-0.15);
 
     try{
-        const flag=localStorage.getItem(recoveryKey(0));
-        if(flag) mult=Math.min(mult, parseFloat(flag)||0.8);
+        const flag = localStorage.getItem(recoveryKey(0));
+        if(flag) mult = Math.min(mult, parseFloat(_decBase(flag) || flag) || 0.8);
     }catch(e){}
 
     const lepMult=getLowEnergyProtectionMultiplier();
@@ -1218,7 +1235,7 @@
     function toggleTheme(btn){
     const next=getTheme()==='dark'?'light':'dark';
     applyTheme(next);
-    try{localStorage.setItem(THEME_KEY,next);}catch(e){}
+    try{localStorage.setItem(THEME_KEY, _encBase(next) || next);}catch(e){}
     if(loadSettings().followTheme) saveSettings({followTheme:false});
     initSettingsPanel();
     }
@@ -1230,7 +1247,10 @@
     return;
     }
     let theme=null;
-    try{theme=localStorage.getItem(THEME_KEY);}catch(e){}
+    try{
+        const raw = localStorage.getItem(THEME_KEY);
+        if(raw) theme = _decBase(raw) || raw;
+    }catch(e){}
     if(theme!=='light'&&theme!=='dark') theme=getTheme();
     applyTheme(theme);
     }
@@ -1277,31 +1297,45 @@ try{ rebindHiddenEntry(); }catch(e){}
     function validateForm(){
     let valid=true;
     const fields=[
-        {id:'f-name',errId:'err-name',check:v=>v.trim().length>=2},
-        {id:'f-weight',errId:'err-weight',check:v=>+v>=30&&+v<=200},
-        {id:'f-target-weight',errId:'err-target',check:v=>+v>=30&&+v<=200},
-        {id:'f-height',errId:'err-height',check:v=>+v>=100&&+v<=250},
-        {id:'f-age',errId:'err-age',check:v=>+v>=15&&+v<=80},
+        {id:'f-name',errId:'err-name',check:v=>validasiNama(v),errTxt:'Masukkan nama lengkap (min 2 huruf).'},
+        {id:'f-weight',errId:'err-weight',check:v=>{var r=validasiAngka(v,30,200,'Berat badan');return r.valid;},errTxt:'Berat badan 30-200 kg.'},
+        {id:'f-target-weight',errId:'err-target',check:v=>{var r=validasiAngka(v,30,200,'Target berat');return r.valid;},errTxt:'Target berat 30-200 kg.'},
+        {id:'f-height',errId:'err-height',check:v=>{var r=validasiAngka(v,100,250,'Tinggi badan');return r.valid;},errTxt:'Tinggi badan 100-250 cm.'},
+        {id:'f-age',errId:'err-age',check:v=>{var r=validasiAngka(v,15,80,'Usia');return r.valid;},errTxt:'Usia 15-80 tahun.'},
         {id:'f-gender',errId:'err-gender',check:v=>v!==''},
         {id:'f-activity',errId:'err-activity',check:v=>v!==''},
     ];
     fields.forEach(f=>{
         const el=document.getElementById(f.id);const errEl=document.getElementById(f.errId);
         if(!el||!errEl) return;
-        const ok=f.check(el.value);el.classList.toggle('error',!ok);errEl.classList.toggle('show',!ok);
+        const ok=f.check(el.value);
+        el.classList.toggle('input-error',!ok);
+        if(!ok){
+            errEl.innerHTML='';
+            errEl.appendChild(document.createTextNode(f.errTxt||'Isi data dengan benar.'));
+            errEl.style.display='flex';
+        } else {
+            errEl.textContent='';
+            errEl.style.display='none';
+        }
         if(!ok) valid=false;
     });
     const w=+document.getElementById('f-weight').value;
     const t=+document.getElementById('f-target-weight').value;
     if(w>0&&t>0&&Math.abs(w-t)>20){
         document.getElementById('safety-warning').classList.add('show');
-        document.getElementById('f-target-weight').classList.add('error');
-        document.getElementById('err-target').textContent='Selisih max 20 kg dari berat awal untuk keamanan.';
-        document.getElementById('err-target').classList.add('show');
+        document.getElementById('f-target-weight').classList.add('input-error');
+        var errT=document.getElementById('err-target');
+        if(errT){errT.textContent='Selisih max 20 kg dari berat awal untuk keamanan.';errT.style.display='flex';}
         valid=false;
+    }else{
+        document.getElementById('safety-warning').classList.remove('show');
     }
     const goalErr=document.getElementById('err-goal');
-    if(!selectedGoal){goalErr.classList.add('show');valid=false;}else{goalErr.classList.remove('show');}
+    if(!selectedGoal){
+        if(goalErr){goalErr.textContent='Pilih tujuan kamu dulu.';goalErr.style.display='flex';}
+        valid=false;
+    }else if(goalErr){goalErr.textContent='';goalErr.style.display='none';}
     return valid;
     }
 
@@ -1310,8 +1344,14 @@ try{ rebindHiddenEntry(); }catch(e){}
     const btn=document.getElementById('submit-btn');
     btn.innerHTML='<div class="loader"></div>';btn.disabled=true;
     const dislikeArr=Array.from(document.querySelectorAll('.dislike-chip.selected')).map(el=>el.getAttribute('data-dislike')).filter(Boolean);
+    const nameVal=document.getElementById('f-name').value.trim();
+    if(!validasiNama(nameVal)){
+        showFieldError(document.getElementById('f-name'),document.getElementById('err-name'),'Nama harus huruf saja, minimal 2 karakter.');
+        btn.textContent='Buat Program Saya';btn.disabled=false;
+        return;
+    }
     const userData={
-        name:document.getElementById('f-name').value.trim(),
+        name:nameVal,
         weight:+document.getElementById('f-weight').value,
         targetWeight:+document.getElementById('f-target-weight').value,
         height:+document.getElementById('f-height').value,
@@ -1325,15 +1365,14 @@ try{ rebindHiddenEntry(); }catch(e){}
     const water=calculateWater(userData.weight);
     const programData={startDate:new Date().toISOString().split('T')[0],tdee:targets.kcal,targets,water,streak:0,lastActiveDate:''};
     saveState(KEYS.user,userData);saveState(KEYS.program,programData);saveState(KEYS.app,{programStarted:true});
-    // Izin notifikasi hanya boleh diminta dari ketukan pengguna, dan
-    // fungsi ini dipanggil dari ketukan tombol. Di sinilah tempat paling
-    // wajar: permintaannya muncul di layar yang sedang dipakai pengguna.
-    // Peramban menolak permintaan tanpa ketukan, jadi izin tidak bisa
-    // dipaksa dari kode.
     if(typeof notifAktifkan==='function'&&!notifBoleh()){
         notifAktifkan().then(function(){ renderNotifPanel(); });
     }
-    setTimeout(()=>{btn.textContent='Buat Program Saya';btn.disabled=false;renderHome();showScreen('lh');},800);
+    setTimeout(()=>{
+        btn.textContent='Buat Program Saya';btn.disabled=false;
+        showToast('Program berhasil dibuat!', 'success');
+        renderHome();showScreen('lh');
+    },800);
     }
 
     
@@ -2011,8 +2050,7 @@ function getWorkoutForDay(day, energyOverride){
         if(existing>=0) tracking.waists[existing]=entry;else tracking.waists.push(entry);
     }
     saveState(KEYS.tracking,tracking);
-    const saved=document.getElementById('tracking-saved-msg');
-    if(saved){saved.classList.add('show');setTimeout(function(){saved.classList.remove('show');},2000);}
+    showToast('Data tubuh berhasil disimpan.', 'success');
     validateWeightDrop(tracking.weights);
     renderWeightChart();
     }
@@ -2183,8 +2221,7 @@ function getWorkoutForDay(day, energyOverride){
     saveState(journalKey(),data);
     // Logika pemulihan, dibaca dari catatan harian
     applyRecoveryFromNotes(notes);
-    const saved=document.getElementById('journal-saved-msg');
-    if(saved){saved.classList.add('show');setTimeout(()=>saved.classList.remove('show'),2000);}
+    showToast('Catatan kondisi tersimpan.', 'success');
     checkLowEnergyProtection();
     }
 
@@ -2198,7 +2235,7 @@ function getWorkoutForDay(day, energyOverride){
     return null;
     }).find(Boolean)||null;
     try{
-        if(flag) localStorage.setItem(tk,flag);
+        if(flag) localStorage.setItem(tk, _encBase(String(flag)) || String(flag));
         else localStorage.removeItem(tk);
     }catch(e){}
     }
@@ -2211,8 +2248,7 @@ function getWorkoutForDay(day, energyOverride){
     const notes=notesEl?notesEl.value.trim():'';
     saveState(notesKey(day),{notes,date:new Date().toISOString().split('T')[0]});
     applyRecoveryFromNotes(notes);
-    const saved=document.getElementById('notes-saved-msg');
-    if(saved){saved.classList.add('show');setTimeout(()=>saved.classList.remove('show'),2000);}
+    showToast('Catatan latihan tersimpan.', 'success');
     }
     function loadWorkoutNotes(day){const data=loadState(notesKey(day));return data?data.notes:'';}
 
@@ -2282,7 +2318,8 @@ function getWorkoutForDay(day, energyOverride){
     renderProgressTab(day,programData,userData);
     /* Tab terakhir yang dipakai */
     try{
-        const savedTab=localStorage.getItem('ip90_active_tab');
+        const _rawTab = localStorage.getItem('ip90_active_tab');
+        const savedTab = _rawTab ? (_decBase(_rawTab) || _rawTab) : '';
         if(savedTab&&savedTab!=='dashboard'){
         const btn=document.querySelector(`.lp-tab[onclick*="'${savedTab}'"]`);
         if(btn) switchTab(btn,savedTab);
@@ -2395,9 +2432,10 @@ function renderDashboard(day,dayData,targets,programData,userData){
     if(warnWrap) warnWrap.innerHTML='';
     checkLowEnergyProtection();
     try{
-        const rflag=localStorage.getItem(recoveryKey(0));
-        if(rflag){
-        const pct=Math.round(parseFloat(rflag)*100);
+        const rflag = localStorage.getItem(recoveryKey(0));
+        const _rf = rflag ? (_decBase(rflag) || rflag) : null;
+        if(_rf){
+        const pct=Math.round(parseFloat(_rf)*100);
         const w=document.getElementById('dash-warnings-wrap');
         if(w) w.innerHTML+=`<div class="dash-warning"><div class="dash-warning-title">Mode pemulihan aktif (${pct}%)</div>Catatan sebelumnya menunjukkan tubuh butuh pemulihan. Intensitas latihan hari ini disesuaikan ke ${pct}%.</div>`;
         }
@@ -3033,7 +3071,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     if(pane) pane.classList.add('active');
     const lpc=document.getElementById('lp-content');
     if(lpc) lpc.scrollTop=0;
-    try{localStorage.setItem('ip90_active_tab',tabName);}catch(e){}
+    try{localStorage.setItem('ip90_active_tab', _encBase(tabName) || tabName);}catch(e){}
     /* Pindah tab selalu menutup pemeriksaan energi yang masih terbuka.
        Kalau tidak, BODY tetap terkunci dan halaman tidak bisa digulir,
        padahal pengguna sudah pindah ke tab lain. */
@@ -3113,7 +3151,8 @@ function renderDashboard(day,dayData,targets,programData,userData){
     // Periksa tanda pemulihan
     let recoveryHtml='';
     try{
-        if(localStorage.getItem(recoveryKey(0)))
+        const _rk = localStorage.getItem(recoveryKey(0));
+        if(_rk && (_decBase(_rk) || _rk))
         recoveryHtml=`<div class="ux-recovery-notice">${ICONS.bandage} Latihan hari ini disesuaikan karena kondisi sebelumnya, tubuhmu sedang pemulihan.</div>`;
     }catch(e){}
     wrap.innerHTML=`${adaptHtml}${recoveryHtml}<div class="ux-daily-focus"><strong>Panduan harian</strong>${focusText}</div>`;
@@ -4835,8 +4874,11 @@ function renderDashboard(day,dayData,targets,programData,userData){
     const isi={};
     try{
     Object.keys(localStorage).filter(k=>k.startsWith('ip90')).sort().forEach(k=>{
-    const v=localStorage.getItem(k);
-    try{isi[k]=JSON.parse(v);}catch(e2){isi[k]=v;}
+        const raw = localStorage.getItem(k);
+        try{
+            const dec = _decBase(raw);
+            isi[k] = (dec !== null) ? JSON.parse(dec) : JSON.parse(raw);
+        }catch(e2){ isi[k]=raw; }
     });
     }catch(e){ dataMsg('Data tidak bisa dibaca. Coba lagi.',false); return; }
     const paket={app:'Instruktur Pribadi 90 Hari',versi:EXPORT_TAG,diekspor:new Date().toISOString(),data:isi};
@@ -4867,7 +4909,11 @@ function renderDashboard(day,dayData,targets,programData,userData){
     }
     const backup=exportIsi();
     try{
-    Object.keys(paket.data).forEach(k=>{ if(k.startsWith('ip90')) localStorage.setItem(k,JSON.stringify(paket.data[k])); });
+    Object.keys(paket.data).forEach(k=>{
+        if(!k.startsWith('ip90')) return;
+        const val=paket.data[k];
+        try{ localStorage.setItem(k, _encBase(JSON.stringify(val)) || JSON.stringify(val)); }catch(e){}
+    });
     }catch(e){ restoreIsi(backup); dataMsg('Data gagal ditulis. Semua data dikembalikan seperti semula.',false); return; }
     bersihkanRecoveryKeys();
     devInvalidate();

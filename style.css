@@ -228,6 +228,11 @@ button{cursor:pointer}
 }
 .form-input::placeholder,.workout-notes-textarea::placeholder,.prog-journal-textarea::placeholder{color:var(--text3)}
 .form-input.error{border-color:var(--red)}
+.form-input.input-error{border-color:#ef4444!important;box-shadow:0 0 0 3px rgba(239,68,68,.15);transition:all .2s ease}
+.input-error{border-color:#ef4444!important;box-shadow:0 0 0 3px rgba(239,68,68,.15);transition:all .2s ease}
+.error-msg{color:#ef4444;font-size:.75rem;margin-top:4px;display:flex;align-items:center;gap:4px}
+.error-msg::before{content:'⚠';font-size:.8rem}
+.success-msg{color:#22c55e;font-size:.75rem;margin-top:4px}
 .form-row,.prog-tracking-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .form-select{
   appearance:none;
@@ -667,10 +672,34 @@ button{cursor:pointer}
 .loader{width:16px;height:16px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;margin:0 auto}
 @keyframes spin{to{transform:rotate(360deg)}}
 .toast{
-  position:fixed;bottom:92px;left:50%;transform:translateX(-50%);
-  background:var(--text);color:var(--surface);padding:11px 22px;border-radius:99px;
-  font-size:0.9375rem;font-weight:600;z-index:9999;pointer-events:none;
-  transition:opacity .3s;white-space:nowrap;box-shadow:var(--shadow);
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#1e293b;color:#fff;padding:12px 24px;border-radius:12px;
+  font-size:.875rem;font-weight:600;z-index:9999;pointer-events:none;
+  transition:all .3s cubic-bezier(.4,0,.2,1);white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.3);
+  opacity:0;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{border-left:4px solid #22c55e}
+.toast.error{border-left:4px solid #ef4444}
+.toast.info{border-left:4px solid #3b82f6}
+
+/* Skeleton loader */
+.skeleton-loader{
+  padding:16px;display:flex;flex-direction:column;gap:8px;
+}
+.skeleton-line{
+  height:12px;
+  background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 50%,#e2e8f0 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:4px;
+}
+[data-theme="dark"] .skeleton-line{
+  background:linear-gradient(90deg,#334155 25%,#3b4a5a 50%,#334155 75%);
+}
+@keyframes shimmer{
+  0%{background-position:-200% 0}
+  100%{background-position:200% 0}
 }
 
 @media(min-width:520px){

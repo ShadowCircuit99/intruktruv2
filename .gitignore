@@ -43,6 +43,9 @@ npm-debug.log*
 yarn.lock
 pnpm-lock.yaml
 
+# Berkas audit dan tool internal — tidak di-push
+INSTRUKTRU2_SECURITY_UX.md
+
 # Berkas yang dibuat editor dan sistem operasi.
 .DS_Store
 Thumbs.db

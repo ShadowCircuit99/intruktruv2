@@ -748,6 +748,19 @@
   </div>
 </div>
 
+<script src="utils.js?v=1"></script>
+<script>
+document.addEventListener('input', function(e) {
+  if (e.target.classList && e.target.classList.contains('input-error')) {
+    e.target.classList.remove('input-error');
+    var formGroup = e.target.closest('.form-group');
+    if (formGroup) {
+      var errEl = formGroup.querySelector('.form-error-msg');
+      if (errEl) errEl.style.display = 'none';
+    }
+  }
+});
+</script>
 <script src="nutrition.js?v=1"></script>
 <script src="recipes.js?v=1"></script>
 <script src="notif.js?v=1"></script>

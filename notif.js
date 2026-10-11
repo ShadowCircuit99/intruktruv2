@@ -6,9 +6,16 @@ const NOTIF_DEFAULT={aktif:false, jam:'07:00', terakhir:''};
 
 function notifBaca(){
 try{
-const s=localStorage.getItem(NOTIF_KEY);
-if(!s) return Object.assign({},NOTIF_DEFAULT);
-const o=JSON.parse(s);
+const raw = localStorage.getItem(NOTIF_KEY);
+if(!raw) return Object.assign({},NOTIF_DEFAULT);
+try {
+  var decoded = _decBase(raw);
+  if(decoded !== null) {
+    var o = JSON.parse(decoded);
+    return {aktif:!!o.aktif, jam:NOTIFJamValid(o.jam), terakhir:String(o.terakhir||'')};
+  }
+} catch(e) {}
+var o=JSON.parse(raw);
 return {aktif:!!o.aktif, jam:NOTIFJamValid(o.jam), terakhir:String(o.terakhir||'')};
 }catch(e){
 return Object.assign({},NOTIF_DEFAULT);
@@ -16,7 +23,7 @@ return Object.assign({},NOTIF_DEFAULT);
 }
 
 function notifSimpan(p){
-try{ localStorage.setItem(NOTIF_KEY,JSON.stringify(p)); }catch(e){}
+try { localStorage.setItem(NOTIF_KEY, _encBase(JSON.stringify(p)) || JSON.stringify(p)); }catch(e){}
 }
 
 function NOTIFJamValid(v){
