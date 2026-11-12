@@ -791,6 +791,13 @@ cek('aria-expanded dan aria-checked ikut perubahan keadaan',()=>{
   w.close();
 });
 
+cekAsync('onboard-steps ada',()=>{if(!document.querySelector('.onboard-steps')) throw new Error('onboard-steps tidak ada');});
+cekAsync('3 onboard-step',()=>{const steps=document.querySelectorAll('.onboard-step');if(steps.length!==3) throw new Error('harus 3 onboard-step, ada '+steps.length);});
+cekAsync('onboard-nav ada',()=>{if(!document.querySelector('.onboard-nav')) throw new Error('onboard-nav tidak ada');});
+cekAsync('3 navbar btn',()=>{const btns=document.querySelectorAll('.onboard-nav .btn-btn');if(btns.length!==3) throw new Error('harus 3 btn, ada '+btns.length);});
+cekAsync('setStep terdefinisi',()=>{typeof setStep!=='function' throw new Error('setStep tidak terdefinisi');});
+cekAsync('step awal adalah Data',()=>{const active=document.querySelector('.onboard-step.active');if(!active||!active.textContent.includes('Data')) throw new Error('step awal bukan Data');});
+
 async function jalankanTertunda(){
   for(let i=0;i<tertunda.length;i++){
     const t=tertunda[i];
@@ -798,9 +805,7 @@ async function jalankanTertunda(){
     try{ await t.fn(); lulus++; console.log('  ok    '+t.nama); }
     catch(e){ problems.push(t.nama+': '+e.message); console.log('  GAGAL '+t.nama+'  ->  '+e.message); }
   }
-}
 
-(async function(){
   await jalankanTertunda();
   console.log('\n'+'='.repeat(62));
   console.log(lulus+' dari '+total+' kelompok uji lolos');
