@@ -107,7 +107,7 @@
 <!-- ---------------------------------------- FORM / ONBOARDING -->
 <div id="screen-lf" class="screen">
   <div class="lf-wrap">
-
+  
     <div class="lf-header">
       <div class="lf-back" onclick="showScreen('la')">
         <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
@@ -120,7 +120,27 @@
         <span class="theme-toggle-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
       </button>
     </div>
-
+  
+    <!-- Step navigation -->
+    <div class="onboard-steps">
+      <div class="onboard-step active" id="os-1" onclick="setStep(1)">
+        <div class="onboard-step-circle">1</div>
+        <div class="onboard-step-label">Data</div>
+      </div>
+      <div class="onboard-step" id="os-2" onclick="setStep(2)">
+        <div class="onboard-step-circle">2</div>
+        <div class="onboard-step-label">Tujuan</div>
+      </div>
+      <div class="onboard-step" id="os-3" onclick="setStep(3)">
+        <div class="onboard-step-circle">3</div>
+        <div class="onboard-step-label">Makanan</div>
+      </div>
+    </div>
+    <div class="onboard-nav">
+      <button class="btn-btn" onclick="setStep(1)" disabled>1. Data</button>
+      <button class="btn-btn" onclick="setStep(2)">2. Tujuan</button>
+      <button class="btn-btn" onclick="setStep(3)">3. Makanan</button>
+    </div>
     <div id="form-container">
       <!-- Nama -->
       <div class="form-group">
