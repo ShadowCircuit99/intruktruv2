@@ -22,7 +22,7 @@ const ROOT=__dirname;
    (notif.js) beberapa pemeriksaan diam-diam tidak ikut memindainya.
    Wajib menambah file baru ke sini, bukan menyalin daftar baru. */
 const DEPLOY=['index.html','style.css','nutrition.js','recipes.js','notif.js',
-'script.js','manifest.webmanifest','icon-192.png','icon-512.png','icon-180.png',
+'ilustrasi.js','script.js','manifest.webmanifest','icon-192.png','icon-512.png','icon-180.png',
 'README.md','SUMBER.md','.gitignore','utils.js'];
 
 /* Ikon dan manifest ikut DEPLOY, bukan sekadar dilacak diam-diam.

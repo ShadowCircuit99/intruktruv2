@@ -24,6 +24,7 @@ _tmp_*.js
 _rapi*.js
 _splice.js
 _*.js
+test_*.js
 _*.css
 *.bak
 *.tmp

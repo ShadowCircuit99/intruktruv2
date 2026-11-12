@@ -194,6 +194,7 @@ Grafik berat punya dua jalur: Chart.js dari CDN, fallback SVG yang digambar send
 | `recipes.js` | 53 resep | ~43 KB |
 | `notif.js` | Pengingat harian | ~4 KB |
 | `utils.js` | Keamanan (enkripsi, validasi, XSS) + UX helper | ~3 KB |
+| `ilustrasi.js` | Pustaka ilustrasi gerakan SVG | ~11 KB |
 | `manifest.webmanifest` | Metadata PWA | ~0,6 KB |
 | `icon-180.png` | Ikon iPhone homescreen | ~0,8 KB |
 | `icon-192.png` | Ikon Android layar utama | ~0,8 KB |

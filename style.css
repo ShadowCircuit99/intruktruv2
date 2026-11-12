@@ -415,6 +415,14 @@ button,.lp-tab,summary{-webkit-tap-highlight-color:transparent}
 .exercise-error::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:7px}
 .exercise-card.just-opened{border-color:var(--accent)}
 
+/* Ilustrasi gerakan */
+.il-svg{width:80px;height:80px;margin:auto}
+.il-multi .il-step{float:left;width:50%;padding:8px 0}
+.il-multi .il-step:last-child{float:right}
+.il-cap{font-size:0.625rem;text-align:center;color:var(--text2);user-select:none}
+.il-g>*{stroke:currentColor;stroke-width:3.2;fill:none}
+.il-arrowhead{stroke:currentColor;stroke-width:2;fill:none}
+
 /* Gizi pada kartu menu */
 .meal-detail-row{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:0.8125rem;color:var(--text3);margin-top:9px;padding:9px 11px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm)}
 .meal-detail-row .meal-oil-note{color:var(--orange);font-weight:600}

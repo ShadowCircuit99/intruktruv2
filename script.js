@@ -2577,6 +2577,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
         `</div>`+
         `<div class="exercise-body">`+
             `<div class="exercise-section-title">Cara Melakukan</div>`+
+            `<div class="il-illustration">${ilustrasiMulti(String(item.key).trim() || 'default')}</div>`+
             `<div class="exercise-steps">${(item.langkah||[]).map((l,j)=>`<div class="exercise-step"><div class="exercise-step-num">${j+1}</div><div>${l}</div></div>`).join('')}</div>`+
             errHtml+
             `<div class="ex-timer-wrap" id="ex-timer-${i}"></div>`+

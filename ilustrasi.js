@@ -1,76 +1,52 @@
 /* ================================================================
    ilustrasi.js -- ilustrasi gerakan latihan, SVG buatan sendiri.
-
-   Kenapa bukan foto: aplikasi ini harus tetap jalan tanpa internet
-   setelah dimuat, dan 51 foto akan membuat folder jauh lebih besar.
-   Gambar di sini memakai garis dan lingkaran, jadi ukurannya hanya
-   beberapa KB, ikut warna tema (currentColor), dan tetap tajam di
-   layar densitas tinggi.
-
-   Tahap: (1) posisi awal, (2) posisi gerakan. Dua gambar berdampingan
-   lebih mudah dipahami daripada satu gambar diam yang ambigu.
-   Nomor tahap kecil ada di sudut supaya urutannya jelas.
-
-   Cara pakai:
-       ilustrasi('./ilustrasi.js', 'squat')   -> string SVG
-       ilustrasiMulti('squat')                -> dua tahap + label
-
-   Kunci yang belum punya gambar khusus memakai bentuk dasar dari
-   kelompoknya, jadi tidak pernah kosong.
+   Ukuran viewBox 120x120 dengan margin 8px di setiap sisi
+   ( area isi 104x104 ). Lantai di y=96.
+   currentColor dipakai agar ikut tema gelap/terang.
    ================================================================ */
 
 (function (root) {
   'use strict';
 
-  /* Anatomi dasar. Satuan px pada viewBox 120x120, lantai di y=104. */
-  var FLOOR = 104;
-  var KEPALA_R = 8;
-  var GURU = 3.2; // tebal garis badan utama
+  var MARGIN = 8;
+  var W = 120 - 2 * MARGIN;   // 104
+  var H = 120 - 2 * MARGIN;   // 104
+  var FLOOR = 96;             // di dalam area isi
 
   function g(isi) {
     return '<g class="il-g">' + isi + '</g>';
   }
 
-  /* ---- Pembentuk bagian tubuh ---- */
   function garis(x1, y1, x2, y2, tebal) {
     return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 +
-      '" stroke-width="' + (tebal || GURU) + '"/>';
+      '" stroke-width="' + (tebal || 3.2) + '"/>';
   }
 
-  /* Rantai sambungan: serangkaian titik [x,y] dihubungkan. */
   function rantai(pts, tebal) {
     var d = 'M' + pts[0][0] + ',' + pts[0][1];
     for (var i = 1; i < pts.length; i++) d += 'L' + pts[i][0] + ',' + pts[i][1];
     return '<path d="' + d + '" fill="none" stroke-width="' +
-      (tebal || GURU) + '"/>';
+      (tebal || 3.2) + '"/>';
   }
 
   function kepala(x, y, r) {
-    return '<circle cx="' + x + '" cy="' + y + '" r="' + (r || KEPALA_R) +
-      '" fill="none" stroke-width="' + GURU + '"/>';
+    return '<circle cx="' + x + '" cy="' + y + '" r="' + (r || 8) +
+      '" fill="none" stroke-width="' + 3.2 + '"/>';
   }
 
-  /* Badan: garis punggung dari panggul ke bahu. */
   function badan(x1, y1, x2, y2) {
-    return garis(x1, y1, x2, y2, GURU + 1.2);
+    return garis(x1, y1, x2, y2, 3.2 + 1.2);
   }
 
-  /* Garis bantu lantai, memberi konteks tanpa jadi pusat perhatian. */
   function lantai() {
-    return '<line class="il-floor" x1="8" y1="' + FLOOR + '" x2="112" y2="' +
-      FLOOR + '" />';
+    return '<line x1="' + MARGIN + '" y1="' + FLOOR + '" x2="' + (120 - MARGIN) + '" y2="' + FLOOR + '" />';
   }
 
-  /* Arah gerak. Panah punya garis tepi sendiri supaya tidak
-     menumpang aturan stroke-isi yang dipakai badan. */
   function panah(x1, y1, x2, y2) {
     return '<path class="il-arrow" d="M' + x1 + ',' + y1 + 'L' + x2 + ',' + y2 +
       '" marker-end="url(#il-arrowhead)"/>';
   }
 
-  /* ---- Pose tubuh ringkas ---- */
-  /* Menyusun gambar dari daftar bagian supaya tiap pose cukup satu
-     baris. Semua pose bertumpu di lantai kecuali yang berbaring. */
   function pose(bagian, opsi) {
     opsi = opsi || {};
     var s = lantai() + g(bagian.filter(Boolean).join(''));
@@ -78,140 +54,139 @@
     return s;
   }
 
-  /* Pose berdiri: pangkal panggul di (px,py), bahu (bx,by). */
+  /* ---- Standar tubuh berdiri (panggul di (60,FLOOR), bahu di (60,30)) ---- */
   function orang(px, py, bx, by, kaki, lengan) {
     return [
       badan(px, py, bx, by),
-      kepala(bx + (bx - px) * 0.16, by - KEPALA_R - 2),
+      kepala(bx + (bx - px) * 0.16, by - 8 - 3.2),
       rantai(kaki),
-      rantai(lengan[0], GURU - 0.8),
-      rantai(lengan[1], GURU - 0.8),
+      rantai(lengan[0], 3.2 - 0.8),
+      rantai(lengan[1], 3.2 - 0.8),
     ];
   }
 
   /* ---- Bentuk per kelompok ---- */
-  var BENTUK = {};
 
-  /* Berdiri tegak dengan variasi. params: {lengan, kaki} */
+  /* Berdiri tegak */
   function tegap(v) {
     v = v || {};
-    var kiri = v.kakiKiri || [[60, 62], [56, 84], [52, 104]];
-    var kanan = v.kakiKanan || [[60, 62], [64, 84], [68, 104]];
-    var lk = v.lenganKiri || [[60, 30], [48, 46], [46, 62]];
-    var lkn = v.lenganKanan || [[60, 30], [72, 46], [74, 62]];
-    return pose(orang(60, 62, 60, 30, kiri, [lk, lkn]), v.panah ? { panah: v.panah } : null);
+    var kiri = v.kakiKiri || [[52, 58], [48, 80], [44, 96]];
+    var kanan = v.kakiKanan || [[52, 58], [56, 80], [60, 96]];
+    var lk = v.lenganKiri || [[52, 28], [44, 44], [42, 60]];
+    var lkn = v.lenganKanan || [[52, 28], [58, 44], [60, 60]];
+    return pose(orang(52, 58, 52, 28, kiri, [lk, lkn]), v.panah ? { panah: v.panah } : null);
   }
 
-  /* Jongkok: panggul turun, lutut menekuk ke depan. */
+  /* Jongkok */
   function jongkok(dalam) {
     dalam = dalam || 0;
-    var py = 62 + dalam;
+    var py = 58 + dalam;
     return pose([
-      badan(60, py, 58, 30 + Math.round(dalam / 2)),
-      kepala(58, 30 + Math.round(dalam / 2) - KEPALA_R - 2),
-      rantai([[60, py], [58, py - 24], [58, 30 + Math.round(dalam / 2)]]), // punggung tambahan
-      rantai([[60, py], [40 + dalam * 0.4, py + 2], [44, 104]]),
-      rantai([[60, py], [80 - dalam * 0.4, py + 2], [76, 104]]),
-      rantai([[58, 34], [52, 52], [44, 64]], GURU - 0.8),
-      rantai([[58, 34], [64, 52], [72, 64]], GURU - 0.8),
-    ], { panah: panah(84, 70, 84, 86) });
+      badan(52, py, 50, 32 + Math.round(dalam / 2)),
+      kepala(50, 32 + Math.round(dalam / 2) - 8 - 3.2),
+      rantai([[52, py], [46, py - 20], [46, 32 + Math.round(dalam / 2)]]),
+      rantai([[52, py], [36 + dalam * 0.3, py + 2], [40, 96]]),
+      rantai([[52, py], [64 - dalam * 0.3, py + 2], [60, 96]]),
+      rantai([[50, 36], [44, 52], [38, 64]], 3.2 - 0.8),
+      rantai([[50, 36], [56, 52], [62, 64]], 3.2 - 0.8),
+    ], { panah: panah(76, 68, 76, 84) });
   }
 
-  /* Lunge: satu kaki depan, satu kaki belakang. */
+  /* Lunge */
   function lunge(arah) {
     arah = arah || 1;
-    var px = 60;
-    var py = 66;
+    var px = 52;
+    var py = 62;
     return pose([
-      badan(px, py, px + 2, 32),
-      kepala(px + 2, 32 - KEPALA_R - 2),
-      rantai([[px, py], [px - 18 * arah, py + 4], [px - 22 * arah, 104]]),
-      rantai([[px, py], [px + 20 * arah, py + 2], [px + 26 * arah, 96], [px + 32 * arah, 104]]),
-      rantai([[px + 2, 36], [px - 10, 50], [px - 12, 62]], GURU - 0.8),
-      rantai([[px + 2, 36], [px + 14, 50], [px + 16, 62]], GURU - 0.8),
-    ], { panah: panah(px + 30 * arah, 78, px + 30 * arah, 94) });
+      badan(px, py, px + 2, 34),
+      kepala(px + 2, 34 - 8 - 3.2),
+      rantai([[px, py], [px - 16 * arah, py + 3], [px - 20 * arah, 96]]),
+      rantai([[px, py], [px + 18 * arah, py + 2], [px + 24 * arah, 92], [px + 30 * arah, 96]]),
+      rantai([[px + 2, 38], [px - 8, 54], [px - 10, 64]], 3.2 - 0.8),
+      rantai([[px + 2, 38], [px + 12, 54], [px + 14, 64]], 3.2 - 0.8),
+    ], { panah: panah(px + 28 * arah, 78, px + 28 * arah, 92) });
   }
 
-  /* Push up: badan miring, tangan ke lantai. */
+  /* Push up */
   function pushup(turun) {
-    var b = turun ? 12 : 0;
+    var b = turun ? 10 : 0;
     return pose([
-      // badan dari bahu (34,46+b) ke panggul/pinggul naik
-      badan(34, 46 + b, 92, 66),
-      kepala(30, 42 + b),
-      rantai([[32, 48 + b], [26, 74 + b / 2], [22, 104]]), // lengan
-      rantai([[40, 50 + b], [46, 76 + b / 2], [44, 104]]),
-      rantai([[92, 66], [100, 84], [102, 104]]), // kaki
-      rantai([[92, 66], [104, 86], [108, 104]]),
-    ], { panah: panah(76, 40 + b, 76, 28) });
+      badan(36, 44 + b, 88, 64),
+      kepala(32, 40 + b),
+      rantai([[34, 46 + b], [28, 72 + b / 2], [24, 96]]),
+      rantai([[38, 50 + b], [44, 74 + b / 2], [42, 96]]),
+      rantai([[88, 64], [96, 80], [98, 96]]),
+      rantai([[88, 64], [100, 82], [104, 96]]),
+    ], { panah: panah(74, 38 + b, 74, 26) });
   }
 
-  /* Plank gaya papan. */
+  /* Plank */
   function plank() {
     return pose([
-      badan(34, 52, 94, 66),
-      kepala(30, 47),
-      rantai([[32, 54], [26, 78], [20, 104]]),
-      rantai([[40, 56], [46, 80], [42, 104]]),
-      rantai([[94, 66], [102, 84], [104, 104]]),
-      rantai([[94, 66], [106, 86], [110, 104]]),
-      '<line class="il-rule" x1="28" y1="52" x2="100" y2="70" />',
+      badan(36, 50, 90, 64),
+      kepala(32, 45),
+      rantai([[34, 52], [28, 76], [22, 96]]),
+      rantai([[38, 54], [44, 78], [40, 96]]),
+      rantai([[90, 64], [98, 82], [100, 96]]),
+      rantai([[90, 64], [102, 84], [106, 96]]),
     ]);
   }
 
-  /* Berbaring telentang: punggung di lantai. */
+  /* Berbaring telentang */
   function telentang(angkatPinggul) {
-    var l = FLOOR - 12;
-    var pinggulY = angkatPinggul ? l - 16 : l;
+    var l = 88;
+    var pinggulY = angkatPinggul ? l - 14 : l;
     return pose([
-      badan(40, l, 34, l), // dobel tipis, membuat garis punggung stabil
-      kepala(24, l - 8),
-      rantai([[40, l], [72, pinggulY], [86, l + 2], [98, l + 2]]),
-      rantai([[40, l], [70, pinggulY - 2], [84, l - 4], [96, l - 4]]),
-      rantai([[38, l - 6], [50, l - 18], [58, l - 24]], GURU - 0.8),
-      rantai([[38, l - 4], [46, l - 2], [56, l - 2]], GURU - 0.8),
-    ], angkatPinggul ? { panah: panah(74, pinggulY + 18, 74, pinggulY + 4) } : null);
+      badan(38, l, 32, l),
+      kepala(22, l - 8),
+      rantai([[38, l], [70, pinggulY], [84, l + 2], [96, l + 2]]),
+      rantai([[38, l], [68, pinggulY - 2], [82, l - 4], [94, l - 4]]),
+      rantai([[36, l - 6], [48, l - 18], [56, l - 24]], 3.2 - 0.8),
+      rantai([[36, l - 4], [44, l - 2], [54, l - 2]], 3.2 - 0.8),
+    ], angkatPinggul ? { panah: panah(72, pinggulY + 16, 72, pinggulY + 4) } : null);
   }
 
-  /* Berbaring tengkurap, kepala di kanan. */
+  /* Berbaring tengkurap */
   function tengkurap(angkat) {
-    var l = FLOOR - 14;
-    var naik = angkat ? 10 : 0;
+    var l = 86;
+    var naik = angkat ? 8 : 0;
     return pose([
-      badan(46, l, 88, l),
-      kepala(92, l - 8 - naik),
-      rantai([[46, l], [24, l - 2 - naik], [10, l - 6 - naik]], GURU - 0.8),
-      rantai([[86, l], [100, l - 2 - naik], [112, l - 8 - naik]]),
-      rantai([[86, l + 2], [100, l + 2], [112, l - 4]], GURU - 0.8),
-    ], angkat ? { panah: panah(80, l - 24, 80, l - 14) } : null);
+      badan(44, l, 86, l),
+      kepala(88, l - 8 - naik),
+      rantai([[44, l], [22, l - 2 - naik], [8, l - 6 - naik]], 3.2 - 0.8),
+      rantai([[82, l], [96, l - 2 - naik], [110, l - 8 - naik]]),
+      rantai([[82, l + 2], [96, l + 2], [110, l - 4]], 3.2 - 0.8),
+    ], angkat ? { panah: panah(78, l - 22, 78, l - 14) } : null);
   }
 
-  /* Berlutut empat titik: punggung horizontal. */
+  /* Empat tihor / pole positions */
   function empatTitik(bulat) {
-    var back = bulat ? 46 : 62;
+    var back = bulat ? 44 : 60;
     return pose([
-      badan(44, 62, 92, back),
-      kepala(98, back - 8),
-      rantai([[44, 62], [40, 76], [44, 104]]),
-      rantai([[42, 62], [88, back + 4], [92, 76], [90, 104]]),
-      rantai([[94, back + 12], [90, 78], [92, 104]], GURU - 0.8),
-    ], { panah: panah(70, back - 18, 70, back - 12) });
+      badan(42, 60, 88, back),
+      kepala(94, back - 8),
+      rantai([[42, 60], [38, 74], [42, 96]]),
+      rantai([[40, 60], [86, back + 4], [90, 74], [88, 96]]),
+      rantai([[92, back + 10], [88, 76], [90, 96]], 3.2 - 0.8),
+    ], { panah: panah(68, back - 16, 68, back - 10) });
   }
 
-  /* Duduk menghadap depan (pernapasan, peregangan). */
+  /* Duduk menghadap depan */
   function duduk() {
     return pose([
-      badan(60, 66, 60, 40),
-      kepala(60, 40 - KEPALA_R - 2),
-      rantai([[60, 66], [44, 82], [34, 104]]),
-      rantai([[60, 66], [76, 82], [86, 104]]),
-      rantai([[60, 44], [50, 58], [52, 66]], GURU - 0.8),
-      rantai([[60, 44], [70, 58], [68, 66]], GURU - 0.8),
+      badan(52, 62, 52, 38),
+      kepala(52, 38 - 8 - 3.2),
+      rantai([[52, 62], [38, 78], [30, 96]]),
+      rantai([[52, 62], [66, 78], [74, 96]]),
+      rantai([[52, 46], [44, 56], [46, 62]], 3.2 - 0.8),
+      rantai([[52, 46], [60, 56], [58, 62]], 3.2 - 0.8),
     ]);
   }
 
   /* ---- Peta gerakan -> pose ---- */
-  /* Setiap entri: [tahap1, tahap2]. Bisa juga fungsi satu tahap. */
+
+  /* Setiap entri: [poseAwal, poseAkhir]. Dua tahap ditampilkan berdampingan.
+     Fungsi saja (tanpa argumen) diambil sebagai pose pertama. */
   var GAMBAR = {
     squat: [jongkok.bind(null, 0), jongkok.bind(null, 16)],
     controlled_squat: [jongkok.bind(null, 2), jongkok.bind(null, 16)],
@@ -242,9 +217,9 @@
     reverse_snow_angel: [tengkurap.bind(null, false), tengkurap.bind(null, true)],
     prone_swimmer: [tengkurap.bind(null, false), tengkurap.bind(null, true)],
 
-    cat_cow: [empatTitik.bind(null, false), empatTitik.bind(null, true)],
-    bird_dog: [empatTitik.bind(null, false), empatTitik.bind(null, true)],
-    mountain_climber: [empatTitik.bind(null, false), empatTitik.bind(null, true)],
+    cat_cow: [empatTitik.bind(null, false),empatTitik.bind(null, true)],
+    bird_dog: [empatTitik.bind(null, false),empatTitik.bind(null, true)],
+    mountain_climber: [empatTitik.bind(null, false),empatTitik.bind(null, true)],
     dead_bug: [telentang.bind(null, false), telentang.bind(null, true)],
     bicycle_crunch: [telentang.bind(null, false), telentang.bind(null, true)],
     leg_raise: [telentang.bind(null, false), telentang.bind(null, true)],
@@ -275,12 +250,11 @@
     leg_back_stretch: [duduk, duduk],
     static_full_stretch: [duduk, duduk],
 
-    /* cadangan untuk kunci yang ditambahkan nanti */
     'default': [tegap, tegap],
   };
 
   function tahapPose(key, n) {
-    var e = GAMBAR[key] || GAMBAR['default'];
+    var e = GAMBAR[String(key || '').trim()] || GAMBAR['default'];
     var f = e[n] || e[0];
     return f();
   }
@@ -290,24 +264,10 @@
       label + '" preserveAspectRatio="xMidYMid meet">' + isi + '</svg>';
   }
 
-  /* Asal-usul panah. Satu <defs> per daftar sudah cukup; kolom
-     tidak perlu memuat ulang untuk setiap kartu. */
-  var DEFS_ID = 'il-defs';
-  function defs() {
-    return '<svg class="il-defs" aria-hidden="true" focusable="false">' +
-      '<defs>' +
-      '<marker id="il-arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">' +
-      '<path d="M0,0 L10,5 L0,10 z" class="il-arrowhead"/>' +
-      '</marker>' +
-      '</defs></svg>';
-  }
+  /* Publik */
 
-  /* Publik ---- */
-
-  /* sarankanSemua = true kalau belum ada SVG panah di halaman;
-     fungsi ini menyisipkan SVG <defs> kecil di awal penanda. */
   function ilustrasi(key, muatDefs) {
-    var isi = tahapPose(String(key || '').trim(), 0);
+    var isi = tahapPose(key, 0);
     return (muatDefs ? defs() : '') + svgBungkus(isi, 'Ilustrasi gerakan');
   }
 
@@ -321,7 +281,26 @@
       '</figure>';
   }
 
-  root.ilustrasi = ilustrasi;
-  root.ilustrasiMulti = ilustrasiMulti;
-  root.ilustrasiPunya = function (key) { return Object.prototype.hasOwnProperty.call(GAMBAR, key); };
+  function defs() {
+    return '<svg class="il-defs" aria-hidden="true" focusable="false">' +
+      '<defs>' +
+      '<marker id="il-arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">' +
+      '<path d="M0,0 L10,5 L0,10 z" class="il-arrowhead"/>' +
+      '</marker>' +
+      '</defs></svg>';
+  }
+
+  if (typeof window !== 'undefined') {
+    window.ilustrasi = ilustrasi;
+    window.ilustrasiMulti = ilustrasiMulti;
+    window.ilustrasiPunya = function (key) {
+      return Object.prototype.hasOwnProperty.call(GAMBAR, key);
+    };
+  } else {
+    global.ilustrasi = ilustrasi;
+    global.ilustrasiMulti = ilustrasiMulti;
+    global.ilustrasiPunya = function (key) {
+      return Object.prototype.hasOwnProperty.call(GAMBAR, key);
+    };
+  }
 })(typeof window !== 'undefined' ? window : this);
