@@ -800,6 +800,15 @@ if ('serviceWorker' in navigator) {
         console.error('Gagal mendaftar SW:', registrationError);
       });
   });
-}
+</script>
+<!-- Backup otomatis -->
+<script src="backup.js?v=1"></script>
+<script>
+window.addEventListener('load', function () {
+  if (!document.querySelector('.screen.active')) {
+    document.getElementById('screen-la').classList.add('active');
+  }
+  maybeAutoBackup();
+});
 </script>
 </html>
