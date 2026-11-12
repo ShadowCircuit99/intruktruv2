@@ -788,5 +788,18 @@ window.addEventListener('load', function () {
   }
 });
 </script>
-<noscript><style>.screen{display:flex!important}</style></noscript></body>
+<!-- Service Worker untuk offline support -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js?v=1')
+      .then(registration => {
+        console.log('SW terdaftar:', registration.scope);
+      })
+      .catch(registrationError => {
+        console.error('Gagal mendaftar SW:', registrationError);
+      });
+  });
+}
+</script>
 </html>
