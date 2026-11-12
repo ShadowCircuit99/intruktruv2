@@ -913,6 +913,7 @@
     
     function _exRunRest(idx, totalEx) {
     getar([220,80,220]);
+    bunyi(1);
     const wrap = _exWrap(idx);
     if(!wrap) return;
 
@@ -963,6 +964,7 @@
     if(cur > totalReps) {
         _exFinish(idx, totalEx);
     } else {
+        bunyi(2);
         _exRunActive(idx, totalEx);
     }
     }
@@ -970,6 +972,7 @@
     
     function _exFinish(idx, totalEx) {
     getar([160,60,160,60,320]);
+    bunyi(3);
     const wrap = _exWrap(idx);
     if(wrap) {
         _exClearWrap(wrap);
@@ -1003,6 +1006,8 @@
     if(!isFlowItemUnlocked(idx)){ _toastMsg('_exdone_toast', ICONS.lock+' Selesaikan bagian sebelumnya dulu'); return; }
 
     _exStopOthers(idx);
+    _audioReady();
+    _wakeOn();
 
     const wrap = _exWrap(idx);
     if(!wrap || !wrap._exState) return;
@@ -1041,6 +1046,7 @@
     if(!wrap) return;
     if(!_resetFlowFrom(idx)) return;
     _exClearWrap(wrap);
+    _wakeOff();
     if(wrap._exState) wrap._exState.currentRep = 1;
     wrap._timerState    = 'idle';
     wrap._secsLeft      = (wrap._exState || {}).timer || 30;
@@ -2660,6 +2666,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
         return;
     }
     todayData.workoutDone=true;saveToday(todayData);
+    _wakeOff();
     updateStreak();
     _unlockWorkoutNotes();
     const energy=todayData.energy||selectedEnergy||3;
@@ -4795,6 +4802,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     const s=loadState(SETTINGS_KEY);
     return {
     vibrate: !s||s.vibrate!==false,
+    sound: !s||s.sound!==false,
     followTheme: !!(s&&s.followTheme)
     };
     }
@@ -4821,6 +4829,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
     function initSettingsPanel(){
     const s=loadSettings();
     const v=document.getElementById('set-vibrate');if(v) v.checked=s.vibrate;
+    const sd=document.getElementById('set-sound');if(sd) sd.checked=s.sound;
     const f=document.getElementById('set-follow-theme');if(f) f.checked=s.followTheme;
     }
     function getar(pola){
@@ -4829,6 +4838,66 @@ function renderDashboard(day,dayData,targets,programData,userData){
     if(typeof navigator!=='undefined'&&navigator.vibrate) navigator.vibrate(pola||[180,60,180]);
     }catch(e){}
     }
+    /* Suara penanda set — jalan di iOS, getar tidak */
+    let _audioCtx=null;
+    function _audioReady(){
+    try{
+    if(!_audioCtx){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return null;
+    _audioCtx=new AC();
+    }
+    if(_audioCtx.state==='suspended') _audioCtx.resume();
+    return _audioCtx;
+    }catch(e){return null;}
+    }
+    function bunyi(n){
+    if(!loadSettings().sound) return;
+    const ctx=_audioReady();
+    if(!ctx) return;
+    try{
+    const t0=ctx.currentTime;
+    for(let i=0;i<(n||1);i++){
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type='sine';o.frequency.value=880;
+    g.gain.setValueAtTime(0.0001,t0+i*0.18);
+    g.gain.exponentialRampToValueAtTime(0.2,t0+i*0.18+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+i*0.18+0.16);
+    o.connect(g);g.connect(ctx.destination);
+    o.start(t0+i*0.18);o.stop(t0+i*0.18+0.2);
+    }
+    }catch(e){}
+    }
+    function setSound(on){
+    saveSettings({sound:!!on});
+    _toastMsg('set-toast',(on?ICONS.check+' Bunyi aktif':'Bunyi dimatikan'));
+    }
+    /* Wake Lock: layar tetap menyala selama timer latihan aktif */
+    let _wakeLock=null;
+    function _wakeOn(){
+    try{
+    if(!('wakeLock' in navigator)) return;
+    if(_wakeLock) return;
+    navigator.wakeLock.request('screen').then(function(l){
+    l.addEventListener('release',function(){if(_wakeLock===l) _wakeLock=null;});
+    _wakeLock=l;
+    }).catch(function(){});
+    }catch(e){}
+    }
+    function _wakeOff(){
+    try{if(_wakeLock){_wakeLock.release();}}catch(e){}
+    }
+    document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='hidden'){
+    _wakeOff();
+    } else {
+    for(let k=0;k<MAX_FLOW_ITEMS;k++){
+    const w=_exWrap(k);
+    if(w&&(w._timerState==='active'||w._timerState==='rest')){_wakeOn();break;}
+    }
+    }
+    });
+    window.addEventListener('pagehide',_wakeOff);
 
     /* PELACAK AIR */
     function getAir(){
