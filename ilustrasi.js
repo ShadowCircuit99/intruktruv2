@@ -19,6 +19,10 @@
 
   // Easing cubic untuk gerakan lebih alami (mulai cepat, berhenti mulus)
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function easeInCubic(t) { return t * t * t; }
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
 
   // Warna garis eksplisit: SVG yang disuntikkan lewat innerHTML tidak mewarisi
   // currentColor, jadi tanpa ini seluruh goresan tidak terlihat.
@@ -189,9 +193,9 @@
   function lerp(a, b, t) { return a + (b - a) * t; }
   function lerpPt(a, b, t) { return [lerp(a[0], b[0], t), lerp(a[1], b[1], t)]; }
 
-  /* Gambar kerangka menjadi SVG.
+  /* Gambar kerangka menjadi konten SVG (tanpa bungkus <g>).
      opts: { lantai:true, bayangan:true, panah:[{...}] } */
-  function gambarKerangka(k, opts) {
+  function isiKerangka(k, opts) {
     opts = opts || {};
     var out = [];
 
@@ -250,8 +254,10 @@
     // lantai
     if (opts.lantai !== false) out.push(lantai(opts.lantaiY));
 
-    return pose(out.join(''));
+    return out.join('');
   }
+
+  function gambarKerangka(k, opts) { return pose(isiKerangka(k, opts)); }
 
   /* ================================================================
      KERANGKA DASAR BERDIRI
@@ -1289,6 +1295,498 @@
     'default': [tegak, tegak, tegak]
   };
 
+  /* ================================================================
+     ANIMASI -- data gerak per latihan.
+     Dibangun dari KERANGKA sendi yang SAMA PERSIS dengan GAMBAR,
+     supaya frame statis dan animasi tidak saling bertentangan.
+
+     Setiap entri RAW adalah fungsi () -> {k, opts, props}:
+       k     = posisi sendi (objek kerangka)
+       opts  = opsi gambarKerangka (lantaiY, dll.)
+       props = string SVG properti penunjang (dinding/kursi/meja)
+
+     GERAK[key] adalah garis waktu (timeline) segmen. Tiap segmen:
+       {a, b, dur, ease}  interpolasi dari frame a ke frame b
+       {hold, dur}         diam di frame hold
+       dur dalam milidetik; ease: 'in'|'out'|'io'.
+     ================================================================ */
+
+  function _b(k, opts, props) { return { k: k, opts: opts || {}, props: props || '' }; }
+
+  // --- builder baku (memakai kerangka* yang sama dengan GAMBAR) ---
+  function Rjongkok(t) { return _b(kerangkaJongkok(60, t)); }
+  function Rlunge(t) { return _b(kerangkaLunge(1, t)); }
+  function RlateralLunge(t) { return _b(kerangkaLunge(-1, t)); }
+  function Rpushup(t) { return _b(kerangkaPlank(t)); }
+  function Rplank(t) { return _b(kerangkaPlank(t * 0.3)); }
+  function Rtelentang(t) { return _b(kerangkaTelentang(t)); }
+  function Rtengkurap(t) { return _b(kerangkaTengkurap(t)); }
+  function Rmerangkak(m, a, ak) { return _b(kerangkaMerangkak(m, a, ak)); }
+  function RangkatLutut(t) { return _b(kerangkaAngkatLutut(t)); }
+  function RstepTouch(t) { return _b(kerangkaStepTouch(t)); }
+  function Rtegak() { return _b(kerangkaBerdiri(60, 62)); }
+  function Rduduk(mode) { return _b(kerangkaDuduk(56, 74, mode || {}), null, bangkuRendah(45, 85, 76)); }
+  function RdudukNapas(dalam) { return _b(kerangkaDuduk(56, 74, { lenganNaik: !!dalam })); }
+
+  // Sit-to-stand: salinan dudukKursi tanpa prop (kursi ditambah di wrapper).
+  function RdudukKursi(t) {
+    var seatY = KURSI_SEAT, naik = easeOutCubic(t || 0);
+    var hipX = lerp(KURSI_X2 - 8, 66, naik), hipY = lerp(seatY - 1, 62, naik);
+    var condong = Math.sin(naik * Math.PI) * 0.9;
+    var leherX = hipX + 6 * condong, leherY = hipY - 34;
+    if (naik > 0.6) leherX = lerp(leherX, hipX, (naik - 0.6) / 0.4);
+    var lututX = lerp(KURSI_X2 + 10, 66, naik), lututY = lerp(seatY + 4, 86, naik);
+    var tumitX = lerp(KURSI_X2 + 6, 66, naik);
+    return {
+      pinggul: [hipX, hipY], leher: [leherX, leherY], kepala: [leherX + 1, leherY - 9],
+      bahuKiri: [leherX - 1, leherY + 2], bahuKanan: [leherX + 1, leherY + 2],
+      sikuKiri: [leherX + 4, leherY + 16], tanganKiri: [leherX + 12, leherY + 20],
+      sikuKanan: [leherX + 6, leherY + 18], tanganKanan: [leherX + 14, leherY + 22],
+      lututKiri: [lututX, lututY], tumitKiri: [tumitX - 3, FLOOR],
+      lututKanan: [lututX + 3, lututY], tumitKanan: [tumitX + 3, FLOOR]
+    };
+  }
+  function RsitToStand(t) {
+    return _b(RdudukKursi(t), null, kursi(KURSI_X1, KURSI_X2, KURSI_SEAT, { sandaran: true }));
+  }
+
+  function RstepUp(t) {
+    var naik = easeOutCubic(t || 0), hipY = lerp(60, 58, naik), px = 48;
+    var k = kerangkaBerdiri(px, hipY);
+    if (naik > 0) {
+      k.lututKanan = [lerp(px + 4, UPA_X1 + 4, naik), lerp(84, UPA_TOP - 8, naik)];
+      k.tumitKanan = [lerp(px + 6, UPA_X1 + 12, naik), lerp(FLOOR, UPA_TOP, naik)];
+      k.lututKiri = [px - 4, lerp(FLOOR - 10, FLOOR - 8, naik)];
+      k.tumitKiri = [px - 4, FLOOR];
+      k.sikuKiri = [px + 2, k.leher[1] + 18]; k.tanganKiri = [px + 4, k.leher[1] + 30];
+      k.sikuKanan = [px + 10, k.leher[1] + 18]; k.tanganKanan = [px + 14, k.leher[1] + 28];
+    }
+    return _b(k, null, undakan(UPA_X1, UPA_X2, UPA_TOP));
+  }
+
+  function Rdips(t) {
+    var bangkuY = 68, kursiKiri = 62, kursiKanan = 96;
+    var dy = lerp(0, 9, t === undefined ? 0 : t);
+    var bahuX = kursiKiri - 12, bahuY = bangkuY - 24 + dy;
+    var k = {
+      pinggul: [kursiKiri + 1, bangkuY - 1 + dy * 0.85],
+      leher: [bahuX + 1, bahuY], kepala: [bahuX + 2, bahuY - 9],
+      bahuKiri: [bahuX, bahuY + 1], bahuKanan: [bahuX + 2, bahuY + 1],
+      sikuKiri: [kursiKiri - 5, bangkuY - 11 + dy * 0.75], tanganKiri: [kursiKiri, bangkuY - 1],
+      sikuKanan: [kursiKiri - 3, bangkuY - 9 + dy * 0.75], tanganKanan: [kursiKiri + 3, bangkuY - 1],
+      lututKiri: [kursiKanan - 4, bangkuY + 10 + dy * 0.25], tumitKiri: [104, FLOOR],
+      lututKanan: [kursiKanan - 2, bangkuY + 12 + dy * 0.25], tumitKanan: [107, FLOOR]
+    };
+    return _b(k, null, kursi(kursiKiri, kursiKanan, bangkuY));
+  }
+
+  function RwallPushup(t) {
+    var dy = lerp(0, 5, t === undefined ? 0 : t), px = 56;
+    var k = {
+      pinggul: [px, 60], leher: [px + 2 + dy * 0.5, 42], kepala: [px + 6 + dy * 0.5, 36],
+      bahuKiri: [px + 2, 44], bahuKanan: [px + 3, 44],
+      sikuKiri: [px + 10, 40 + dy * 0.5], tanganKiri: [px + 18, 36 + dy],
+      sikuKanan: [px + 12, 44 + dy * 0.5], tanganKanan: [px + 20, 40 + dy],
+      lututKiri: [px - 2, 82], tumitKiri: [px - 4, FLOOR],
+      lututKanan: [px + 2, 82], tumitKanan: [px, FLOOR]
+    };
+    k.tanganKiri = [DINDING_PUSHUP - 1, 42 + dy];
+    k.tanganKanan = [DINDING_PUSHUP - 1, 46 + dy];
+    return _b(k, null, dinding('kanan', DINDING_PUSHUP));
+  }
+
+  function RpikePushup(t) {
+    var dy = lerp(0, 6, t === undefined ? 0 : t);
+    var bahu = [42, 62 + dy], pinggul = [72, 44 + dy * 0.6];
+    var k = {
+      pinggul: pinggul, leher: [bahu[0] + 4, bahu[1] - 2], kepala: [bahu[0] - 4, bahu[1] - 4],
+      bahuKiri: [bahu[0], bahu[1]], bahuKanan: [bahu[0] + 2, bahu[1]],
+      sikuKiri: [bahu[0] - 2, bahu[1] + 14], tanganKiri: [bahu[0] - 4, FLOOR],
+      sikuKanan: [bahu[0] + 4, bahu[1] + 16], tanganKanan: [bahu[0] + 4, FLOOR],
+      lututKiri: [pinggul[0] + 8, pinggul[1] + 16], tumitKiri: [92, FLOOR],
+      lututKanan: [pinggul[0] + 10, pinggul[1] + 18], tumitKanan: [94, FLOOR]
+    };
+    return _b(k);
+  }
+
+  function RsidePlank(t) {
+    t = t === undefined ? 1 : t;
+    var lantaiY = 88, hipLift = lerp(6, 0, t);
+    var k = {
+      pinggul: [72, 70 + hipLift], leher: [44, 60 + hipLift * 0.7], kepala: [34, 56 + hipLift * 0.7],
+      bahuKiri: [44, 61 + hipLift * 0.7], bahuKanan: [45, 62 + hipLift * 0.7],
+      sikuKiri: [38, 74], tanganKiri: [36, lantaiY],
+      sikuKanan: [50, lerp(52, 46, t)], tanganKanan: [58, lerp(34, 22, t)],
+      lututKiri: [86, 78 + hipLift], tumitKiri: [100, 88],
+      lututKanan: [87, 79 + hipLift], tumitKanan: [101, 88]
+    };
+    return _b(k, { lantaiY: lantaiY });
+  }
+  function RsidePlankTurun() { return RsidePlank(0); }
+
+  function RmountainClimber(t) {
+    var k = kerangkaPlank(0);
+    k.lututKanan = [66 - 20 * (t || 0), 66 + 4 * (t || 0)];
+    k.tumitKanan = [78 - 38 * (t || 0), 78 - 8 * (t || 0)];
+    return _b(k);
+  }
+
+  function RdeadBug(t) {
+    var lantaiY = 86, t = t || 0;
+    var bahuX = 30, bahuY = lantaiY - 20, pinggul = [64, lantaiY - 2];
+    var k = {
+      pinggul: pinggul, leher: [bahuX + 2, bahuY], kepala: [bahuX - 4, bahuY - 2],
+      bahuKiri: [bahuX, bahuY + 1], bahuKanan: [bahuX + 2, bahuY + 1],
+      sikuKiri: [bahuX + 2, bahuY - 10], tanganKiri: [bahuX + 6, lantaiY - 44],
+      sikuKanan: [lerp(44, 48, t), lerp(bahuY + 4, lantaiY - 12, t)],
+      tanganKanan: [lerp(46, 24, t * 0.2) + 6, lerp(bahuY - 10, lantaiY - 6, t)],
+      lututKiri: [pinggul[0] + 10, lantaiY - 20], tumitKiri: [pinggul[0] + 20, lantaiY - 32],
+      lututKanan: [lerp(76, 84, t), lerp(lantaiY - 12, lantaiY - 6, t)],
+      tumitKanan: [lerp(84, 92, t), lerp(lantaiY - 24, lantaiY - 4, t)]
+    };
+    return _b(k, { lantaiY: lantaiY });
+  }
+
+  function RbicycleCrunch(t) {
+    var lantaiY = 86, t = t || 0;
+    var bahu = [34, lantaiY - 20], pinggul = [64, lantaiY - 4];
+    var k = {
+      pinggul: pinggul, leher: [bahu[0] + 2, bahu[1]], kepala: [bahu[0] - 4, bahu[1] - 2],
+      bahuKiri: [bahu[0], bahu[1] + 1], bahuKanan: [bahu[0] + 2, bahu[1] + 1],
+      sikuKanan: [bahu[0] - 2, bahu[1] - 8], tanganKanan: [bahu[0] + 10, bahu[1] - 10],
+      sikuKiri: [bahu[0] + 2, bahu[1] - 8], tanganKiri: [bahu[0] + 12, bahu[1] - 6],
+      lututKiri: [80, lantaiY - 12], tumitKiri: [92, lantaiY - 6],
+      lututKanan: [72, lerp(lantaiY - 18, 54, t)], tumitKanan: [80, lerp(lantaiY - 26, 58, t)]
+    };
+    return _b(k, { lantaiY: lantaiY });
+  }
+
+  function RlegRaise(t) {
+    var lantaiY = 86, t = t || 0, pinggul = [60, lantaiY - 4];
+    var sudut = lerp(0, -75, t), lutut = ujung(pinggul, 22, sudut), tumit = ujung(lutut, 22, sudut);
+    var k = {
+      pinggul: pinggul, leher: [34, lantaiY - 22], kepala: [28, lantaiY - 24],
+      bahuKiri: [34, lantaiY - 21], bahuKanan: [36, lantaiY - 21],
+      sikuKiri: [40, lantaiY - 10], tanganKiri: [44, lantaiY - 2],
+      sikuKanan: [42, lantaiY - 10], tanganKanan: [46, lantaiY - 2],
+      lututKiri: lutut, tumitKiri: tumit,
+      lututKanan: [lutut[0] + 1, lutut[1] + 2], tumitKanan: [tumit[0] + 1, tumit[1] + 2]
+    };
+    return _b(k, { lantaiY: lantaiY });
+  }
+
+  function RhipThrust(t) {
+    var lantaiY = 86, t = t || 0;
+    var bahu = [SOFA_X2 + 4, lantaiY - 22], pinggul = [66, lerp(lantaiY - 4, lantaiY - 20, t)];
+    var k = {
+      pinggul: pinggul, leher: [bahu[0] - 4, bahu[1]], kepala: [bahu[0] - 12, bahu[1] - 2],
+      bahuKiri: [bahu[0] - 1, bahu[1] + 1], bahuKanan: [bahu[0] + 1, bahu[1] + 1],
+      sikuKiri: [bahu[0] + 8, lantaiY - 12], tanganKiri: [bahu[0] + 14, lantaiY - 4],
+      sikuKanan: [bahu[0] + 10, lantaiY - 14], tanganKanan: [bahu[0] + 18, lantaiY - 6],
+      lututKiri: [pinggul[0] + 12, lerp(lantaiY - 22, lantaiY - 32, t)], tumitKiri: [pinggul[0] + 20, lantaiY],
+      lututKanan: [pinggul[0] + 14, lerp(lantaiY - 24, lantaiY - 34, t)], tumitKanan: [pinggul[0] + 22, lantaiY]
+    };
+    return _b(k, { lantaiY: lantaiY }, undakan(SOFA_X1, SOFA_X2, SOFA_H));
+  }
+
+  function RdudukBungkuk(t) {
+    t = t === undefined ? 1 : t;
+    var k = kerangkaDuduk(54, 74, { kakiLurus: true });
+    k.leher = lerpPt([54, 40], [74, 66], t);
+    k.kepala = lerpPt([55, 31], [82, 64], t);
+    k.bahuKiri = geser(k.leher, -1, 2);
+    k.bahuKanan = geser(k.leher, 1, 2);
+    k.sikuKiri = lerpPt([48, 56], [80, 70], t);
+    k.tanganKiri = lerpPt([46, 70], [90, 76], t);
+    k.sikuKanan = lerpPt([60, 56], [82, 70], t);
+    k.tanganKanan = lerpPt([62, 70], [92, 76], t);
+    return _b(k);
+  }
+
+  function RankleCircle(t) {
+    var k = kerangkaDuduk(52, 74, { lenganNaik: false });
+    var t = t || 0, px = 68, py = 76, rad = 4;
+    var cx = px + rad * Math.cos(t * 2 * Math.PI), cy = py + rad * Math.sin(t * 2 * Math.PI);
+    k.lututKiri = [px - 2, 70];
+    k.tumitKiri = [cx, cy];
+    k.tumitKanan = [78, FLOOR];
+    k.lututKanan = [80, 80];
+    return _b(k, null, kursi(40, 84, 74));
+  }
+
+  function RchildPose(t) {
+    t = t === undefined ? 1 : t;
+    var lantaiY = 86, pinggulX = 78, pinggulY = lerp(84, 88, t);
+    var leherX = lerp(56, 46, t), leherY = lerp(50, lantaiY - 6, t);
+    var k = {
+      pinggul: [pinggulX, pinggulY], leher: [leherX, leherY], kepala: [leherX - 9, leherY + 2],
+      bahuKiri: [leherX - 1, leherY + 1], bahuKanan: [leherX + 1, leherY + 1],
+      sikuKiri: [leherX - 14, leherY + 2], tanganKiri: [leherX - 28, lantaiY],
+      sikuKanan: [leherX - 12, leherY + 4], tanganKanan: [leherX - 27, lantaiY - 1],
+      lututKiri: [pinggulX - 4, lantaiY - 4], tumitKiri: [pinggulX - 12, lantaiY],
+      lututKanan: [pinggulX - 1, lantaiY - 4], tumitKanan: [pinggulX - 9, lantaiY]
+    };
+    return _b(k, { lantaiY: lantaiY });
+  }
+
+  function RwallLean(t) {
+    t = t === undefined ? 0 : t;
+    var dy = t * 6, px = 52;
+    var k = {
+      pinggul: [px, 62], leher: [px + 8 + dy, 46], kepala: [px + 12 + dy, 40],
+      bahuKiri: [px + 8, 47], bahuKanan: [px + 9, 47],
+      sikuKiri: [px + 16, 44 + dy * 0.5], tanganKiri: [px + 30, 42 + dy],
+      sikuKanan: [px + 18, 48 + dy * 0.5], tanganKanan: [px + 32, 46 + dy],
+      lututKiri: [px - 2, 82], tumitKiri: [px - 6, FLOOR],
+      lututKanan: [px + 2, 82], tumitKanan: [px - 2, FLOOR]
+    };
+    k.tanganKiri = [MEJA_KIRI + 1, MEJA_TOP - 2 + dy * 0.2];
+    k.tanganKanan = [MEJA_KIRI + 4, MEJA_TOP - 1 + dy * 0.2];
+    return _b(k, null, meja(MEJA_KIRI, MEJA_KANAN, MEJA_TOP));
+  }
+
+  function RangkatLututDinding(t) {
+    var k = kerangkaAngkatLutut(t), d = 22;
+    k.sikuKiri = [(d + k.leher[0]) / 2, k.leher[1] + 8];
+    k.tanganKiri = [d + 1, k.leher[1] + 6];
+    return _b(k, null, dinding('kiri', d));
+  }
+
+  function RangkatTumit(t) {
+    t = t === undefined ? 1 : t;
+    var naik = lerp(62, 56, t), k = kerangkaBerdiri(60, naik);
+    var lututY = lerp(86, 80, t), tumitY = lerp(FLOOR, 90, t);
+    k.lututKiri = [56, lututY]; k.tumitKiri = [55, tumitY];
+    k.lututKanan = [64, lututY]; k.tumitKanan = [65, tumitY];
+    return _b(k, { lantaiY: FLOOR });
+  }
+
+  function RangkatTumitDinding(t) {
+    t = t === undefined ? 1 : t;
+    var k = kerangkaBerdiri(64, lerp(62, 56, t)), d = 26;
+    var lututY = lerp(86, 80, t), tumitY = lerp(FLOOR, 90, t);
+    k.lututKiri = [60, lututY]; k.tumitKiri = [59, tumitY];
+    k.lututKanan = [68, lututY]; k.tumitKanan = [69, tumitY];
+    k.sikuKiri = [(d + k.leher[0]) / 2, k.leher[1] + 10];
+    k.tanganKiri = [d + 1, k.leher[1] + 8];
+    return _b(k, { lantaiY: FLOOR }, dinding('kiri', d));
+  }
+
+  function RayunKaki(front) {
+    return _b(kerangkaAyunKaki(front), null, dinding('kiri', DINDING_TANGAN));
+  }
+
+  function RtegakLenganSamping() {
+    var k = kerangkaBerdiri(60, 62);
+    k.sikuKiri = [50, 60]; k.tanganKiri = [38, 60];
+    k.sikuKanan = [70, 60]; k.tanganKanan = [82, 60];
+    return _b(k);
+  }
+
+  function RlenganKeAtas() {
+    var k = kerangkaBerdiri(60, 62);
+    k.sikuKiri = [54, 40]; k.tanganKiri = [56, 16];
+    k.sikuKanan = [66, 40]; k.tanganKanan = [64, 16];
+    return _b(k);
+  }
+
+  function Rbintang() {
+    var k = kerangkaBerdiriLebar(60, 62, 22);
+    k.sikuKiri = [50, 42]; k.tanganKiri = [44, 16];
+    k.sikuKanan = [70, 42]; k.tanganKanan = [76, 16];
+    return _b(k);
+  }
+
+  function Rjangkau() {
+    var k = kerangkaBerdiri(60, 62);
+    k.sikuKiri = [54, 40]; k.tanganKiri = [52, 20];
+    k.sikuKanan = [66, 40]; k.tanganKanan = [68, 20];
+    return _b(k);
+  }
+
+  function F(fn, a, b, c) { return a === undefined ? fn : function () { return fn(a, b, c); }; }
+
+  var RAW = {
+    squat: [F(Rjongkok, 0), F(Rjongkok, 0.35), F(Rjongkok, 0.7), F(Rjongkok, 1)],
+    controlled_squat: [F(Rjongkok, 0), F(Rjongkok, 0.5), F(Rjongkok, 1), F(Rjongkok, 1)],
+    squat_ramp: [F(Rjongkok, 0), F(Rjongkok, 0.3), F(Rjongkok, 0.6)],
+    jump_squat: [F(Rjongkok, 0.6), F(Rjongkok, 0.2), Rtegak, Rtegak],
+    glute_bridge: [F(Rtelentang, 0), F(Rtelentang, 0.5), F(Rtelentang, 1), F(Rtelentang, 0.3)],
+    hip_thrust: [F(RhipThrust, 0), F(RhipThrust, 0.5), F(RhipThrust, 1)],
+    glute_bridge_march: [F(Rtelentang, 0), F(Rtelentang, 1), F(RdeadBug, 0.5)],
+    reverse_lunge: [Rtegak, F(Rlunge, 0.4), F(Rlunge, 1)],
+    split_squat: [Rtegak, F(Rlunge, 0.5), F(Rlunge, 1)],
+    lateral_lunge: [Rtegak, F(RlateralLunge, 0.5), F(RlateralLunge, 1)],
+    wall_sit: [F(Rjongkok, 0), F(Rjongkok, 0.6), F(Rjongkok, 1)],
+    sit_to_stand: [F(RsitToStand, 0), F(RsitToStand, 0.5), F(RsitToStand, 1)],
+    step_up: [Rtegak, F(RstepUp, 0.5), F(RstepUp, 1)],
+    pushup: [F(Rpushup, 0), F(Rpushup, 0.4), F(Rpushup, 0.8), F(Rpushup, 1)],
+    wide_pushup: [F(Rpushup, 0), F(Rpushup, 0.5), F(Rpushup, 1)],
+    incline_pushup: [F(RwallLean, 0), F(RwallLean, 0.5), F(RwallLean, 1)],
+    wall_pushup: [F(RwallPushup, 0), F(RwallPushup, 0.5), F(RwallPushup, 1)],
+    pike_pushup: [F(RpikePushup, 0), F(RpikePushup, 0.5), F(RpikePushup, 1)],
+    plank: [F(Rplank, 0), F(Rplank, 0.5), F(Rplank, 1)],
+    side_plank: [RsidePlankTurun, RsidePlank, RsidePlankTurun],
+    superman: [F(Rtengkurap, 0), F(Rtengkurap, 0.5), F(Rtengkurap, 1), F(Rtengkurap, 0)],
+    reverse_snow_angel: [F(Rtengkurap, 0), F(Rtengkurap, 0.5), F(Rtengkurap, 1)],
+    prone_swimmer: [F(Rtengkurap, 0), F(Rtengkurap, 0.5), F(Rtengkurap, 1)],
+    cat_cow: [F(Rmerangkak, 1, false, false), F(Rmerangkak, 0, false, false), F(Rmerangkak, -1, false, false)],
+    bird_dog: [F(Rmerangkak, 0, false, false), F(Rmerangkak, 0, true, false), F(Rmerangkak, 0, true, true)],
+    mountain_climber: [F(RmountainClimber, 0), F(RmountainClimber, 0.5), F(RmountainClimber, 1)],
+    dead_bug: [F(RdeadBug, 0), F(RdeadBug, 0.5), F(RdeadBug, 1)],
+    bicycle_crunch: [F(RbicycleCrunch, 0), F(RbicycleCrunch, 0.5), F(RbicycleCrunch, 1)],
+    leg_raise: [F(RlegRaise, 0), F(RlegRaise, 0.5), F(RlegRaise, 1)],
+    jumping_jack: [Rtegak, RtegakLenganSamping, Rbintang, RtegakLenganSamping],
+    high_knees: [Rtegak, F(RangkatLutut, 0.5), F(RangkatLutut, 1)],
+    march_in_place: [Rtegak, F(RangkatLutut, 0.35), F(RangkatLutut, 0.7)],
+    slow_knee_raise: [Rtegak, F(RangkatLututDinding, 0.5), F(RangkatLututDinding, 1)],
+    step_jack: [Rtegak, RtegakLenganSamping, Rbintang, Rtegak],
+    step_touch: [F(RstepTouch, 0), F(RstepTouch, 0.5), F(RstepTouch, 1)],
+    skater_step: [Rtegak, F(RlateralLunge, 0.5), F(RlateralLunge, 1)],
+    burpee: [Rtegak, F(Rjongkok, 0.8), F(Rpushup, 0.6), Rtegak],
+    light_walk: [Rtegak, F(RangkatLutut, 0.2), F(RangkatLutut, 0.4)],
+    tricep_dips: [F(Rdips, 0), F(Rdips, 0.5), F(Rdips, 1)],
+    standing_calf_raise: [Rtegak, F(RangkatTumitDinding, 0.5), F(RangkatTumitDinding, 1), Rtegak],
+    joint_mobility: [Rtegak, RtegakLenganSamping, Rjangkau],
+    thoracic_rotation: [Rtegak, RtegakLenganSamping, Rjangkau],
+    leg_swing: [F(RayunKaki, -1), F(RayunKaki, 0), F(RayunKaki, 1)],
+    ankle_circle: [F(RankleCircle, 0), F(RankleCircle, 0.33), F(RankleCircle, 0.66)],
+    mobility_flow: [Rtegak, RtegakLenganSamping, Rjangkau],
+    breathing: [Rduduk, F(RdudukNapas, true), Rduduk],
+    cooldown_breathing: [Rduduk, F(RdudukNapas, true), Rduduk],
+    upper_body_stretch: [Rtegak, RtegakLenganSamping, Rjangkau],
+    hip_flexor_stretch: [Rtegak, F(Rlunge, 0.5), F(Rlunge, 1)],
+    leg_back_stretch: [Rduduk, F(RdudukBungkuk, 0.5), F(RdudukBungkuk, 1)],
+    static_full_stretch: [Rjangkau, F(RchildPose, 0.5), F(RchildPose, 1)],
+    'default': [Rtegak, Rtegak, Rtegak]
+  };
+
+  function S(a, b, dur, ease) { return { a: a, b: b, dur: dur, ease: ease || 'io' }; }
+  function H(idx, dur) { return { hold: idx, dur: dur }; }
+
+  var GERAK = {
+    squat: [S(0, 1, 300), S(1, 2, 350), S(2, 3, 350), H(3, 1000), S(3, 2, 350), S(2, 1, 350), S(1, 0, 300)],
+    controlled_squat: [S(0, 1, 1400), S(1, 2, 1300), S(2, 3, 1300), S(3, 2, 700), S(2, 1, 700), S(1, 0, 600)],
+    squat_ramp: [S(0, 1, 400), S(1, 2, 400), S(2, 1, 400), S(1, 0, 400)],
+    jump_squat: [S(0, 1, 300), S(1, 2, 250), H(2, 200), S(2, 1, 200), S(1, 0, 250)],
+    glute_bridge: [S(0, 1, 500), S(1, 2, 500), H(2, 2500), S(2, 3, 600), S(3, 0, 600)],
+    hip_thrust: [S(0, 1, 500), S(1, 2, 500), H(2, 2000), S(2, 1, 500), S(1, 0, 500)],
+    glute_bridge_march: [S(0, 1, 600), S(1, 2, 600), H(2, 1500), S(2, 1, 500), S(1, 0, 500)],
+    reverse_lunge: [S(0, 1, 450), S(1, 2, 450), S(2, 1, 450), S(1, 0, 450)],
+    split_squat: [S(0, 1, 450), S(1, 2, 450), S(2, 1, 450), S(1, 0, 450)],
+    lateral_lunge: [S(0, 1, 450), S(1, 2, 450), S(2, 1, 450), S(1, 0, 450)],
+    wall_sit: [S(0, 1, 800), S(1, 2, 800), H(2, 3000), S(2, 1, 600), S(1, 0, 600)],
+    sit_to_stand: [S(0, 1, 600), S(1, 2, 600), H(2, 400), S(2, 1, 600), S(1, 0, 600)],
+    step_up: [S(0, 1, 500), S(1, 2, 500), H(2, 400), S(2, 1, 600), S(1, 0, 600)],
+    pushup: [S(0, 1, 350), S(1, 2, 350), S(2, 3, 300), S(3, 2, 300), S(2, 1, 350), S(1, 0, 350)],
+    wide_pushup: [S(0, 1, 500), S(1, 2, 500), S(2, 1, 500), S(1, 0, 500)],
+    incline_pushup: [S(0, 1, 500), S(1, 2, 500), S(2, 1, 500), S(1, 0, 500)],
+    wall_pushup: [S(0, 1, 600), S(1, 2, 600), S(2, 1, 600), S(1, 0, 600)],
+    pike_pushup: [S(0, 1, 500), S(1, 2, 500), S(2, 1, 500), S(1, 0, 500)],
+    plank: [S(0, 1, 800), S(1, 2, 800), H(2, 1200), S(2, 1, 800), S(1, 0, 800)],
+    side_plank: [S(0, 1, 600), H(1, 2500), S(1, 0, 600)],
+    superman: [S(0, 1, 500), S(1, 2, 500), H(2, 2500), S(2, 3, 600), S(3, 0, 600)],
+    reverse_snow_angel: [S(0, 1, 800), S(1, 2, 800), S(2, 1, 800), S(1, 0, 800)],
+    prone_swimmer: [S(0, 1, 500), S(1, 2, 500), S(2, 1, 500), S(1, 0, 500)],
+    cat_cow: [S(0, 1, 1600), S(1, 2, 1600), S(2, 1, 1600), S(1, 0, 1600)],
+    bird_dog: [S(0, 1, 700), H(1, 2000), S(1, 2, 700), H(2, 2000), S(2, 1, 700), S(1, 0, 700)],
+    mountain_climber: [S(0, 1, 250), S(1, 2, 250), S(2, 1, 250), S(1, 0, 250)],
+    dead_bug: [S(0, 1, 700), S(1, 2, 700), S(2, 1, 700), S(1, 0, 700)],
+    bicycle_crunch: [S(0, 1, 500), S(1, 2, 500), S(2, 1, 500), S(1, 0, 500)],
+    leg_raise: [S(0, 1, 800), S(1, 2, 800), H(2, 300), S(2, 1, 1000), S(1, 0, 1000)],
+    jumping_jack: [S(0, 1, 300), S(1, 2, 300), S(2, 3, 300), S(3, 0, 300)],
+    high_knees: [S(0, 1, 250), S(1, 2, 250), S(2, 1, 250), S(1, 0, 250)],
+    march_in_place: [S(0, 1, 350), S(1, 2, 350), S(2, 1, 350), S(1, 0, 350)],
+    slow_knee_raise: [S(0, 1, 900), S(1, 2, 900), H(2, 2000), S(2, 1, 900), S(1, 0, 900)],
+    step_jack: [S(0, 1, 400), S(1, 2, 400), S(2, 3, 400), S(3, 0, 400)],
+    step_touch: [S(0, 1, 400), S(1, 2, 400), S(2, 1, 400), S(1, 0, 400)],
+    skater_step: [S(0, 1, 400), S(1, 2, 400), S(2, 1, 400), S(1, 0, 400)],
+    burpee: [S(0, 1, 500), S(1, 2, 450), S(2, 1, 450), S(1, 0, 500)],
+    light_walk: [S(0, 1, 450), S(1, 2, 450), S(2, 1, 450), S(1, 0, 450)],
+    tricep_dips: [S(0, 1, 500), S(1, 2, 500), S(2, 1, 500), S(1, 0, 500)],
+    standing_calf_raise: [S(0, 1, 700), S(1, 2, 700), H(2, 600), S(2, 3, 900), S(3, 0, 1100)],
+    joint_mobility: [S(0, 1, 700), S(1, 2, 700), S(2, 1, 700), S(1, 0, 700)],
+    thoracic_rotation: [S(0, 1, 800), S(1, 2, 800), H(2, 2000), S(2, 1, 800), S(1, 0, 800)],
+    leg_swing: [S(0, 1, 500), S(1, 2, 500), S(2, 1, 500), S(1, 0, 500)],
+    ankle_circle: [S(0, 1, 600), S(1, 2, 600), S(2, 0, 600)],
+    mobility_flow: [S(0, 1, 600), S(1, 2, 600), S(2, 1, 600), S(1, 0, 600)],
+    breathing: [S(0, 1, 4000), H(1, 4000), S(1, 0, 7000)],
+    cooldown_breathing: [S(0, 1, 4000), H(1, 7000), S(1, 0, 8000)],
+    upper_body_stretch: [S(0, 1, 1000), S(1, 2, 1000), H(2, 2000), S(2, 1, 1000), S(1, 0, 1000)],
+    hip_flexor_stretch: [S(0, 1, 800), S(1, 2, 800), H(2, 2000), S(2, 1, 800), S(1, 0, 800)],
+    leg_back_stretch: [S(0, 1, 1000), S(1, 2, 1000), H(2, 2000), S(2, 0, 1200)],
+    static_full_stretch: [S(0, 1, 1000), S(1, 2, 1000), H(2, 2500), S(2, 1, 1000), S(1, 0, 1000)],
+    'default': [S(0, 1, 600), S(1, 2, 600), S(2, 1, 600), S(1, 0, 600)]
+  };
+
+  function durTimeline(seq) {
+    var tot = 0;
+    for (var i = 0; i < seq.length; i++) tot += seq[i].dur;
+    return tot;
+  }
+
+  function ilustrasiDur(key) {
+    var k = String(key || '').trim();
+    return durTimeline(GERAK[k] || GERAK['default']);
+  }
+
+  // Properti penunjang statis (dinding/kursi/meja/undakan) untuk satu
+  // latihan. Digabung dari SEMUA frame supaya objek penumpu tidak
+  // menghilang saat pose berubah (mis. step_up: berdiri dulu baru
+  // platform muncul; breathing: bangku harus selalu ada).
+  var cacheProps = {};
+  function ilustrasiProps(key) {
+    var k = String(key || '').trim();
+    if (cacheProps[k]) return cacheProps[k];
+    var e = RAW[k] || RAW['default'];
+    var seen = {}, out = '';
+    for (var i = 0; i < e.length; i++) {
+      var fr = e[i]();
+      if (fr.props && !seen[fr.props]) { seen[fr.props] = true; out += fr.props; }
+    }
+    cacheProps[k] = out;
+    return out;
+  }
+
+  // Interpolasi sendi antara dua frame.
+  function interpRaw(A, B, t) {
+    var k = {};
+    for (var j in A.k) {
+      if (A.k.hasOwnProperty(j)) {
+        if (Array.isArray(A.k[j]) && Array.isArray(B.k[j])) k[j] = lerpPt(A.k[j], B.k[j], t);
+        else k[j] = A.k[j];
+      }
+    }
+    return { k: k, opts: B.opts || A.opts, props: A.props || '' };
+  }
+
+  function ilustrasiFrame(key, u) {
+    var k = String(key || '').trim();
+    var e = RAW[k] || RAW['default'];
+    var seq = GERAK[k] || GERAK['default'];
+    var total = durTimeline(seq);
+    var t = ((u % 1) + 1) % 1 * total;
+    var acc = 0, i, s, segT, ease, A, B, r;
+    for (i = 0; i < seq.length; i++) {
+      s = seq[i];
+      if (t < acc + s.dur) {
+        if (s.hold !== undefined) {
+          r = e[s.hold]();
+          return { body: isiKerangka(r.k, r.opts), props: r.props };
+        }
+        segT = (t - acc) / s.dur;
+        ease = s.ease === 'in' ? easeInCubic : (s.ease === 'out' ? easeOutCubic : easeInOutCubic);
+        segT = ease(segT);
+        A = e[s.a](); B = e[s.b]();
+        r = interpRaw(A, B, segT);
+        return { body: isiKerangka(r.k, r.opts), props: r.props };
+      }
+      acc += s.dur;
+    }
+    r = e[e.length - 1]();
+    return { body: isiKerangka(r.k, r.opts), props: r.props };
+  }
+
   function tahapPose(key, n) {
     var e = GAMBAR[String(key || '').trim()] || GAMBAR['default'];
     var f = e[n] || e[0];
@@ -1320,16 +1818,25 @@
   var api = {
     ilustrasi: ilustrasi,
     ilustrasiMulti: ilustrasiMulti,
-    punya: function (key) { return Object.prototype.hasOwnProperty.call(GAMBAR, key); }
+    punya: function (key) { return Object.prototype.hasOwnProperty.call(GAMBAR, key); },
+    ilustrasiFrame: ilustrasiFrame,
+    ilustrasiDur: ilustrasiDur,
+    ilustrasiProps: ilustrasiProps
   };
 
   if (typeof window !== 'undefined') {
     window.ilustrasi = api.ilustrasi;
     window.ilustrasiMulti = api.ilustrasiMulti;
     window.ilustrasiPunya = api.punya;
+    window.ilustrasiFrame = api.ilustrasiFrame;
+    window.ilustrasiDur = api.ilustrasiDur;
+    window.ilustrasiProps = api.ilustrasiProps;
   } else {
     root.ilustrasi = api.ilustrasi;
     root.ilustrasiMulti = api.ilustrasiMulti;
     root.ilustrasiPunya = api.punya;
+    root.ilustrasiFrame = api.ilustrasiFrame;
+    root.ilustrasiDur = api.ilustrasiDur;
+    root.ilustrasiProps = api.ilustrasiProps;
   }
 })(typeof window !== 'undefined' ? window : globalThis);

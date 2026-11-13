@@ -2,13 +2,14 @@
    SW Service Worker -- Offline support for Instruktur Pribadi 90 Hari
    ================================================================ */
 
-const CACHE_NAME = 'instruktur90-v3';
+const CACHE_NAME = 'instruktur90-v4';
 const FILES_TO_CACHE = [
   '/',
   'index.html',
   'style.css',
   'script.js',
   'ilustrasi.js',
+  'animasi.js',
   'nutrition.js',
   'recipes.js',
   'notif.js',

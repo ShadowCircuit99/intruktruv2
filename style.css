@@ -280,6 +280,20 @@ button,.lp-tab,summary{-webkit-tap-highlight-color:transparent}
 .dislike-notice{background:var(--red-dim);border:1px solid var(--red-line);border-radius:var(--r-sm);padding:10px 12px;margin-top:8px;font-size:0.8125rem;color:var(--red)}
 .lf-submit-wrap{padding:16px 0 8px}
 
+/* Onboarding 3 langkah: penanda progres + navigasi */
+.onboard-steps{display:flex;gap:8px;margin:4px 0 18px}
+.onboard-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border-radius:var(--r-sm);border:1px solid transparent;cursor:pointer;transition:background .15s,border-color .15s}
+.onboard-step:hover{background:var(--card2)}
+.onboard-step.active{background:var(--accent-dim);border-color:var(--accent-line)}
+.onboard-step-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-h);font-size:0.8125rem;font-weight:700;background:var(--card2);color:var(--text3);border:1px solid var(--border2)}
+.onboard-step.active .onboard-step-circle{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.onboard-step-label{font-size:0.75rem;font-weight:600;color:var(--text3);text-align:center}
+.onboard-step.active .onboard-step-label{color:var(--accent)}
+.onboard-nav{display:none}
+.btn-btn{appearance:none;font-family:inherit;font-size:0.875rem;font-weight:600;padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--card);color:var(--text);cursor:pointer}
+.btn-btn:hover{background:var(--card2)}
+.btn-btn:disabled{opacity:.5;cursor:not-allowed}
+
 .lh-wrap{width:100%;max-width:480px;margin:0 auto;padding:calc(36px + env(safe-area-inset-top)) 20px 40px;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;box-sizing:border-box}
 .lh-top{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:46px}
 .lh-logo-sm{font-family:var(--font-h);font-size:0.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
@@ -417,11 +431,22 @@ button,.lp-tab,summary{-webkit-tap-highlight-color:transparent}
 
 /* Ilustrasi gerakan */
 .il-svg{width:80px;height:80px;margin:auto}
-.il-multi .il-step{float:left;width:50%;padding:8px 0}
-.il-multi .il-step:last-child{float:right}
+.il-multi{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px;margin:6px 0 2px}
+.il-multi .il-step{display:flex;flex-direction:column;align-items:center;padding:8px 0}
 .il-cap{font-size:0.625rem;text-align:center;color:var(--text2);user-select:none}
-.il-g>*{stroke:currentColor;stroke-width:3.2;fill:none}
-.il-arrowhead{stroke:currentColor;stroke-width:2;fill:none}
+.il-g{stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.il-g>*{stroke:inherit}
+.il-floor{stroke:currentColor;opacity:.35}
+.il-arrow{stroke:currentColor;stroke-width:2;fill:none}
+.il-arrowhead{stroke:none;fill:currentColor}
+.il-defs{position:absolute;width:0;height:0;overflow:hidden}
+.il-hias{stroke:currentColor;fill:none}
+.il-hias>*{stroke:inherit}
+.il-live .il-g{transition:none}
+@media (prefers-reduced-motion: reduce){
+  .il-live{display:none}
+  .il-multi{display:grid}
+}
 
 /* Gizi pada kartu menu */
 .meal-detail-row{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:0.8125rem;color:var(--text3);margin-top:9px;padding:9px 11px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm)}
@@ -1312,7 +1337,7 @@ select.dev-in{padding-right:8px;appearance:none;cursor:pointer}
   .meal-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
   .workout-pad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 22px;align-items:start}
   .workout-pad>.workout-header,.workout-pad>.workout-done-wrap,
-  .workout-pad>.workout-notes-section{grid-column:1/-1}
+  .workout-pad>.workout-notes-section,.workout-pad>.exercise-list{grid-column:1/-1}
 
   .prog-pad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 22px;align-items:start}
   .prog-pad>.prog-overview,.prog-pad>.prog-weekly-section,
