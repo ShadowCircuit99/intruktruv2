@@ -18,7 +18,7 @@ The `EXERCISES` object (script.js lines 261-316) contains 40+ exercise definitio
 | squat | Squat | Paha, Bokong, Core | 4 |
 | glute_bridge | Glute Bridge | Bokong, Hamstring, Core | 4 |
 | reverse_lunge | Reverse Lunge | Paha, Bokong, Keseimbangan | 4 |
-| wall_sit | Wall Sit (Isometrik) | Paha Depan, Betis, Daya Tahan | 4 |
+| wallSit | Wall Sit (Isometrik) | Paha Depan, Betis, Daya Tahan | 4 |
 | pushup | Push Up | Dada, Tricep, Bahu, Core | 4 |
 | wide_pushup | Wide Push Up | Dada Bagian Luar, Tricep | 4 |
 | pike_pushup | Pike Push Up | Bahu, Tricep, Upper Chest | 4 |
@@ -29,7 +29,7 @@ The `EXERCISES` object (script.js lines 261-316) contains 40+ exercise definitio
 | breathing | Latihan Pernapasan Dalam | Paru-paru, Sistem Saraf, Relaksasi | 3 |
 | light_walk | Jalan Santai | Seluruh Tubuh, Kardio Rendah | 4 |
 | march_in_place | March In Place | Hip Flexor, Kardio Ringan | 4 |
-| slow_knee_raise | Slow Knee Raise | Hip Flexor, Core, Keseimbangan | 4 |
+|angkatLututDinding | Slow Knee Raise | Hip Flexor, Core, Keseimbangan | 4 |
 | step_jack | Step Jack (Tanpa Lompat) | Kaki, Bahu, Kardio Ringan | 4 |
 | step_touch | Step Touch | Kaki, Koordinasi, Kardio Ringan | 4 |
 | wall_pushup | Wall Push Up | Dada, Tricep, Bahu (Low Impact) | 4 |
@@ -53,9 +53,9 @@ The `EXERCISES` object (script.js lines 261-316) contains 40+ exercise definitio
 | hip_thrust | Hip Thrust | Bokong, Hamstring | 4 |
 | split_squat | Split Squat | Paha, Bokong, Keseimbangan | 4 |
 | lateral_lunge | Lateral Lunge | Paha Dalam, Bokong | 4 |
-| step_up | Step Up | Paha, Bokong | 4 |
-| sit_to_stand | Sit To Stand | Paha, Bokong, Lutut | 4 |
-| standing_calf_raise | Calf Raise Berdiri | Betis | 4 |
+| stepUp | Step Up | Paha, Bokong | 4 |
+| sitToStand | Sit To Stand | Paha, Bokong, Lutut | 4 |
+|angkatTumitDinding | Calf Raise Berdiri | Betis | 4 |
 | jumping_jack | Jumping Jack | Kardio, Bahu, Tungkai | 4 |
 | jump_squat | Jump Squat | Paha, Bokong, Kardio | 4 |
 | skater_step | Skater Step | Kaki Samping, Bokong, Kardio | 4 |
@@ -87,9 +87,9 @@ head → neck → spine) with trigonometric joint placement, so the movement mat
 | reverse_lunge | `[tegak, lunge(0.4), lunge(1)]` |
 | split_squat | `[tegak, lunge(0.5), lunge(1)]` |
 | lateral_lunge | `[tegak, lateralLunge(0.5), lateralLunge(1)]` |
-| wall_sit | `[jongkok(0), jongkok(0.6), jongkok(1)]` |
-| sit_to_stand | `[duduk, jongkok(0.5), tegak]` |
-| step_up | `[tegak, angkatLutut(0.5), angkatLutut(1)]` |
+| wallSit | `[wallSit(0), wallSit(0.6), wallSit(1)]` |
+| sitToStand | `[duduk, jongkok(0.5), tegak]` |
+| stepUp | `[tegak, angkatLututDinding(0.5), angkatLututDinding(1)]` |
 | pushup | `[pushup(0), pushup(0.4), pushup(0.8), pushup(1)]` |
 | wide_pushup | `[pushup(0), pushup(0.5), pushup(1)]` |
 | incline_pushup | `[wallLean(0), wallLean(0.5), wallLean(1)]` |
@@ -107,16 +107,16 @@ head → neck → spine) with trigonometric joint placement, so the movement mat
 | bicycle_crunch | `[bicycleCrunch(0), bicycleCrunch(0.5), bicycleCrunch(1)]` |
 | leg_raise | `[legRaise(0), legRaise(0.5), legRaise(1)]` |
 | jumping_jack | `[tegak, tegakLenganSamping, bintang, tegakLenganSamping]` |
-| high_knees | `[tegak, angkatLutut(0.5), angkatLutut(1)]` |
+| high_knees | `[tegak, angkatLututDinding(0.5), angkatLututDinding(1)]` |
 | march_in_place | `[tegak, angkatLutut(0.35), angkatLutut(0.7)]` |
-| slow_knee_raise | `[tegak, angkatLutut(0.5), angkatLutut(1)]` |
+|angkatLututDinding | `[tegak, angkatLututDinding(0.5), angkatLututDinding(1)]` |
 | step_jack | `[tegak, tegakLenganSamping, bintang, tegak]` |
 | step_touch | `[stepTouchPose(0), stepTouchPose(0.5), stepTouchPose(1)]` |
 | skater_step | `[tegak, lateralLunge(0.5), lateralLunge(1)]` |
 | burpee | `[tegak, jongkok(0.8), pushup(0.6), tegak]` |
 | light_walk | `[tegak, angkatLutut(0.2), angkatLutut(0.4)]` |
 | tricep_dips | `[dips(0), dips(0.5), dips(1)]` |
-| standing_calf_raise | `[tegak, angkatTumit(0.5), angkatTumit(1), tegak]` |
+|angkatTumitDinding | `[tegak, angkatTumitDinding(0.5), angkatTumitDinding(1), tegak]` |
 | joint_mobility | `[tegak, tegakLenganSamping, jangkau]` |
 | thoracic_rotation | `[tegak, tegakLenganSamping, jangkau]` |
 | leg_swing | `[ayunKaki(-1), ayunKaki(0), ayunKaki(1)]` |
@@ -127,7 +127,7 @@ head → neck → spine) with trigonometric joint placement, so the movement mat
 | upper_body_stretch | `[tegak, tegakLenganSamping, jangkau]` |
 | hip_flexor_stretch | `[tegak, lunge(0.5), lunge(1)]` |
 | leg_back_stretch | `[duduk, dudukBungkuk(0.5), dudukBungkuk(1)]` |
-| static_full_stretch | `[tegak, jangkau, dudukBungkuk(1)]` |
+| static_full_stretch | `[jangkau, childPose(0.5), childPose(1)]` |
 | default | `[tegak, tegak, tegak]` (fallback) |
 
 **Total: 52 pose keys** in GAMBAR map (51 exercises + `default`). Every key maps to a valid entry —
@@ -230,9 +230,9 @@ This table maps each GAMBAR key to its EXERCISES key and shows the pose configur
 | 8 | reverse_lunge | reverse_lunge | tegak | lunge(1) | Reverse lunge sequence |
 | 9 | split_squat | split_squat | tegak | splitSquat | Split squat from stand |
 | 10 | lateral_lunge | lateral_lunge | tegak | lunge(-1) | Lateral lunge left/right |
-| 11 | wall_sit | wall_sit | jongkok(4) | jongkok(10) | Wall sit positions |
-| 12 | sit_to_stand | sit_to_stand | duduk | tegak | Sit to stand from chair |
-| 13 | step_up | step_up | tegak | angkatLutut(true) | Step up onto platform |
+| 11 | wallSit | wallSit | wallSit(4) | wallSit(10) | Wall sit positions |
+| 12 | sitToStand | sitToStand | duduk | tegak | Sit to stand from chair |
+| 13 | stepUp | stepUp | tegak | angkatLutut(true) | Step up onto platform |
 | 14 | pushup | pushup | pushup(false) | pushup(true) | Push up down then up |
 | 15 | wide_pushup | wide_pushup | pushup(false) | pushup(true) | Wide hand position pushup |
 | 16 | incline_pushup | incline_pushup | plank(false) | pushup(true) | Incline push up |
@@ -252,14 +252,14 @@ This table maps each GAMBAR key to its EXERCISES key and shows the pose configur
 | 30 | jumping_jack | jumping_jack | tegakLenganSamping | bintang | Jumping jack steps |
 | 31 | high_knees | high_knees | tegak | angkatLutut(true) | High knees |
 | 32 | march_in_place | march_in_place | tegak | marchInPlace | March in place |
-| 33 | slow_knee_raise | slow_knee_raise | tegak | slowKneeRaise | Slow knee raise |
+| 33 |angkatLututDinding | slow_knee_raise | tegak | slowKneeRaise | Slow knee raise |
 | 34 | step_jack | step_jack | tegakLenganSamping | stepTouch | Step jack (no jump) |
 | 35 | step_touch | step_touch | tegakLenganSamping | stepTouch | Step touch |
 | 36 | skater_step | skater_step | tegak | skaterStep | Skater step side-to-side |
 | 37 | burpee | burpee | tegak | jongkok(10) | Burpee sequence |
 | 38 | light_walk | light_walk | tegak | lightWalk | Light walk pose |
 | 39 | tricep_dips | tricep_dips | tricepDips | tricepDips | Tricep dips both steps |
-| 40 | standing_calf_raise | standing_calf_raise | standingCalfRaise | standingCalfRaise | Calf raise both steps |
+| 40 |angkatTumitDinding | standing_calf_raise | standingCalfRaise | standingCalfRaise | Calf raise both steps |
 | 41 | joint_mobility | joint_mobility | jointMobility | jointMobility | Joint mobility both steps |
 | 42 | leg_swing | leg_swing | legSwing | legSwing | Leg swing both steps |
 | 43 | ankle_circle | ankle_circle | ankleCircle | ankleCircle | Ankle circle both steps |

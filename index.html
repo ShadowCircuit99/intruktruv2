@@ -28,7 +28,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" sizes="192x192">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
 <a class="skip-link" href="#lp-content">Langsung ke konten utama</a>
@@ -143,7 +143,7 @@
     </div>
     <div id="form-container">
       <!-- Nama -->
-      <div class="form-group">
+      <div class="form-group" data-step="1">
         <label class="form-label">Nama Kamu</label>
         <input type="text" class="form-input" id="f-name" placeholder="Contoh: Andi, Sari, Budi...">
         <div class="form-error-msg" id="err-name">
@@ -154,7 +154,7 @@
 
       <!-- Berat & Target -->
       <div class="form-row">
-        <div class="form-group">
+        <div class="form-group" data-step="1">
           <label class="form-label">Berat Badan (kg)</label>
           <input type="number" class="form-input" id="f-weight" placeholder="70" min="30" max="200" oninput="checkWeightSafety()">
           <div class="form-error-msg" id="err-weight">
@@ -162,7 +162,7 @@
             30-200 kg
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" data-step="1">
           <label class="form-label">Target Berat (kg)</label>
           <input type="number" class="form-input" id="f-target-weight" placeholder="65" min="30" max="200" oninput="checkWeightSafety()">
           <div class="form-error-msg" id="err-target">
@@ -178,7 +178,7 @@
 
       <!-- Tinggi & Usia -->
       <div class="form-row">
-        <div class="form-group">
+        <div class="form-group" data-step="1">
           <label class="form-label">Tinggi Badan (cm)</label>
           <input type="number" class="form-input" id="f-height" placeholder="170" min="100" max="250">
           <div class="form-error-msg" id="err-height">
@@ -186,7 +186,7 @@
             100-250 cm
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" data-step="1">
           <label class="form-label">Usia (tahun)</label>
           <input type="number" class="form-input" id="f-age" placeholder="25" min="15" max="80">
           <div class="form-error-msg" id="err-age">
@@ -197,7 +197,7 @@
       </div>
 
       <!-- Jenis Kelamin -->
-      <div class="form-group">
+      <div class="form-group" data-step="1">
         <label class="form-label">Jenis Kelamin</label>
         <select class="form-select" id="f-gender">
           <option value="">Pilih jenis kelamin</option>
@@ -211,7 +211,7 @@
       </div>
 
       <!-- Aktivitas -->
-      <div class="form-group">
+      <div class="form-group" data-step="1">
         <label class="form-label">Tingkat Aktivitas Sehari-hari</label>
         <select class="form-select" id="f-activity">
           <option value="">Pilih tingkat aktivitas</option>
@@ -227,7 +227,7 @@
       </div>
 
       <!-- Tujuan -->
-      <div class="form-group">
+      <div class="form-group" data-step="2">
         <label class="form-label">Tujuan Utama</label>
         <div class="form-goal-grid">
           <div class="form-goal-btn" onclick="selectGoal(this,'lose')">
@@ -259,7 +259,7 @@
       </div>
 
       <!-- Makanan dihindari -->
-      <div class="form-group">
+      <div class="form-group" data-step="3">
         <label class="form-label">Makanan yang Ingin Dihindari <span>(opsional)</span></label>
 
         <div class="dislike-section-label">Protein</div>
@@ -341,6 +341,12 @@
           Bahan yang dipilih tidak akan muncul selama 90 hari.
         </div>
         <div class="form-hint">Pilih bahan yang ingin dihindari, menu akan otomatis disesuaikan.</div>
+      </div>
+
+      <div class="lf-next-wrap" id="lf-next-wrap">
+        <button class="btn btn-primary btn-full btn-lg" onclick="nextStep()">
+          Lanjut &rarr;
+        </button>
       </div>
 
       <div class="lf-submit-wrap">
@@ -798,8 +804,8 @@ document.addEventListener('input', function(e) {
 <script src="nutrition.js?v=1"></script>
 <script src="recipes.js?v=1"></script>
 <script src="notif.js?v=1"></script>
-<script src="ilustrasi.js?v=10"></script>
-<script src="script.js?v=8"></script>
+<script src="ilustrasi.js?v=11"></script>
+<script src="script.js?v=12"></script>
 <script>
 // Tanpa ini layar pertama tidak terlihat kalau script.js gagal dimuat.
 window.addEventListener('load', function () {
@@ -820,9 +826,10 @@ if ('serviceWorker' in navigator) {
         console.error('Gagal mendaftar SW:', registrationError);
       });
   });
+}
 </script>
 <!-- Backup otomatis -->
-<script src="backup.js?v=1"></script>
+<script src="backup.js?v=2"></script>
 <script>
 window.addEventListener('load', function () {
   if (!document.querySelector('.screen.active')) {

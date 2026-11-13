@@ -54,6 +54,79 @@
       '" stroke-width="1.6" stroke-dasharray="5 5"/>';
   }
 
+  /* Properti penunjang (dinding, kursi, bangku/meja).
+     Digambar dengan garis putus-putus tipis supaya jelas ini bukan badan,
+     hanya acuan tempat menumpu. Semua tetap stroke="currentColor". */
+  var PROP_W = 1.8;
+
+  function garisPutus(x1, y1, x2, y2) {
+    return '<line class="il-prop" x1="' + r(x1) + '" y1="' + r(y1) +
+      '" x2="' + r(x2) + '" y2="' + r(y2) + '" stroke="' + TINTA +
+      '" stroke-width="' + PROP_W + '" stroke-dasharray="6 4"/>';
+  }
+
+  // Dinding vertikal. sisi 'kiri' = dinding di kiri tubuh (menempel punggung
+  // saat menghadap kanan), 'kanan' = dinding di kanan (dipijak/didorong tangan).
+  function dinding(sisi, x) {
+    if (x === undefined) x = sisi === 'kiri' ? 14 : 106;
+    var atas = 12, bawah = FLOOR + 4;
+    // peneduh dinding di luar garis, supaya terbaca sebagai bidang
+    return '<rect class="il-prop" x="' + r(sisi === 'kiri' ? 4 : x) + '" y="' + atas +
+      '" width="' + r(sisi === 'kiri' ? x - 4 : 112 - x) + '" height="' + (bawah - atas) +
+      '" fill="' + TINTA + '" fill-opacity="0.06" stroke="none"/>' +
+      linha(x, atas, x, bawah, PROP_W) +
+      '<line class="il-prop" x1="' + r(x - 5) + '" y1="' + atas + '" x2="' + r(x + 5) + '" y2="' + atas +
+      '" stroke="' + TINTA + '" stroke-width="' + PROP_W + '"/>';
+  }
+
+  /* Kursi: dudukan persegi + dua kaki + sandaran (opsional).
+     x1..x2 = rentang dudukan, seatY = tinggi permukaan duduk. */
+  function kursi(x1, x2, seatY, opts) {
+    opts = opts || {};
+    var tebal = 3;
+    var out = '';
+    if (opts.sandaran) {
+      // sandaran di sisi kiri (menghadap kanan)
+      out += linha(x1 - 1, seatY - 24, x1 - 1, seatY - tebal, PROP_W * 1.2) +
+        linha(x1 - 1, seatY - 24, x1 + 6, seatY - 24, PROP_W * 1.2);
+    }
+    // dudukan (tebal)
+    out += '<rect class="il-prop" x="' + r(x1) + '" y="' + r(seatY - tebal) +
+      '" width="' + r(x2 - x1) + '" height="' + tebal +
+      '" fill="' + TINTA + '" fill-opacity="0.12" stroke="' + TINTA +
+      '" stroke-width="' + PROP_W + '" stroke-linejoin="round"/>';
+    // kaki kursi ke lantai
+    out += garisPutus(x1 + 2, seatY, x1 + 2, FLOOR) +
+      garisPutus(x2 - 2, seatY, x2 - 2, FLOOR);
+    return out;
+  }
+
+  // Bangku rendah (hip thrust): blok padat setinggi seatY.
+  function bangkuRendah(x1, x2, seatY) {
+    return '<rect class="il-prop" x="' + r(x1) + '" y="' + r(seatY) +
+      '" width="' + r(x2 - x1) + '" height="' + r(FLOOR - seatY) +
+      '" fill="' + TINTA + '" fill-opacity="0.08" stroke="' + TINTA +
+      '" stroke-width="' + PROP_W + '" stroke-dasharray="6 4" stroke-linejoin="round"/>';
+  }
+
+  // Meja / permukaan miring setinggi pinggul (incline push up).
+  function meja(x1, x2, topY) {
+    return '<rect class="il-prop" x="' + r(x1) + '" y="' + r(topY) +
+      '" width="' + r(x2 - x1) + '" height="4" fill="' + TINTA +
+      '" fill-opacity="0.14" stroke="' + TINTA + '" stroke-width="' + PROP_W +
+      '" stroke-linejoin="round"/>' +
+      garisPutus(x1 + 1, topY + 4, x1 + 1, FLOOR) +
+      garisPutus(x2 - 1, topY + 4, x2 - 1, FLOOR);
+  }
+
+  // Undakan / bangku untuk step up: platform persegi setinggi topY.
+  function undakan(x1, x2, topY) {
+    return '<rect class="il-prop" x="' + r(x1) + '" y="' + r(topY) +
+      '" width="' + r(x2 - x1) + '" height="' + r(FLOOR - topY) +
+      '" fill="' + TINTA + '" fill-opacity="0.08" stroke="' + TINTA +
+      '" stroke-width="' + PROP_W + '" stroke-linejoin="round"/>';
+  }
+
   function panah(x1, y1, x2, y2) {
     return '<path class="il-arrow" d="M' + r(x1) + ' ' + r(y1) +
       'L' + r(x2) + ' ' + r(y2) + '" stroke="' + TINTA +
@@ -258,6 +331,43 @@
       k.tumitKanan = [px + 36, FLOOR];
     }
     return k;
+  }
+
+  /* ================================================================
+     POSE WALL SIT
+     Punggung menempel dinding, pinggul turun sampai lutut ~90 derajat.
+     ================================================================ */
+
+  var DINDING = 26; // x dinding (di kiri tubuh yang menghadap kanan)
+
+  function kerangkaWallSit(t) {
+    t = t || 0;
+    var tEased = easeOutCubic(t);
+    var hipY = lerp(62, 72, tEased);
+    // punggung rapat dinding: leher & pinggul sama-sama di x dinding + tebal
+    var leherX = DINDING + 9;
+    var leherY = hipY - 34;
+    var lututX = leherX + 26 * tEased + 8 * (1 - tEased);
+    var lututY = lerp(FLOOR - 10, hipY + 2, tEased);
+    return {
+      pinggul: [leherX, hipY],
+      leher: [leherX, leherY],
+      kepala: [leherX, leherY - 9],
+      bahuKiri: [leherX - 1, leherY + 2],
+      bahuKanan: [leherX + 1, leherY + 2],
+      sikuKiri: [leherX + 6, leherY + 16],
+      tanganKiri: [leherX + 16, leherY + 20],
+      sikuKanan: [leherX + 8, leherY + 18],
+      tanganKanan: [leherX + 18, leherY + 22],
+      lututKiri: [lututX - 2, lututY],
+      tumitKiri: [lututX + 2, FLOOR],
+      lututKanan: [lututX + 2, lututY],
+      tumitKanan: [lututX + 6, FLOOR]
+    };
+  }
+
+  function wallSit(t) {
+    return gambarKerangka(kerangkaWallSit(t)) + dinding('kiri', DINDING);
   }
 
   /* ================================================================
@@ -531,19 +641,33 @@
   /* ================================================================
      POSE AYUN KAKI (leg swing)
      front: 1 = kaki depan, -1 = kaki belakang
+     Berdiri satu kaki, tangan memegang dinding di kiri untuk penyeimbang.
      ================================================================ */
+
+  var DINDING_TANGAN = 30;
 
   function kerangkaAyunKaki(front) {
     front = front || 0;
     var px = 58;
     var k = kerangkaBerdiri(px, 60);
-    // kaki kanan diayun
+    // lengan kiri memegang dinding setinggi bahu
+    var leher = k.leher;
+    k.sikuKiri = [(DINDING_TANGAN + leher[0]) / 2, leher[1] + 6];
+    k.tanganKiri = [DINDING_TANGAN + 1, leher[1] + 4];
+    // lengan kanan rileks di samping
+    k.sikuKanan = [px + 7, leher[1] + 18];
+    k.tanganKanan = [px + 8, leher[1] + 30];
+    // kaki kanan diayun, lutut belakang sedikit ditekuk
     var sudut = front > 0 ? 15 : (front < 0 ? -35 : 0);
     var lutut = ujung([px, 60], 24, 90 - sudut);
     var tumit = ujung(lutut, 24, 88 - sudut);
     k.lututKanan = lutut;
     k.tumitKanan = tumit;
     return k;
+  }
+
+  function ayunKaki(front) {
+    return gambarKerangka(kerangkaAyunKaki(front)) + dinding('kiri', DINDING_TANGAN);
   }
 
   /* ================================================================
@@ -639,6 +763,21 @@
     return gambarKerangka(k, { lantaiY: FLOOR });
   }
 
+  // Calf raise sambil berpegangan dinding (versi aman).
+  function angkatTumitDinding(t) {
+    var k = kerangkaBerdiri(64, lerp(62, 56, t === undefined ? 1 : t));
+    var d = 26;
+    var lututY = lerp(86, 80, t === undefined ? 1 : t);
+    var tumitY = lerp(FLOOR, 90, t === undefined ? 1 : t);
+    k.lututKiri = [60, lututY];
+    k.tumitKiri = [59, tumitY];
+    k.lututKanan = [68, lututY];
+    k.tumitKanan = [69, tumitY];
+    k.sikuKiri = [(d + k.leher[0]) / 2, k.leher[1] + 10];
+    k.tanganKiri = [d + 1, k.leher[1] + 8];
+    return gambarKerangka(k, { lantaiY: FLOOR }) + dinding('kiri', d);
+  }
+
   function jongkok(t) { return gambarKerangka(kerangkaJongkok(60, t)); }
 
   function lunge(t) { return gambarKerangka(kerangkaLunge(1, t)); }
@@ -661,10 +800,79 @@
 
   function angkatLutut(t) { return gambarKerangka(kerangkaAngkatLutut(t)); }
 
-  function ayunKaki(front) { return gambarKerangka(kerangkaAyunKaki(front)); }
+  // Knee raise dengan tangan menyentuh dinding untuk keseimbangan.
+  function angkatLututDinding(t) {
+    var k = kerangkaAngkatLutut(t);
+    var d = 22;
+    k.sikuKiri = [(d + k.leher[0]) / 2, k.leher[1] + 8];
+    k.tanganKiri = [d + 1, k.leher[1] + 6];
+    return gambarKerangka(k) + dinding('kiri', d);
+  }
 
   function duduk(mode) {
-    return gambarKerangka(kerangkaDuduk(56, 74, mode || {}));
+    return gambarKerangka(kerangkaDuduk(56, 74, mode || {})) + bangkuRendah(45, 85, 76);
+  }
+
+  // Duduk di kursi untuk sit-to-stand: kaki ditekuk, tumit di lantai.
+  var KURSI_X1 = 38, KURSI_X2 = 76, KURSI_SEAT = 68;
+
+  function dudukKursi(t) {
+    t = t || 0;
+    var seatY = KURSI_SEAT;
+    var naik = easeOutCubic(t);
+    // t=0 duduk penuh di kursi, t=1 berdiri tegak
+    var hipX = lerp(KURSI_X2 - 8, 66, naik);
+    var hipY = lerp(seatY - 1, 62, naik);
+    var condong = Math.sin(naik * Math.PI) * 0.9; // condong ke depan di tengah
+    var leherX = hipX + 6 * condong;
+    var leherY = hipY - 34;
+    if (naik > 0.6) { leherX = lerp(leherX, hipX, (naik - 0.6) / 0.4); }
+    var lututX = lerp(KURSI_X2 + 10, 66, naik);
+    var lututY = lerp(seatY + 4, 86, naik);
+    var tumitX = lerp(KURSI_X2 + 6, 66, naik);
+    return {
+      pinggul: [hipX, hipY],
+      leher: [leherX, leherY],
+      kepala: [leherX + 1, leherY - 9],
+      bahuKiri: [leherX - 1, leherY + 2],
+      bahuKanan: [leherX + 1, leherY + 2],
+      sikuKiri: [leherX + 4, leherY + 16],
+      tanganKiri: [leherX + 12, leherY + 20],
+      sikuKanan: [leherX + 6, leherY + 18],
+      tanganKanan: [leherX + 14, leherY + 22],
+      lututKiri: [lututX, lututY],
+      tumitKiri: [tumitX - 3, FLOOR],
+      lututKanan: [lututX + 3, lututY],
+      tumitKanan: [tumitX + 3, FLOOR]
+    };
+  }
+
+  function sitToStand(t) {
+    return gambarKerangka(dudukKursi(t)) + kursi(KURSI_X1, KURSI_X2, KURSI_SEAT, { sandaran: true });
+  }
+
+  // Step up: kaki naik ke undakan, badan terdorong naik.
+  var UPA_X1 = 62, UPA_X2 = 100, UPA_TOP = 78;
+
+  function stepUp(t) {
+    t = t || 0;
+    var naik = easeOutCubic(t);
+    var hipY = lerp(60, 58, naik);
+    var px = 48;
+    var k = kerangkaBerdiri(px, hipY);
+    // kaki kanan di atas undakan
+    if (naik > 0) {
+      k.lututKanan = [lerp(px + 4, UPA_X1 + 4, naik), lerp(84, UPA_TOP - 8, naik)];
+      k.tumitKanan = [lerp(px + 6, UPA_X1 + 12, naik), lerp(FLOOR, UPA_TOP, naik)];
+      // kaki kiri tetap di lantai, lutut lurus
+      k.lututKiri = [px - 4, lerp(FLOOR - 10, FLOOR - 8, naik)];
+      k.tumitKiri = [px - 4, FLOOR];
+      k.sikuKiri = [px + 2, k.leher[1] + 18];
+      k.tanganKiri = [px + 4, k.leher[1] + 30];
+      k.sikuKanan = [px + 10, k.leher[1] + 18];
+      k.tanganKanan = [px + 14, k.leher[1] + 28];
+    }
+    return gambarKerangka(k) + undakan(UPA_X1, UPA_X2, UPA_TOP);
   }
 
   function stepTouchPose(t) { return gambarKerangka(kerangkaStepTouch(t)); }
@@ -676,36 +884,33 @@
 
   function dips(t) {
     t = t === undefined ? 0 : t;
-    var bangkuY = 70;            // tepi bangku (lantai atas)
-    var bangkuKiri = 66, bangkuKanan = 92;
-    var dy = lerp(0, 8, t);      // badan turun saat siku menekuk
-    // Bahu & kepala di atas pinggul, badan condong sedikit ke depan
-    var bahuY = bangkuY - 26 + dy;
-    var bahuX = 60;
+    var bangkuY = 68;            // tinggi permukaan duduk kursi
+    var kursiKiri = 62, kursiKanan = 96;
+    var dy = lerp(0, 9, t);      // badan turun saat siku menekuk
+    // Bokong di tepi depan kursi; tangan di tepi kursi di belakang pinggul
+    var bahuX = kursiKiri - 12;
+    var bahuY = bangkuY - 24 + dy;
     var k = {
-      // pinggul di tepi depan bangku
-      pinggul: [bangkuKiri - 2, bangkuY - 2 + dy * 0.9],
-      leher: [bahuX + 2, bahuY],
-      kepala: [bahuX + 4, bahuY - 8],
+      pinggul: [kursiKiri + 1, bangkuY - 1 + dy * 0.85],
+      leher: [bahuX + 1, bahuY],
+      kepala: [bahuX + 2, bahuY - 9],
       bahuKiri: [bahuX, bahuY + 1],
       bahuKanan: [bahuX + 2, bahuY + 1],
-      // tangan menggenggam tepi bangku di belakang pinggul
-      sikuKiri: [bangkuKiri - 8, bangkuY - 10 + dy * 0.6],
-      tanganKiri: [bangkuKiri - 2, bangkuY],
-      sikuKanan: [bangkuKiri - 6, bangkuY - 8 + dy * 0.6],
-      tanganKanan: [bangkuKiri, bangkuY],
+      // tangan menggenggam tepi kursi, siku mengarah ke belakang
+      sikuKiri: [kursiKiri - 5, bangkuY - 11 + dy * 0.75],
+      tanganKiri: [kursiKiri, bangkuY - 1],
+      sikuKanan: [kursiKiri - 3, bangkuY - 9 + dy * 0.75],
+      tanganKanan: [kursiKiri + 3, bangkuY - 1],
       // kaki lurus ke depan, tumit di lantai
-      lututKiri: [bangkuKanan + 2, bangkuY + 6 + dy * 0.3],
+      lututKiri: [kursiKanan - 4, bangkuY + 10 + dy * 0.25],
       tumitKiri: [104, FLOOR],
-      lututKanan: [bangkuKanan + 4, bangkuY + 8 + dy * 0.3],
-      tumitKanan: [106, FLOOR]
+      lututKanan: [kursiKanan - 2, bangkuY + 12 + dy * 0.25],
+      tumitKanan: [107, FLOOR]
     };
-    // gambar bangku (persegi panjang di belakang)
-    var bangku = retangulo([[bangkuKiri, bangkuY], [bangkuKanan, bangkuY]], STROKE) +
-      linha(bangkuKiri, bangkuY, bangkuKiri, FLOOR, STROKE) +
-      linha(bangkuKanan, bangkuY, bangkuKanan, FLOOR, STROKE);
-    return gambarKerangka(k, { lantai: true, panah: null }) + bangku;
+    return gambarKerangka(k) + kursi(kursiKiri, kursiKanan, bangkuY);
   }
+
+  var DINDING_PUSHUP = 100;
 
   function wallPushup(t) {
     var dy = lerp(0, 5, t);
@@ -725,7 +930,10 @@
       lututKanan: [px + 2, 82],
       tumitKanan: [px, FLOOR]
     };
-    return gambarKerangka(k) + linha(88, 32, 88, FLOOR, 2);
+    // tangan menempel dinding: geser telapak ke garis dinding
+    k.tanganKiri = [DINDING_PUSHUP - 1, 42 + dy];
+    k.tanganKanan = [DINDING_PUSHUP - 1, 46 + dy];
+    return gambarKerangka(k) + dinding('kanan', DINDING_PUSHUP);
   }
 
   function pikePushup(t) {
@@ -881,6 +1089,32 @@
     return gambarKerangka(k, { lantaiY: lantaiY });
   }
 
+  // Hip thrust: punggung bawah disandarkan ke sofa/kursi rendah di belakang.
+  var SOFA_X1 = 10, SOFA_X2 = 34, SOFA_H = 66;
+
+  function hipThrust(bridgeT) {
+    bridgeT = bridgeT || 0;
+    var lantaiY = 86;
+    var bahu = [SOFA_X2 + 4, lantaiY - 22];
+    var pinggul = [66, lerp(lantaiY - 4, lantaiY - 20, bridgeT)];
+    var k = {
+      pinggul: pinggul,
+      leher: [bahu[0] - 4, bahu[1]],
+      kepala: [bahu[0] - 12, bahu[1] - 2],
+      bahuKiri: [bahu[0] - 1, bahu[1] + 1],
+      bahuKanan: [bahu[0] + 1, bahu[1] + 1],
+      sikuKiri: [bahu[0] + 8, lantaiY - 12],
+      tanganKiri: [bahu[0] + 14, lantaiY - 4],
+      sikuKanan: [bahu[0] + 10, lantaiY - 14],
+      tanganKanan: [bahu[0] + 18, lantaiY - 6],
+      lututKiri: [pinggul[0] + 12, lerp(lantaiY - 22, lantaiY - 32, bridgeT)],
+      tumitKiri: [pinggul[0] + 20, lantaiY],
+      lututKanan: [pinggul[0] + 14, lerp(lantaiY - 24, lantaiY - 34, bridgeT)],
+      tumitKanan: [pinggul[0] + 22, lantaiY]
+    };
+    return gambarKerangka(k, { lantaiY: lantaiY }) + undakan(SOFA_X1, SOFA_X2, SOFA_H);
+  }
+
   function dudukBungkuk(t) {
     t = t === undefined ? 1 : t;
     var k = kerangkaDuduk(54, 74, { kakiLurus: true });
@@ -912,8 +1146,38 @@
     var cy = py + rad * Math.sin(t * 2 * Math.PI);
     k.lututKiri = [px - 2, 70];
     k.tumitKiri = [cx, cy];
-    return gambarKerangka(k);
+    // duduk di kursi, kaki kanan menapak lantai
+    k.tumitKanan = [78, FLOOR];
+    k.lututKanan = [80, 80];
+    return gambarKerangka(k) + kursi(40, 84, 74);
   }
+
+  // Child pose: duduk di atas tumit, badan menunduk, lengan lurus ke depan.
+  function childPose(t) {
+    t = t === undefined ? 1 : t;
+    var lantaiY = 86;
+    var pinggulX = 78, pinggulY = lerp(84, 88, t); // pinggul turun ke tumit
+    var leherX = lerp(56, 46, t);
+    var leherY = lerp(50, lantaiY - 6, t);
+    var k = {
+      pinggul: [pinggulX, pinggulY],
+      leher: [leherX, leherY],
+      kepala: [leherX - 9, leherY + 2],
+      bahuKiri: [leherX - 1, leherY + 1],
+      bahuKanan: [leherX + 1, leherY + 1],
+      sikuKiri: [leherX - 14, leherY + 2],
+      tanganKiri: [leherX - 28, lantaiY],
+      sikuKanan: [leherX - 12, leherY + 4],
+      tanganKanan: [leherX - 27, lantaiY - 1],
+      lututKiri: [pinggulX - 4, lantaiY - 4],
+      tumitKiri: [pinggulX - 12, lantaiY],
+      lututKanan: [pinggulX - 1, lantaiY - 4],
+      tumitKanan: [pinggulX - 9, lantaiY]
+    };
+    return gambarKerangka(k, { lantaiY: lantaiY });
+  }
+
+  var MEJA_TOP = 66, MEJA_KIRI = 96, MEJA_KANAN = 114;
 
   function wallLean(t) {
     t = t === undefined ? 0 : t;
@@ -934,7 +1198,10 @@
       lututKanan: [px + 2, 82],
       tumitKanan: [px - 2, FLOOR]
     };
-    return gambarKerangka(k) + linha(88, 34, 88, FLOOR, 2);
+    // telapak menumpu di tepi meja, bukan melayang
+    k.tanganKiri = [MEJA_KIRI + 1, MEJA_TOP - 2 + dy * 0.2];
+    k.tanganKanan = [MEJA_KIRI + 4, MEJA_TOP - 1 + dy * 0.2];
+    return gambarKerangka(k) + meja(MEJA_KIRI, MEJA_KANAN, MEJA_TOP);
   }
 
   /* ================================================================
@@ -952,7 +1219,7 @@
 
     // --- GLUTE BRIDGE & HIP ---
     glute_bridge: [telentang.bind(null, 0), telentang.bind(null, 0.5), telentang.bind(null, 1), telentang.bind(null, 0.3)],
-    hip_thrust: [telentang.bind(null, 0), telentang.bind(null, 0.5), telentang.bind(null, 1)],
+    hip_thrust: [hipThrust.bind(null, 0), hipThrust.bind(null, 0.5), hipThrust.bind(null, 1)],
     glute_bridge_march: [telentang.bind(null, 0), telentang.bind(null, 1), deadBug.bind(null, 0.5)],
 
     // --- LUNGE & VARIASI ---
@@ -961,9 +1228,9 @@
     lateral_lunge: [tegak, lateralLunge.bind(null, 0.5), lateralLunge.bind(null, 1)],
 
     // --- WALL SIT, SIT-TO-STAND, STEP UP ---
-    wall_sit: [jongkok.bind(null, 0), jongkok.bind(null, 0.6), jongkok.bind(null, 1)],
-    sit_to_stand: [duduk, jongkok.bind(null, 0.5), tegak],
-    step_up: [tegak, angkatLutut.bind(null, 0.5), angkatLutut.bind(null, 1)],
+    wall_sit: [wallSit.bind(null, 0), wallSit.bind(null, 0.6), wallSit.bind(null, 1)],
+    sit_to_stand: [sitToStand.bind(null, 0), sitToStand.bind(null, 0.5), sitToStand.bind(null, 1)],
+    step_up: [tegak, stepUp.bind(null, 0.5), stepUp.bind(null, 1)],
 
     // --- PUSH-UP & VARIASI ---
     pushup: [pushup.bind(null, 0), pushup.bind(null, 0.4), pushup.bind(null, 0.8), pushup.bind(null, 1)],
@@ -991,7 +1258,7 @@
     jumping_jack: [tegak, tegakLenganSamping, bintang, tegakLenganSamping],
     high_knees: [tegak, angkatLutut.bind(null, 0.5), angkatLutut.bind(null, 1)],
     march_in_place: [tegak, angkatLutut.bind(null, 0.35), angkatLutut.bind(null, 0.7)],
-    slow_knee_raise: [tegak, angkatLutut.bind(null, 0.5), angkatLutut.bind(null, 1)],
+    slow_knee_raise: [tegak, angkatLututDinding.bind(null, 0.5), angkatLututDinding.bind(null, 1)],
     step_jack: [tegak, tegakLenganSamping, bintang, tegak],
     step_touch: [stepTouchPose.bind(null, 0), stepTouchPose.bind(null, 0.5), stepTouchPose.bind(null, 1)],
     skater_step: [tegak, lateralLunge.bind(null, 0.5), lateralLunge.bind(null, 1)],
@@ -1002,7 +1269,7 @@
 
     // --- OTOT & MOBILITAS ---
     tricep_dips: [dips.bind(null, 0), dips.bind(null, 0.5), dips.bind(null, 1)],
-    standing_calf_raise: [tegak, angkatTumit.bind(null, 0.5), angkatTumit.bind(null, 1), tegak],
+    standing_calf_raise: [tegak, angkatTumitDinding.bind(null, 0.5), angkatTumitDinding.bind(null, 1), tegak],
 
     // --- PEMANASAN ---
     joint_mobility: [tegak, tegakLenganSamping, jangkau],
@@ -1017,7 +1284,7 @@
     upper_body_stretch: [tegak, tegakLenganSamping, jangkau],
     hip_flexor_stretch: [tegak, lunge.bind(null, 0.5), lunge.bind(null, 1)],
     leg_back_stretch: [duduk, dudukBungkuk.bind(null, 0.5), dudukBungkuk.bind(null, 1)],
-    static_full_stretch: [tegak, jangkau, dudukBungkuk.bind(null, 1)],
+    static_full_stretch: [jangkau, childPose.bind(null, 0.5), childPose.bind(null, 1)],
 
     'default': [tegak, tegak, tegak]
   };
