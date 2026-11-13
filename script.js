@@ -1208,6 +1208,7 @@
         const la=document.getElementById('screen-la');
         if(la) la.classList.add('active');
     }
+    try{ showStep(1); }catch(e){ console.error('showStep init error:',e); }
     }
 
     /* TEMA, terang / gelap */
@@ -2304,6 +2305,7 @@ function getWorkoutForDay(day, energyOverride){
     function renderProgram(){
     const userData=loadState(KEYS.user);const programData=loadState(KEYS.program);
     if(!userData||!programData) return;
+    if(typeof window.animasiStopAll==='function') window.animasiStopAll();
     const day=getCurrentDay();const streak=getStreak();const targets=activeTargets();
     _lastSeenDay=day;
     renderMaintenanceMode(day,userData,programData);
@@ -2552,6 +2554,7 @@ function renderDashboard(day,dayData,targets,programData,userData){
         const card=document.createElement('div');
         card.className='exercise-card';
         card.id='ex-card-'+i;
+        card.dataset.exKey=String(item.key).trim()||'default';
         card.style.setProperty('--stage-color',SESSION_FLOW_META[item.stage].color);
         if(i===0) card.classList.add('open');
         if(savedFlow[i]) card.classList.add('done-item');
@@ -2598,6 +2601,8 @@ function renderDashboard(day,dayData,targets,programData,userData){
     hideLoading('exercise-list');
     _applyFlowLocks();
     flow.forEach((_,i)=>renderExTimer(i,totalEx));
+    const openCard=document.querySelector('#tab-latihan .exercise-card.open');
+    if(openCard && typeof window.animasiMulai==='function') window.animasiMulai(openCard, openCard.dataset.exKey||'default');
 
     const doneWrap=document.getElementById('workout-done-wrap');
     if(doneWrap){
@@ -2644,6 +2649,10 @@ function renderDashboard(day,dayData,targets,programData,userData){
     }
     card.classList.toggle('open');
     header.setAttribute('aria-expanded',nextOpen?'true':'false');
+    if(typeof window.animasiMulai==='function' && typeof window.animasiBerhenti==='function'){
+        if(nextOpen) window.animasiMulai(card, card.dataset.exKey||'default');
+        else window.animasiBerhenti(card);
+    }
     }
 
     /* Teks penyelesai, varies by energy */
@@ -5115,9 +5124,19 @@ function renderDashboard(day,dayData,targets,programData,userData){
           el.style.display = (dataStep === String(step)) ? 'block' : 'none';
         }
       });
-      document.querySelectorAll('.onboard-nav .btn-btn').forEach((el, i) => {
-        el.disabled = i + 1 !== step;
+      document.querySelectorAll('#form-container .form-row').forEach(row => {
+        const hasVisible = [...row.querySelectorAll('.form-group')].some(g => g.style.display !== 'none');
+        row.style.display = hasVisible ? '' : 'none';
       });
+      document.querySelectorAll('.onboard-nav .btn-btn').forEach((el, i) => {
+        el.disabled = i + 1 === step;
+      });
+      const submitWrap = document.querySelector('.lf-submit-wrap');
+      if (submitWrap) submitWrap.style.display = (step === 3) ? 'block' : 'none';
+      const nextWrap = document.getElementById('lf-next-wrap');
+      if (nextWrap) nextWrap.style.display = (step < 3) ? 'block' : 'none';
+      const safety = document.getElementById('safety-warning');
+      if (safety && step !== 1) safety.classList.remove('show');
     }
     function nextStep() {
       if (currentStep < 3 && validateCurrentStep()) {
@@ -5188,16 +5207,8 @@ function renderDashboard(day,dayData,targets,programData,userData){
       return true;
     }
     function validateMakananStep() {
-      const chips = document.querySelectorAll('.dislike-chip.selected');
-      const hasSelection = chips.length > 0;
       const chipsMsg = document.getElementById('err-goal');
-      if(!hasSelection){
-        if(chipsMsg){
-          chipsMsg.textContent = 'Pilih minimal 1 bahan yang dihindari.';
-          chipsMsg.style.display = 'flex';
-        }
-        return false;
-      } else if(chipsMsg){
+      if(chipsMsg){
         chipsMsg.textContent = '';
         chipsMsg.style.display = 'none';
       }

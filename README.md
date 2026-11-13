@@ -247,4 +247,11 @@ Tidak ada yang bisa bocor, tidak ada biaya bulanan, tidak ada yang harus dijaga.
 ---
 
 ## Lisensi
-Bebas dipakai dan diubah.
+**MIT License** — Bebas dipakai, diubah, dan dibagikan.  
+Untuk proyek skala besar, kalkulasi sila/donasi di [saweria.id/link](https://saweria.id) atau [buymeacoffee.com](https://buymeacoffee.com) diterima dengan senang hati — tapi **tidak dipersyaratkan**.
+
+### Hak Cipta
+Copyright (c) 2026 Instruktur Pribadi 90 Hari. Semua code dieksport ke publik tanpa batasan.
+
+### Atribusi
+Tidak diperlukan, namun penghargaan atas nama proyek selalu diterima dengan baik.
