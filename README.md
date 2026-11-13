@@ -207,16 +207,6 @@ Grafik berat punya dua jalur: Chart.js dari CDN, fallback SVG yang digambar send
 
 ---
 
-## Deploy
-
-### GitHub Pages
-1. Push seluruh file di tabel **Struktur File** ke repo GitHub publik.
-2. Di repo: **Settings → Pages → Branch: `main`, folder: `/ (root)` → Save**.
-3. Tunggu ~1 menit. URL: `https://<username>.github.io/<repo>/`
-
-### Lokal
-Buka `index.html` langsung di peramban — tidak butuh server.
-
 ---
 
 ## Yang Perlu Diketahui
@@ -248,10 +238,10 @@ Tidak ada yang bisa bocor, tidak ada biaya bulanan, tidak ada yang harus dijaga.
 
 ## Lisensi
 **MIT License** — Bebas dipakai, diubah, dan dibagikan.  
-Untuk proyek skala besar, kalkulasi sila/donasi di [saweria.id/link](https://saweria.id) atau [buymeacoffee.com](https://buymeacoffee.com) diterima dengan senang hati — tapi **tidak dipersyaratkan**.
+Untuk proyek skala besar, kalkulasi sila/donasi di diterima dengan senang hati — tapi **tidak dipersyaratkan**.
 
 ### Hak Cipta
-Copyright (c) 2026 Instruktur Pribadi 90 Hari. Semua code dieksport ke publik tanpa batasan.
+Copyright (c) 2026 Instruktur Pribadi 90 Hari. By : Yourbe- 
 
 ### Atribusi
 Tidak diperlukan, namun penghargaan atas nama proyek selalu diterima dengan baik.
